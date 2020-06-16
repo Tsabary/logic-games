@@ -1,0 +1,54 @@
+@import "../../../../../styles/imports";
+
+.start-screen {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr max-content 1fr;
+
+  &__cta {
+    margin: auto;
+    @include centerContent;
+
+    &-text {
+      margin-top: 3rem;
+      color: $green;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+    &-button {
+      &-container {
+        padding: 0.5rem 0 0 0.5rem;
+        width: 10rem;
+        height: 10rem;
+        border: 1px solid $green;
+        border-radius: 100%;
+        cursor: pointer;
+        transition: all 0.2s;
+        @include centerContent;
+
+        &:hover {
+          background-color: $green;
+        }
+
+        &:hover .start-screen__cta-button-svg {
+          fill: $darkPurple;
+        }
+      }
+
+      &-svg {
+        width: 25px;
+        height: 25px;
+        fill: $green;
+      }
+    }
+  }
+
+  &__instructions {
+    color: white;
+    font-weight: 500;
+    font-size: 2rem;
+    margin: auto;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

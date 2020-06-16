@@ -1,0 +1,135 @@
+@import "../../../styles/imports";
+
+.dt-inst {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: $z20;
+
+  @include scroll;
+
+  &__checkbox {
+    display: none;
+
+    &:checked ~ .dt-inst__container {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &__container {
+    top: 0;
+    left: 0;
+
+    background-color: $darkPurple;
+    visibility: hidden;
+    opacity: 0;
+
+    margin: 7rem auto;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    text-align: center;
+    transition: all 2s;
+  }
+
+  &__sample {
+    &-container {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr max-content 1fr;
+      align-items: center;
+    }
+    &-text {
+      text-align: start;
+      &:before {
+        content: "-----";
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &__options {
+    &-container {
+      width: max-content;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      gap: 4rem;
+      grid-template-columns: repeat(2, max-content);
+    }
+
+    &-option {
+      position: relative;
+    }
+  }
+
+  &__hint {
+    width: 5.2rem;
+    height: 5.2rem;
+    font-size: 1.4rem;
+    border-radius: 100%;
+    padding-top: 0.5rem;
+    @include centerContent;
+
+    &--right {
+      color: $darkPurple;
+      background-color: $lightPurple;
+    }
+
+    &--wrong {
+      color: $lightPurple;
+    }
+
+    &-container {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7rem;
+      height: 7rem;
+      padding: 0.8rem;
+      border: $border;
+      border-radius: 100%;
+      background-color: $darkPurple;
+
+      &--right {
+        right: -3.5rem;
+      }
+      &--wrong {
+        left: -3.5rem;
+      }
+    }
+
+    &-icon {
+      &--right {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $darkPurple;
+      }
+      &--wrong {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $lightPurple;
+      }
+    }
+  }
+
+  &__finish {
+    font-size: 1.8rem;
+    color: $green;
+    border: 1px solid $green;
+    border-radius: 4rem;
+    padding: 1rem 3rem;
+    width: max-content;
+    margin: auto;
+    transition: 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      color: $darkPurple;
+      background-color: $green;
+    }
+  }
+}

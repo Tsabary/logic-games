@@ -1,0 +1,38 @@
+// COLORS //
+
+$darkPurple: #231826;
+$lightPurple: lighten($darkPurple, 50%);
+$purpleGradient: linear-gradient(
+  lighten($darkPurple, 2%),
+  lighten($darkPurple, 6%)
+);
+
+$blue: #1082fe;
+$red: #ff0302;
+$green: #89c92e;
+$redOrange: #E84855;
+
+$grey: #ababab;
+$greyLightest: lighten($grey, 25%);
+$greyLight: lighten($grey, 15%);
+$greyDark: darken($grey, 25%);
+$greyDarkest: darken($grey, 50%);
+
+// FONTS //
+$font: Poppins;
+
+// Z INDEX //
+
+$z10: 10;
+$z20: 20;
+$z30: 30;
+$z40: 40;
+$z50: 50;
+$z60: 60;
+$z70: 70;
+$z80: 80;
+$z90: 90;
+$z100: 100;
+
+// OTHER //
+$border: 1px solid $lightPurple;

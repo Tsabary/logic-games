@@ -1,0 +1,29 @@
+@import "../../../styles/imports";
+
+.game {
+  position: relative;
+
+  &__checkbox {
+    display: none;
+
+    &:checked ~ .game__container {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: $z30;
+    height: 100%;
+    visibility: hidden;
+    opacity: 0;
+    display: grid;
+    grid-template-columns: 1fr 15rem;
+
+    background-color: $darkPurple;
+  }
+}
