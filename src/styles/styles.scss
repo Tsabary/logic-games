@@ -46,3 +46,75 @@ h2 {
 .clickable {
   cursor: pointer;
 }
+
+.counter-sun {
+  margin: calc(var(--s) + var(--o) + 10px);
+
+  display: flex;
+  border: $border;
+  border-radius: 50%;
+  position: relative;
+  @include centerContent;
+
+  span {
+    content: "";
+    position: absolute;
+    width: var(--w);
+    left: 50%;
+    top: calc(-1 * var(--s) - var(--o));
+    bottom: calc(-1 * var(--s) - var(--o));
+    border-radius: 5px;
+    background: linear-gradient(var(--c), var(--c)) top,
+      linear-gradient(var(--c), var(--c)) bottom;
+    background-size: 100% var(--s);
+    background-repeat: no-repeat;
+    transform: translate(-50%) rotate(var(--r, 0deg));
+  }
+
+  span:nth-child(2) {
+    --r: 45deg;
+  }
+  span:nth-child(3) {
+    --r: -45deg;
+  }
+
+  span:nth-child(4) {
+    --r: 90deg;
+  }
+
+  &--count {
+    --s: 25px; /* length */
+    --o: 10px; /* offset */
+    --w: 4px; /* thickness */
+    --c: #e84855; /* color */
+    width: 120px;
+    height: 120px;
+    span {
+      animation: 1s ease infinite fadeInOut;
+      transition: all 0.5s;
+    }
+  }
+
+  &--go {
+    --s: 35px; /* length */
+    --o: 10px; /* offset */
+    --w: 4px; /* thickness */
+    --c: #89c92e; /* color */
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -18,16 +18,16 @@ const Challenge = () => {
   }, []);
 
   // Return either 0 or 1
-  const returnOneOrZero = () => {
+  const returnZeroOrOne = () => {
     return Math.floor(Math.random() * 2);
   };
 
   // Reset the values of the test and options
   const resetTest = () => {
-    setTest({ color: returnOneOrZero(), text: returnOneOrZero() });
+    setTest({ color: returnZeroOrOne(), text: returnZeroOrOne() });
 
     // We set the first option, and then according to what the values of that options are, we set the opposite to option 2
-    let optionOne = { color: returnOneOrZero(), text: returnOneOrZero() };
+    let optionOne = { color: returnZeroOrOne(), text: returnZeroOrOne() };
     setOptions([
       optionOne,
       {

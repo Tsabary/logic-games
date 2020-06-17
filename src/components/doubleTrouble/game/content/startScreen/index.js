@@ -27,7 +27,7 @@ const StartScreen = () => {
     if (timeToStart < 0.1) {
       // When we reach 0, the game is begins. We clear the interval and we set "isPlaying" to true to show the chalenge component screen
       clearInterval(interval.current);
-      // setIsPlaying(true);
+      setIsPlaying(true);
     }
   }, [interval, timeToStart]);
 
@@ -39,12 +39,14 @@ const StartScreen = () => {
       ) : (
         <PlayButton setLaunch={setLaunch} />
       )}
-      <div
-        className="start-screen__instructions"
-        onClick={() => setIsInstructionsVisible(true)}
-      >
-        {strings.instructionsTitle}
-      </div>
+      {!launch ? (
+        <div
+          className="start-screen__instructions"
+          onClick={() => setIsInstructionsVisible(true)}
+        >
+          {strings.instructionsTitle}
+        </div>
+      ) : null}
     </div>
   );
 };
