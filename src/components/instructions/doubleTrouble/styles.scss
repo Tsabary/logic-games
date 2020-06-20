@@ -1,0 +1,115 @@
+@import "../../../styles/imports";
+
+.dt-inst {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  text-align: center;
+
+  &__sample {
+    &-container {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr max-content 1fr;
+      align-items: center;
+    }
+    &-text {
+      text-align: start;
+      &:before {
+        width: 6rem;
+        text-align: center;
+        border-bottom: 1px solid $lightPurple;
+        margin-bottom: 0.5rem;
+        margin-right: 1.5rem;
+        content: "";
+        display: inline-block;
+      }
+    }
+  }
+
+  &__options {
+    &-container {
+      width: max-content;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      gap: 4rem;
+      grid-template-columns: repeat(2, max-content);
+    }
+
+    &-option {
+      position: relative;
+    }
+  }
+
+  &__hint {
+    width: 5.2rem;
+    height: 5.2rem;
+    font-size: 1.4rem;
+    border-radius: 100%;
+    padding-top: 0.5rem;
+    @include centerContent;
+
+    &--right {
+      color: $darkPurple;
+      background-color: $lightPurple;
+    }
+
+    &--wrong {
+      color: $lightPurple;
+    }
+
+    &-container {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7rem;
+      height: 7rem;
+      padding: 0.8rem;
+      border: $border;
+      border-radius: 100%;
+      background-color: $darkPurple;
+
+      &--right {
+        right: -3.5rem;
+      }
+      &--wrong {
+        left: -3.5rem;
+      }
+    }
+
+    &-icon {
+      &--right {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $darkPurple;
+      }
+      &--wrong {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $lightPurple;
+      }
+    }
+  }
+
+  &__finish {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: $green;
+    border: 1px solid $green;
+    border-radius: 4rem;
+    padding: 1rem 3rem;
+    width: max-content;
+    margin: auto;
+    transition: 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      color: $darkPurple;
+      background-color: $green;
+    }
+  }
+}

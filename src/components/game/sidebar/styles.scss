@@ -1,0 +1,16 @@
+@import "../../../styles/imports";
+
+.sidebar {
+  display: grid;
+  grid-template-rows: 3fr repeat(2, 15rem);
+  user-select: none;
+  &__panel {
+    background-image: $purpleGradient;
+  }
+
+  &__label {
+    font-size: 3rem;
+    font-weight: 500;
+    color: white;
+  }
+}
