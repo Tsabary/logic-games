@@ -6,7 +6,7 @@ import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 
 const Timer = () => {
-  const gameLength = 15;
+  const gameLength = 120;
   const { isPlaying, setIsDone, isSoundOn } = useContext(GameInfoContext);
   const [timeLeft, setTimeLeft] = useState(gameLength);
   let interval = useRef(null);

@@ -39,18 +39,34 @@ const GrammaticalReasoning = () => {
   const resetTest = (curTest) => {
     const drawingOuterShape = returnZeroOrOne();
     const drawingOuterColor = returnZeroOrOne();
-    const sentenceFirst = returnZeroOrOne();
+    const first = returnZeroOrOne();
     const relationship =
       relationships[Math.floor(Math.random() * relationships.length)];
 
     if (
-      drawingOuterShape === curTest.shapes[0] &&
-      drawingOuterColor === curTest.colors[0] &&
-      sentenceFirst === curTest.first &&
+      curTest &&
+      drawingOuterShape === curTest.illustration.shapes[0] &&
+      drawingOuterColor === curTest.illustration.colors[0] &&
+      first === curTest.first &&
       relationship === curTest.relationship
     ) {
+      console.log("test is identical");
       resetTest(curTest);
       return;
+    } else if (curTest) {
+      console.log(
+        "test is different outer shape",
+        drawingOuterShape === curTest.illustration.shapes[0]
+      );
+      console.log(
+        "test is different outer color",
+        drawingOuterColor === curTest.illustration.colors[0]
+      );
+      console.log("test is different first", first === curTest.first);
+      console.log(
+        "test is different relationship",
+        relationship === curTest.relationship
+      );
     }
 
     // We set the whole test as one object, with these values:
@@ -63,8 +79,8 @@ const GrammaticalReasoning = () => {
         shapes: [drawingOuterShape, Math.abs(drawingOuterShape - 1)],
         colors: [drawingOuterColor, Math.abs(drawingOuterColor - 1)],
       },
-      first: sentenceFirst,
-      last: Math.abs(sentenceFirst - 1),
+      first,
+      last: Math.abs(first - 1),
       relationship,
     });
   };
@@ -82,7 +98,8 @@ const GrammaticalReasoning = () => {
 
     setScore((s) => (isStatementTrue === choice ? s + 1 : s - 1));
     resetTest(test);
-    if (isSoundOn) isStatementTrue ? playCorrect.play() : playWrong.play();
+    if (isSoundOn)
+      isStatementTrue === choice ? playCorrect.play() : playWrong.play();
   };
 
   // We return a shape's text based on code.
