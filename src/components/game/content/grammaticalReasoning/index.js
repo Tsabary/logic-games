@@ -40,6 +40,18 @@ const GrammaticalReasoning = () => {
     const drawingOuterShape = returnZeroOrOne();
     const drawingOuterColor = returnZeroOrOne();
     const sentenceFirst = returnZeroOrOne();
+    const relationship =
+      relationships[Math.floor(Math.random() * relationships.length)];
+
+    if (
+      drawingOuterShape === curTest.shapes[0] &&
+      drawingOuterColor === curTest.colors[0] &&
+      sentenceFirst === curTest.first &&
+      relationship === curTest.relationship
+    ) {
+      resetTest(curTest);
+      return;
+    }
 
     // We set the whole test as one object, with these values:
     // 1. "illustration" holds the values that define the drawing. The first element in both arrays represents the values of the outer shape, and he second of the inner shape.
@@ -53,8 +65,7 @@ const GrammaticalReasoning = () => {
       },
       first: sentenceFirst,
       last: Math.abs(sentenceFirst - 1),
-      relationship:
-        relationships[Math.floor(Math.random() * relationships.length)],
+      relationship,
     });
   };
 
