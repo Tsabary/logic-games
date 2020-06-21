@@ -23,6 +23,11 @@ export const GameInfoProvider = ({ children }) => {
   // Keeps track of the score
   const [score, setScore] = useState(0);
 
+  const gameLength = 90;
+  const [timeLeft, setTimeLeft] = useState(gameLength);
+
+  const [isIndicatorShowing, setIsIndicatorShowing] = useState(false);
+
   return (
     <GameInfoContext.Provider
       value={{
@@ -38,6 +43,11 @@ export const GameInfoProvider = ({ children }) => {
         setIsDone,
         score,
         setScore,
+        timeLeft,
+        setTimeLeft,
+        gameLength,
+        isIndicatorShowing,
+        setIsIndicatorShowing,
       }}
     >
       {children}

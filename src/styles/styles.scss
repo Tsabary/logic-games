@@ -13,6 +13,7 @@ h2 {
 }
 
 .choice {
+  position: relative;
   text-transform: uppercase;
   font-size: 5rem;
   letter-spacing: 4px;
@@ -37,6 +38,59 @@ h2 {
     border: $border;
     border-radius: 8rem;
   }
+
+  &__hint {
+    width: 5.2rem;
+    height: 5.2rem;
+    font-size: 1.4rem;
+    border-radius: 100%;
+    padding-top: 0.5rem;
+    @include centerContent;
+
+    &--correct {
+      color: $darkPurple;
+      background-color: $lightPurple;
+    }
+
+    &--wrong {
+      color: $lightPurple;
+    }
+
+    &-container {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7rem;
+      height: 7rem;
+      padding: 0.8rem;
+      border: $border;
+      border-radius: 100%;
+      background-color: $darkPurple;
+
+      &--right {
+        right: -3.5rem;
+      }
+      &--left {
+        left: -3.5rem;
+      }
+    }
+
+    &-icon {
+      &--correct {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $darkPurple;
+      }
+      &--wrong {
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        fill: $lightPurple;
+      }
+    }
+  }
+
 }
 
 .label {

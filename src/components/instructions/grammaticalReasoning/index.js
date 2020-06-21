@@ -41,13 +41,13 @@ const GrammaticalReasoningInstructions = () => {
             <div className="choice choice--red choice--border">
               {strings.false}
             </div>
-            <div className="gr-inst__hint-container gr-inst__hint-container--left">
-              <div className="gr-inst__hint gr-inst__hint--right">
+            <div className="choice__hint-container choice__hint-container--left">
+              <div className="choice__hint choice__hint--correct">
                 <ReactSVG
                   src={"../assets/check.svg"}
                   wrapper="div"
                   beforeInjection={(svg) => {
-                    svg.classList.add("gr-inst__hint-icon--right");
+                    svg.classList.add("choice__hint-icon--correct");
                   }}
                 />
               </div>
@@ -63,13 +63,13 @@ const GrammaticalReasoningInstructions = () => {
             <div className="choice choice--green choice--border">
               {strings.true}
             </div>
-            <div className="gr-inst__hint-container gr-inst__hint-container--right">
-              <div className="gr-inst__hint">
+            <div className="choice__hint-container choice__hint-container--right">
+              <div className="choice__hint">
                 <ReactSVG
                   src={"../assets/x.svg"}
                   wrapper="div"
                   beforeInjection={(svg) => {
-                    svg.classList.add("gr-inst__hint-icon--wrong");
+                    svg.classList.add("choice__hint-icon--wrong");
                   }}
                 />
               </div>
@@ -82,7 +82,7 @@ const GrammaticalReasoningInstructions = () => {
       </div>
 
       <div
-        className="gr-inst__finish"
+        className="instructions__finish"
         onClick={() => setIsInstructionsVisible(false)}
       >
         {strings.iUnderstand}

@@ -32,13 +32,14 @@ const DoubleTroubleInstructions = () => {
             <div className="choice choice--blue choice--border">
               {strings.red}
             </div>
-            <div className="dt-inst__hint-container dt-inst__hint-container--wrong">
-              <div className="dt-inst__hint">
+
+            <div className="choice__hint-container choice__hint-container--left">
+              <div className="choice__hint">
                 <ReactSVG
                   src={"../assets/x.svg"}
                   wrapper="div"
                   beforeInjection={(svg) => {
-                    svg.classList.add("dt-inst__hint-icon--wrong");
+                    svg.classList.add("choice__hint-icon--wrong");
                   }}
                 />
               </div>
@@ -54,13 +55,13 @@ const DoubleTroubleInstructions = () => {
             <div className="choice choice--red choice--border">
               {strings.blue}
             </div>
-            <div className="dt-inst__hint-container dt-inst__hint-container--right">
-              <div className="dt-inst__hint dt-inst__hint--right">
+            <div className="choice__hint-container choice__hint-container--right">
+              <div className="choice__hint choice__hint--correct">
                 <ReactSVG
                   src={"../assets/check.svg"}
                   wrapper="div"
                   beforeInjection={(svg) => {
-                    svg.classList.add("dt-inst__hint-icon--right");
+                    svg.classList.add("choice__hint-icon--correct");
                   }}
                 />
               </div>
@@ -73,7 +74,7 @@ const DoubleTroubleInstructions = () => {
       </div>
 
       <div
-        className="dt-inst__finish"
+        className="instructions__finish"
         onClick={() => setIsInstructionsVisible(false)}
       >
         {strings.iUnderstand}

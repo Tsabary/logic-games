@@ -5,13 +5,21 @@ import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 import { returnZeroOrOne } from "../utils";
 import { playCorrect, playWrong } from "../../../../sounds/playFunctions";
+import { ReactSVG } from "react-svg";
 
 // We use 0 and 1 accross the challnege to define red & blue, both as text and as color. When he user makes a choice, we compare the value of the text that they picked, with the color of the test we've presented them with
 
 const GrammaticalReasoning = () => {
-  const { setScore, isSoundOn } = useContext(GameInfoContext);
+  const {
+    setScore,
+    isSoundOn,
+    isIndicatorShowing,
+    setIsIndicatorShowing,
+  } = useContext(GameInfoContext);
 
   const [test, setTest] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [choice, setChoice] = useState(null);
 
   // Load the first challenge on first render
   useEffect(() => {
@@ -50,23 +58,8 @@ const GrammaticalReasoning = () => {
       first === curTest.first &&
       relationship === curTest.relationship
     ) {
-      console.log("test is identical");
       resetTest(curTest);
       return;
-    } else if (curTest) {
-      console.log(
-        "test is different outer shape",
-        drawingOuterShape === curTest.illustration.shapes[0]
-      );
-      console.log(
-        "test is different outer color",
-        drawingOuterColor === curTest.illustration.colors[0]
-      );
-      console.log("test is different first", first === curTest.first);
-      console.log(
-        "test is different relationship",
-        relationship === curTest.relationship
-      );
     }
 
     // We set the whole test as one object, with these values:
@@ -88,18 +81,26 @@ const GrammaticalReasoning = () => {
   // To check if the user was right in their guese or not, we first check if the statement itself is correct or not, and than compare it to what the user chose.
   // If the first shape in the illustration.shapes array is 0, meaning a circle, then we know that the circle is the bigger shape in the current test. Thus, for the statement to be true, then either the relatioship should suggest bigger with the "first" shape being circle as well, or it should suggest smaller, with the "first" shape being a square.
   // For square, it is simply the opposite.
-  const handleChoice = (choice) => {
+  const handleChoice = (choiceBool, choice) => {
+    setChoice(choice);
     let isStatementTrue =
       test.illustration.shapes[0] === 0
         ? (test.relationship.value === 1 && test.first === 0) ||
           (test.relationship.value === 0 && test.first === 1)
         : (test.relationship.value === 1 && test.first === 1) ||
           (test.relationship.value === 0 && test.first === 0);
+    let isChoiceCorrect = isStatementTrue === choiceBool;
 
-    setScore((s) => (isStatementTrue === choice ? s + 1 : s - 1));
-    resetTest(test);
-    if (isSoundOn)
-      isStatementTrue === choice ? playCorrect.play() : playWrong.play();
+    setIsCorrect(isChoiceCorrect);
+
+    setScore((s) => (isChoiceCorrect ? s + 1 : s - 1));
+    if (isSoundOn) isChoiceCorrect ? playCorrect.play() : playWrong.play();
+
+    setIsIndicatorShowing(true);
+    setTimeout(() => {
+      resetTest(test);
+      setIsIndicatorShowing(false);
+    }, 500);
   };
 
   // We return a shape's text based on code.
@@ -131,13 +132,14 @@ const GrammaticalReasoning = () => {
   return test ? (
     <div className="gram-reas">
       <div className="gram-reas__container">
-        <div className="gram-reas__challenge--text">{getText(test)}</div>
+        <div className="gram-reas__challenge--text" style={{visibility: isIndicatorShowing ? "hidden" : "visible"}}>{getText(test)}</div>
 
         <div
           className="gram-reas__challenge--outer"
           style={{
             backgroundColor: getColor(test.illustration.colors[0]),
             borderRadius: getRadius(test.illustration.shapes[0]),
+            visibility: isIndicatorShowing ? "hidden" : "visible",
           }}
         >
           <div
@@ -152,15 +154,61 @@ const GrammaticalReasoning = () => {
         <div className="gram-reas__options">
           <div
             className="choice choice--border choice--red clickable"
-            onClick={() => handleChoice(false)}
+            onClick={() => handleChoice(false, 0)}
           >
             {strings.false}
+            {isIndicatorShowing && choice === 0 ? (
+              <div className="choice__hint-container choice__hint-container--left">
+                <div
+                  className={
+                    isCorrect
+                      ? "choice__hint choice__hint--correct"
+                      : "choice__hint choice__hint--wrong"
+                  }
+                >
+                  <ReactSVG
+                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
+                    wrapper="div"
+                    beforeInjection={(svg) => {
+                      svg.classList.add(
+                        isCorrect
+                          ? "choice__hint-icon--correct"
+                          : "choice__hint-icon--wrong"
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
           <div
             className="choice choice--border choice--green clickable"
-            onClick={() => handleChoice(true)}
+            onClick={() => handleChoice(true, 1)}
           >
             {strings.true}
+            {isIndicatorShowing && choice === 1 ? (
+              <div className="choice__hint-container choice__hint-container--right">
+                <div
+                  className={
+                    isCorrect
+                      ? "choice__hint choice__hint--correct"
+                      : "choice__hint choice__hint--wrong"
+                  }
+                >
+                  <ReactSVG
+                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
+                    wrapper="div"
+                    beforeInjection={(svg) => {
+                      svg.classList.add(
+                        isCorrect
+                          ? "choice__hint-icon--correct"
+                          : "choice__hint-icon--wrong"
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

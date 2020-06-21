@@ -4,14 +4,22 @@ import React, { useState, useContext, useEffect } from "react";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 import { playCorrect, playWrong } from "../../../../sounds/playFunctions";
+import { ReactSVG } from "react-svg";
 
 // We use 0 and 1 accross the challnege to define red & blue, both as text and as color. When he user makes a choice, we compare the value of the text that they picked, with the color of the test we've presented them with
 
 const DoubleTrouble = () => {
-  const { setScore, isSoundOn } = useContext(GameInfoContext);
+  const {
+    setScore,
+    isSoundOn,
+    isIndicatorShowing,
+    setIsIndicatorShowing,
+  } = useContext(GameInfoContext);
 
   const [test, setTest] = useState(null);
   const [options, setOptions] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [choice, setChoice] = useState(null);
 
   // Load the first challenge on first render
   useEffect(() => {
@@ -60,12 +68,18 @@ const DoubleTrouble = () => {
   };
 
   // We compare the value of the meaning of the text the user chose (0 if "Red", 1 if "Blue"), with the value of the color of the test we've presented them with
-  const handleChoice = (choice) => {
-    let isCorrect = choice === test.color;
-    setScore((s) => (isCorrect ? s + 1 : s - 1));
-    if (isSoundOn) isCorrect ? playCorrect.play() : playWrong.play();
+  const handleChoice = (choiceText, choice) => {
+    setChoice(choice);
+    let isChoiceCorrect = choiceText === test.color;
+    setIsCorrect(isChoiceCorrect);
+    setScore((s) => (isChoiceCorrect ? s + 1 : s - 1));
+    if (isSoundOn) isChoiceCorrect ? playCorrect.play() : playWrong.play();
 
-    resetTest(test, options);
+    setIsIndicatorShowing(true);
+    setTimeout(() => {
+      setIsIndicatorShowing(false);
+      resetTest(test, options);
+    }, 250);
   };
 
   // Retrn the appropriate text according to the value. 0 return "Red", 1 return "Blue".
@@ -80,9 +94,11 @@ const DoubleTrouble = () => {
           className={
             test.color === 0 ? "choice choice--red" : "choice choice--blue"
           }
+          style={{ visibility: isIndicatorShowing ? "hidden" : "visible" }}
         >
           {getText(test.text)}
         </div>
+
         <div className="double-trouble__options">
           <div
             className={
@@ -90,19 +106,66 @@ const DoubleTrouble = () => {
                 ? "choice choice--border choice--red clickable"
                 : "choice choice--border choice--blue clickable"
             }
-            onClick={() => handleChoice(options[0].text)}
+            onClick={() => handleChoice(options[0].text, 0)}
           >
             {getText(options[0].text)}
+            {isIndicatorShowing && choice === 0 ? (
+              <div className="choice__hint-container choice__hint-container--left">
+                <div
+                  className={
+                    isCorrect
+                      ? "choice__hint choice__hint--correct"
+                      : "choice__hint choice__hint--wrong"
+                  }
+                >
+                  <ReactSVG
+                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
+                    wrapper="div"
+                    beforeInjection={(svg) => {
+                      svg.classList.add(
+                        isCorrect
+                          ? "choice__hint-icon--correct"
+                          : "choice__hint-icon--wrong"
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
+
           <div
             className={
               options[1].color === 0
                 ? "choice choice--border choice--red clickable"
                 : "choice choice--border choice--blue clickable"
             }
-            onClick={() => handleChoice(options[1].text)}
+            onClick={() => handleChoice(options[1].text, 1)}
           >
             {getText(options[1].text)}
+            {isIndicatorShowing && choice === 1 ? (
+              <div className="choice__hint-container choice__hint-container--right">
+                <div
+                  className={
+                    isCorrect
+                      ? "choice__hint choice__hint--correct"
+                      : "choice__hint choice__hint--wrong"
+                  }
+                >
+                  <ReactSVG
+                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
+                    wrapper="div"
+                    beforeInjection={(svg) => {
+                      svg.classList.add(
+                        isCorrect
+                          ? "choice__hint-icon--correct"
+                          : "choice__hint-icon--wrong"
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
