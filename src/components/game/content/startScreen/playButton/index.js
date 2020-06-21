@@ -2,17 +2,13 @@ import "./styles.scss";
 import React from "react";
 import { ReactSVG } from "react-svg";
 import strings from "../../../../../constants/localizedStrings";
-import { playAgree } from "../../../../../sounds/playFunctions";
 
 const PlayButton = ({ setLaunch }) => {
   return (
     <div className="play-button">
       <div
         className="play-button__button-container"
-        onClick={() => {
-          setLaunch(true);
-          playAgree.play();
-        }}
+        onClick={() => setLaunch(true)}
       >
         <ReactSVG
           src={"../assets/play.svg"}

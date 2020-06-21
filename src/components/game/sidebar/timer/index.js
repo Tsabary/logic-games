@@ -43,7 +43,7 @@ const Timer = () => {
       <div className="timer__bar-container">
         <div
           className="timer__bar"
-          style={{ height: `${(timeLeft / 120) * 100}%` }}
+          style={{ height: `${(timeLeft / gameLength) * 100}%` }}
         />
       </div>
       <div className="label" style={{ marginTop: "2rem" }}>
