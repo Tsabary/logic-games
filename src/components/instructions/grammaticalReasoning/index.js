@@ -82,7 +82,7 @@ const GrammaticalReasoningInstructions = () => {
       </div>
 
       <div
-        className="instructions__finish"
+        className="green-button"
         onClick={() => setIsInstructionsVisible(false)}
       >
         {strings.iUnderstand}

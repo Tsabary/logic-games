@@ -5,14 +5,14 @@ import { GameInfoProvider } from "../providers/GameInfo";
 
 import Game from "./game";
 import Instructions from "./instructions";
-import Done from "./done";
+import Replay from "./replay";
 
 const App = () => {
   return (
     <GameInfoProvider>
       <Game />
       <Instructions />
-      <Done />
+      <Replay />
     </GameInfoProvider>
   );
 };

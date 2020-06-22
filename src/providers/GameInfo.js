@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export const GameInfoContext = React.createContext();
 
@@ -23,7 +23,7 @@ export const GameInfoProvider = ({ children }) => {
   // Keeps track of the score
   const [score, setScore] = useState(0);
 
-  const gameLength = 90;
+  const gameLength = 10;
   const [timeLeft, setTimeLeft] = useState(gameLength);
 
   const [isIndicatorShowing, setIsIndicatorShowing] = useState(false);

@@ -101,6 +101,24 @@ h2 {
   letter-spacing: 3px;
 }
 
+.green-button{
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: $green;
+  border: 1px solid $green;
+  border-radius: 4rem;
+  padding: 1rem 3rem;
+  width: max-content;
+  margin: 0 auto;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    color: $darkPurple;
+    background-color: $green;
+  }
+}
+
 .clickable {
   cursor: pointer;
 }

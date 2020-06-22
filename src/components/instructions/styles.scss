@@ -31,21 +31,4 @@
     transition: all 2s;
   }
 
-  &__finish {
-    font-size: 1.8rem;
-    font-weight: 500;
-    color: $green;
-    border: 1px solid $green;
-    border-radius: 4rem;
-    padding: 1rem 3rem;
-    width: max-content;
-    margin: auto;
-    transition: 0.2s;
-    cursor: pointer;
-
-    &:hover {
-      color: $darkPurple;
-      background-color: $green;
-    }
-  }
 }

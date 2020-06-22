@@ -53,7 +53,7 @@ const StartScreen = () => {
       {launch ? (
         <CountDown timeToStart={timeToStart} />
       ) : (
-        <PlayButton setLaunch={setLaunch} />
+        <PlayButton setLaunch={setLaunch}/>
       )}
       {!launch ? (
         <div
