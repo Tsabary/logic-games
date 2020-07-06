@@ -42,7 +42,7 @@ let strings = new LocalizedStrings({
     thankYou: "Thank you!",
     thankYouMessage:
       "We will reach you as soon as we carfully review your interview.",
-    youScored: "Your final score is",
+    youScored: "Your score is",
     playAgain: "Play again",
   },
 });

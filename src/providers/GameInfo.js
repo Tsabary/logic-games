@@ -6,7 +6,7 @@ export const GameInfoProvider = ({ children }) => {
   // Sets the current challenge:
   // 0 - Double Trouble
   // 1 - Grammatical Reasoning
-  const [challenge, setChallenge] = useState(0);
+  const [challenge, setChallenge] = useState(1);
 
   // Controls the sound
   const [isSoundOn, setIsSoundOn] = useState(true);

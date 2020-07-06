@@ -4,13 +4,16 @@ import { GameInfoContext } from "../../providers/GameInfo";
 import strings from "../../constants/localizedStrings";
 
 const Done = () => {
-  const { isDone } = useContext(GameInfoContext);
+  const { isDone, score } = useContext(GameInfoContext);
 
   return (
     <div className="done" style={{ display: isDone ? "block" : "none" }}>
       <div className="done__container">
         <h1>{strings.thankYou}</h1>
-        <h2 style={{ marginTop: "3rem" }}>{strings.thankYouMessage}</h2>
+        <div className="done__score">
+          {strings.youScored} {score}
+        </div>
+        <h2 style={{ marginTop: "4rem" }}>{strings.thankYouMessage}</h2>
       </div>
     </div>
   );
