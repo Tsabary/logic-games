@@ -6,6 +6,7 @@ import countdownGo from "./countdownGo.wav";
 import countdownStart from "./countdownStart.wav";
 import finished from "./finished.wav";
 import wrong from "./wrong.wav";
+import click from "./click.mp3";
 
 export const playAgree = new Howl({
   src: [agree],
@@ -33,4 +34,8 @@ export const playCdFinal = new Howl({
 
 export const playFinished = new Howl({
   src: [finished],
+});
+
+export const playClick = new Howl({
+  src: [click],
 });

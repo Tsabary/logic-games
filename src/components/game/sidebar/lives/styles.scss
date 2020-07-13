@@ -1,0 +1,46 @@
+@import "../../../../styles/imports";
+
+.lives {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr max-content;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  &__icons {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+  }
+  &__heart {
+    &-container {
+      width: 6rem;
+      height: 6rem;
+      padding-top: 0.7rem;
+      border-radius: 100%;
+      @include centerContent;
+      &--active {
+        border: 1px solid white;
+      }
+      &--lost {
+        border: 1px solid $purple;
+      }
+    }
+
+    &--active {
+      fill: white;
+    }
+    &--lost {
+      fill: $purple;
+    }
+  }
+
+  &__title {
+    color: $lightPurple;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.4rem;
+    letter-spacing: 2.8px;
+  }
+}

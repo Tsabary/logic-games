@@ -4,6 +4,7 @@
   display: grid;
   grid-template-rows: 3fr repeat(2, 15rem);
   user-select: none;
+  
   &__panel {
     background-image: $purpleGradient;
   }

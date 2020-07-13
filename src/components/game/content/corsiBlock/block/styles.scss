@@ -1,0 +1,42 @@
+@import "../../../../../styles/imports";
+
+.block {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 0.5rem;
+
+  &--flashing {
+    animation: 1s ease infinite flash;
+  }
+
+  &--running {
+    background-color: $greyPurple;
+  }
+
+  &--done {
+    background-color: $greyPurple;
+    cursor: pointer;
+    transition: all 0.15s;
+    &:hover {
+      background-color: $lightGreyPurple;
+    }
+
+    &:active {
+      background-color: $lightestGreyPurple;
+    }
+  }
+}
+
+@keyframes flash {
+  0% {
+    background-color: $greyPurple;
+  }
+
+  50% {
+    background-color: $green;
+  }
+
+  100% {
+    background-color: $greyPurple;
+  }
+}

@@ -1,0 +1,27 @@
+@import "../../../../../styles/imports";
+
+.wrong-indicator {
+  @include centerContent;
+
+  &__check {
+    width: 5rem;
+    height: 5rem;
+    fill: $red;
+
+    &-container {
+      width: 14rem;
+      height: 14rem;
+      border: 1px solid $red;
+      padding: 4rem 2.5rem 2.5rem 2.5rem;
+      border-radius: 100%;
+      @include centerContent;
+    }
+  }
+
+  &__text {
+    color: $red;
+    margin-top: 1rem;
+    font-size: 3.5rem;
+    font-weight: 500;
+  }
+}

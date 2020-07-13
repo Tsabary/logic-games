@@ -1,14 +1,19 @@
 import "./styles.scss";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { playFinished, playCdFinal } from "../../../../sounds/playFunctions";
 
 import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 
 const Timer = () => {
-  const { isPlaying, setIsDone, isSoundOn, timeLeft, setTimeLeft, gameLength } = useContext(
-    GameInfoContext
-  );
+  const {
+    isPlaying,
+    setIsDone,
+    isSoundOn,
+    timeLeft,
+    setTimeLeft,
+    gameLength,
+  } = useContext(GameInfoContext);
   let interval = useRef(null);
 
   useEffect(() => {

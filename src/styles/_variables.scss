@@ -1,16 +1,22 @@
 // COLORS //
 
 $darkPurple: #231826;
-$lightPurple: #AB89B4;
+$purple: #664971;
+$lightPurple: #bc96e6;
+$lighterPurple: lighten($lightPurple, 15%);
+
 $purpleGradient: linear-gradient(
   lighten($darkPurple, 2%),
   lighten($darkPurple, 6%)
 );
+$greyPurple: #736a7b;
+$lightGreyPurple: lighten($greyPurple, 15%);
+$lightestGreyPurple: lighten($greyPurple, 25%);
 
 $blue: #1082fe;
 $red: #ff0302;
 $green: #89c92e;
-$redOrange: #E84855;
+$redOrange: #e84855;
 
 $grey: #ababab;
 $greyLightest: lighten($grey, 25%);

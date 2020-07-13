@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { GameInfoContext } from "../../providers/GameInfo";
 import DoubleTroubleInstructions from "./doubleTrouble";
 import GrammaticalReasoningInstructions from "./grammaticalReasoning";
+import CorsiBlockInstructions from "./corsiBlock";
 
 const Instructions = () => {
   const { isInstructionsVisible, challenge } = useContext(GameInfoContext);
@@ -14,6 +15,12 @@ const Instructions = () => {
 
       case 1:
         return <GrammaticalReasoningInstructions />;
+
+      case 2:
+        return <CorsiBlockInstructions />;
+
+      default:
+        return null;
     }
   };
 
