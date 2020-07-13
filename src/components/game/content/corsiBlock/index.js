@@ -3,16 +3,17 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
+import strings from "../../../../constants/localizedStrings";
 import WrongIndicator from "./wrongIndicator";
 import CorrectIndicator from "./correctIndicator";
 import Block from "./block";
 
 const CorsiBlock = () => {
-  const { setLivesLeft, score, setScore, fouls, setFouls } = useContext(
+  const { setLivesLeft, score, setScore, setFouls } = useContext(
     GameInfoContext
   );
 
-  const [lvl, setLvl] = useState(10);
+  const [lvl, setLvl] = useState(4);
   const [sequence, setSequene] = useState([]);
   const [replay, setReplay] = useState([]);
   const [flashingBlock, setFlashingBlock] = useState(null);
@@ -134,7 +135,7 @@ const CorsiBlock = () => {
     <div className="corsi-block">
       {isLevelShowing ? (
         <div className="corsi-block__announcement corsi-block__announcement--level">
-          {lvl} blocks
+          {lvl} {strings.blocks}
         </div>
       ) : null}
 

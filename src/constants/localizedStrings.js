@@ -51,6 +51,7 @@ let strings = new LocalizedStrings({
     // SIDE BAR //
     time: " Time",
     score: "Score",
+    livesRemaining: "Lives Remaining",
 
     // DONE //
     thankYou: "Thank you!",
@@ -58,6 +59,11 @@ let strings = new LocalizedStrings({
       "We will reach you as soon as we carfully review your interview.",
     youScored: "Your score is",
     playAgain: "Play again",
+
+    // CORSI BLOCKS //
+    blocks: "blocks",
+    livesLeft: "lives left!",
+    roundComplete: "Round complete!",
   },
 });
 

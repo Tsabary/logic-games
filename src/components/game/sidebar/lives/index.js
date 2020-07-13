@@ -2,6 +2,7 @@ import "./styles.scss";
 import React, { useContext, useEffect } from "react";
 import { ReactSVG } from "react-svg";
 
+import { strings } from "../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
 const Lives = (livesLost) => {
@@ -43,7 +44,7 @@ const Lives = (livesLost) => {
   return (
     <div className="lives">
       <div className="lives__icons">{renderLives(livesLeft)}</div>
-      <div className="lives__title">Lives Remaining</div>
+      <div className="lives__title">{strings.livesRemaining}</div>
     </div>
   );
 };

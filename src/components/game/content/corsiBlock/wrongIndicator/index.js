@@ -4,6 +4,7 @@ import { ReactSVG } from "react-svg";
 
 import { GameInfoContext } from "../../../../../providers/GameInfo";
 import { playWrong } from "../../../../../sounds/playFunctions";
+import strings from "../../../../../constants/localizedStrings";
 
 const WrongIndicator = () => {
   const { livesLeft } = useContext(GameInfoContext);
@@ -23,7 +24,9 @@ const WrongIndicator = () => {
           }}
         />
       </div>
-      <div className="wrong-indicator__text">{livesLeft} lives left!</div>
+      <div className="wrong-indicator__text">
+        {livesLeft} {strings.livesLeft}
+      </div>
     </div>
   );
 };

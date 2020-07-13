@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { ReactSVG } from "react-svg";
 
 import { playCorrect } from "../../../../../sounds/playFunctions";
+import strings from "../../../../../constants/localizedStrings";
 
 const CorrectIndicator = () => {
   useEffect(() => {
@@ -21,7 +22,7 @@ const CorrectIndicator = () => {
           }}
         />
       </div>
-      <div className="correct-indicator__text">Round complete!</div>
+      <div className="correct-indicator__text">{strings.roundComplete}</div>
     </div>
   );
 };
