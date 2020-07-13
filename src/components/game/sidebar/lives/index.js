@@ -2,7 +2,7 @@ import "./styles.scss";
 import React, { useContext, useEffect } from "react";
 import { ReactSVG } from "react-svg";
 
-import { strings } from "../../../../constants/localizedStrings";
+import strings from "../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
 const Lives = (livesLost) => {
