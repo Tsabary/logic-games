@@ -27,7 +27,7 @@ const Replay = () => {
         <h1>{strings.youScored}</h1>
         <h1>{score}</h1>
 
-        <div className="green-button" onClick={() => handleReplay()} style={{marginTop:"4rem"}}>
+        <div className="button button--green" onClick={() => handleReplay()} style={{marginTop:"4rem"}}>
           {strings.playAgain}
         </div>
       </div>

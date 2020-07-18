@@ -2,9 +2,16 @@
 
 .sidebar {
   display: grid;
-  grid-template-rows: 3fr repeat(2, 15rem);
   user-select: none;
-  
+  max-height: 100vh;
+  &--f-2 {
+    grid-template-rows: 3fr repeat(2, 1fr);
+  }
+
+  &--f-3 {
+    grid-template-rows: 3fr repeat(3, 1fr);
+  }
+
   &__panel {
     background-image: $purpleGradient;
   }

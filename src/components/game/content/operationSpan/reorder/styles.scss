@@ -1,0 +1,58 @@
+@import "../../../../../styles/imports";
+
+.reorder {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: $darkPurple;
+  padding: 4rem;
+  z-index: $z20;
+  display: grid;
+  gap: 5rem;
+
+  @include centerContent;
+
+  &__image {
+    border-radius: 1rem;
+    border: 1px solid $lightPurple;
+    max-width: 10rem;
+    max-height: 10rem;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+    cursor: pointer;
+
+    &-position {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: $lightPurple;
+      height: 4rem;
+      width: 4rem;
+      z-index: $z30;
+      font-weight: 900;
+      color: $darkPurple;
+      @include centerContent;
+    }
+  }
+
+  &__images {
+    position: relative;
+    width: max-content;
+    height: max-content;
+    // background-color: orchid;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem;
+    grid-template-columns: repeat(7, 10rem);
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 3rem;
+    font-weight: 500;
+    color: white;
+  }
+}

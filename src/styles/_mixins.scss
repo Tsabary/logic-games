@@ -32,3 +32,12 @@
   justify-content: center;
   text-align: center;
 }
+
+@mixin instructionsPage {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  text-align: center;
+  padding: 5rem;
+}

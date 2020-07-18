@@ -4,6 +4,7 @@ import { GameInfoContext } from "../../providers/GameInfo";
 import DoubleTroubleInstructions from "./doubleTrouble";
 import GrammaticalReasoningInstructions from "./grammaticalReasoning";
 import CorsiBlockInstructions from "./corsiBlock";
+import OperationSpanInstructions from "./operationSpan";
 
 const Instructions = () => {
   const { isInstructionsVisible, challenge } = useContext(GameInfoContext);
@@ -18,6 +19,9 @@ const Instructions = () => {
 
       case 2:
         return <CorsiBlockInstructions />;
+
+      case 3:
+        return <OperationSpanInstructions />;
 
       default:
         return null;

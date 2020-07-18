@@ -3,37 +3,61 @@ import React, { useContext } from "react";
 
 import { GameInfoContext } from "../../../providers/GameInfo";
 
-import Timer from "./timer";
+import Timer from "./gameTimer";
 import Score from "./score";
 import Sound from "./sound";
 import Lives from "./lives";
+import ActionTimer from "./actionTimer";
 
 const Sidebar = () => {
   const { challenge } = useContext(GameInfoContext);
 
-  const renderTop = (chlng) => {
+  const renderSections = (sections) => {
+    return sections.map((sec, i) => {
+      return (
+        <div className="sidebar__panel" key={i}>
+          {sec}
+        </div>
+      );
+    });
+  };
+
+  const renderSidebar = (chlng) => {
+    console.log("renderinf side bar")
     switch (chlng) {
-      case 2:
-        return <Lives />;
+      case 0: // Double Trouble
+      case 1: // Logical Reasoning
+        return (
+          <div className="sidebar sidebar--f-2">
+            {renderSections([<Timer />, <Score />, <Sound />])}
+          </div>
+        );
+
+      case 2: // Corbi Blocks
+        return (
+          <div className="sidebar sidebar--f-2">
+            {renderSections([<Lives />, <Score />, <Sound />])}
+          </div>
+        );
+
+      case 3: // Operation Span
+        return (
+          <div className="sidebar sidebar--f-3">
+            {renderSections([
+              <Lives />,
+              <ActionTimer timePerAction={5} />,
+              <Score />,
+              <Sound />,
+            ])}
+          </div>
+        );
 
       default:
-        return <Timer />;
+        return null;
     }
   };
 
-  return (
-    <div className="sidebar">
-      <div className="sidebar__panel">{renderTop(challenge)}</div>
-
-      <div className="sidebar__panel">
-        <Score />
-      </div>
-
-      <div className="sidebar__panel">
-        <Sound />
-      </div>
-    </div>
-  );
+  return renderSidebar(challenge);
 };
 
 export default Sidebar;

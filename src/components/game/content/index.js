@@ -5,6 +5,7 @@ import { GameInfoContext } from "../../../providers/GameInfo";
 import DoubleTrouble from "./doubleTrouble";
 import GrammaticalReasoning from "./grammaticalReasoning";
 import CorsiBlock from "./corsiBlock";
+import OperationSpan from "./operationSpan";
 
 const Content = () => {
   const { isPlaying, challenge } = useContext(GameInfoContext);
@@ -17,8 +18,11 @@ const Content = () => {
       case 1:
         return <GrammaticalReasoning />;
 
-      case 2:
+        case 2:
         return <CorsiBlock />;
+      
+        case 3:
+          return <OperationSpan />;
 
       default:
         return null;

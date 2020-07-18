@@ -27,7 +27,7 @@ h2 {
   &--blue {
     color: $blue;
   }
-  
+
   &--green {
     color: $green;
   }
@@ -90,7 +90,6 @@ h2 {
       }
     }
   }
-
 }
 
 .label {
@@ -101,11 +100,9 @@ h2 {
   letter-spacing: 3px;
 }
 
-.green-button{
+.button {
   font-size: 1.8rem;
   font-weight: 500;
-  color: $green;
-  border: 1px solid $green;
   border-radius: 4rem;
   padding: 1rem 3rem;
   width: max-content;
@@ -113,9 +110,24 @@ h2 {
   transition: 0.2s;
   cursor: pointer;
 
-  &:hover {
-    color: $darkPurple;
-    background-color: $green;
+  &--purple {
+    border: 1px solid $lightPurple;
+    color: $lightPurple;
+
+    &:hover {
+      color: $darkPurple;
+      background-color: $lightPurple;
+    }
+  }
+
+  &--green {
+    border: 1px solid $green;
+    color: $green;
+
+    &:hover {
+      color: $darkPurple;
+      background-color: $green;
+    }
   }
 }
 

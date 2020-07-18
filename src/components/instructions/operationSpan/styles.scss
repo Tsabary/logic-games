@@ -1,0 +1,83 @@
+@import "../../../styles/imports";
+
+.os-inst {
+  @include instructionsPage;
+
+  &__steps-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  &__step {
+    &-container {
+      border: 1px solid $lightPurple;
+      padding: 3rem;
+      display: grid;
+      grid-template-rows: max-content 20rem 1fr;
+      justify-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    &-title {
+      text-transform: uppercase;
+      font-size: 1.8rem;
+      color: $lightPurple;
+    }
+
+    &-info {
+      font-size: 1.4rem;
+      color: white;
+      font-weight: 400;
+    }
+  }
+
+  &__equation {
+    &-statement {
+      color: white;
+      font-size: 3.5rem;
+      font-weight: 500;
+    }
+
+    &-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    &-action {
+      padding: 1rem 3rem;
+      border-radius: 4rem;
+      font-size: 3.5rem;
+      border: 1px solid $lightPurple;
+      margin-top: 2rem;
+      text-transform: uppercase;
+
+      &--true {
+        color: $green;
+      }
+
+      &--false {
+        color: $red;
+        border: 1px solid $red;
+      }
+    }
+  }
+
+  &__select {
+    &-icons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+    }
+    &-icon {
+      display: grid;
+      gap: 1rem;
+    }
+    &-number{
+      color: $lightPurple;
+      
+    }
+  }
+}

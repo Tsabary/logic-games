@@ -1,0 +1,7 @@
+@import "../../../../styles/imports";
+
+.action-timer {
+  height: max-content;
+  padding: 3rem;
+  @include centerContent;
+}

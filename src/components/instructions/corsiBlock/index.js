@@ -50,7 +50,7 @@ const GrammaticalReasoningInstructions = () => {
       </div>
 
       <div
-        className="green-button"
+        className="button button--green"
         onClick={() => setIsInstructionsVisible(false)}
       >
         {strings.iUnderstand}

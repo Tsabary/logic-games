@@ -41,7 +41,7 @@ const Timer = () => {
     if (timeLeft > 9.85 && timeLeft < 9.95) {
       if (isSoundOn) playCdFinal.play();
     }
-  }, [interval, timeLeft]);
+  }, [interval, timeLeft, isSoundOn]);
 
   return (
     <div className="timer">

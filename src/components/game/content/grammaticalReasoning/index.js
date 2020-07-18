@@ -10,16 +10,12 @@ import { ReactSVG } from "react-svg";
 // We use 0 and 1 accross the challnege to define red & blue, both as text and as color. When he user makes a choice, we compare the value of the text that they picked, with the color of the test we've presented them with
 
 const GrammaticalReasoning = () => {
-  const {
-    setScore,
-    isSoundOn,
-    isIndicatorShowing,
-    setIsIndicatorShowing,
-  } = useContext(GameInfoContext);
+  const { setScore, isSoundOn } = useContext(GameInfoContext);
 
   const [test, setTest] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
   const [choice, setChoice] = useState(null);
+  const [isIndicatorShowing, setIsIndicatorShowing] = useState(false);
 
   // Load the first challenge on first render
   useEffect(() => {
@@ -132,7 +128,12 @@ const GrammaticalReasoning = () => {
   return test ? (
     <div className="gram-reas">
       <div className="gram-reas__container">
-        <div className="gram-reas__challenge--text" style={{visibility: isIndicatorShowing ? "hidden" : "visible"}}>{getText(test)}</div>
+        <div
+          className="gram-reas__challenge--text"
+          style={{ visibility: isIndicatorShowing ? "hidden" : "visible" }}
+        >
+          {getText(test)}
+        </div>
 
         <div
           className="gram-reas__challenge--outer"

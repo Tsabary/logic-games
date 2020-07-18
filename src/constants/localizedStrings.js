@@ -11,6 +11,11 @@ let strings = new LocalizedStrings({
     true: "true",
     false: "false",
 
+    // GENERAL //
+    submit: "submit",
+    image: "image",
+    images: "images",
+
     // INSTRUCTIONS //
     instructionsTitle: "Instructions",
     statement: "statement",
@@ -45,8 +50,31 @@ let strings = new LocalizedStrings({
     cbStateTwoOrder:
       "(Remember the sequence in which the boxes are highlighted, then replay)",
 
+    // Operation Span instructions
+    osInstructionsLineOne:
+      "Each round you will be presented with a number of math equations, to decide if they are true or false.",
+    osInstructionsLineTwo:
+      "Before each math equation, you will be shown an image, which you have o remember.",
+    osInstructionsLineThree:
+      "At the end of each round, you have to select the images you saw, in the order they were presented to you.",
+
+    imageInfo: "An image will be shown before each math equation. Remember it.",
+
+    mathEquation: "math equation",
+    mathEquationInfoOne:
+      "Answer if this equation is true or false, by clicking on the buttons below.",
+    mathEquationInfoTwo:
+      "You have 5 seconds for each math equation. If you run out of time, or if your answer is wrong, you will lose half a life.",
+
+    selectImages: "select images",
+    selectImagesInfoOne:
+      "At the end of each round, you have 15 seconds to select the images you saw, in the same order they were presented to you",
+    selectImagesInfoTwo:
+      "If you do this incorrectly, you will lose a whole life",
+    selectThe: "Select the",
+
     // START SCREEN //
-    StartGame: "Start the game",
+    startGame: "Start the game",
 
     // SIDE BAR //
     time: " Time",
@@ -63,6 +91,7 @@ let strings = new LocalizedStrings({
     // CORSI BLOCKS //
     blocks: "blocks",
     livesLeft: "lives left!",
+    lifeLeft: "life left!",
     roundComplete: "Round complete!",
   },
 });
