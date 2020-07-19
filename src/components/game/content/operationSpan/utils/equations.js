@@ -52,7 +52,7 @@ export default [
     answer: true,
   },
   {
-    problem: "(4 * 8) - 5 = 31",
+    problem: "(4 * 9) - 5 = 31",
     answer: true,
   },
   {
@@ -149,7 +149,7 @@ export default [
     answer: false,
   },
   {
-    problem: "(6 * 8) + 8 = 66",
+    problem: "(6 * 8) + 8 = 54",
     answer: false,
   },
   {
@@ -161,7 +161,7 @@ export default [
     answer: false,
   },
   {
-    problem: "(9 * 5) + 5 = 45",
+    problem: "(9 * 5) + 5 = 40",
     answer: false,
   },
   {

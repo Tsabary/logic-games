@@ -9,23 +9,38 @@ import Reorder from "./reorder";
 import NewLevelIndicator from "./newLevelIndicator";
 import ImageSlide from "./imageSlide";
 import DistractionChallenge from "./distractionChallenge";
+import { addImageToSequence } from "./utils/functions";
 
 export default () => {
-  const { setLivesLeft, score, setScore, fails, setFails } = useContext(
-    GameInfoContext
-  );
+  const {
+    livesLeft,
+    setLivesLeft,
+    score,
+    setScore,
+    fails,
+    setFails,
+  } = useContext(GameInfoContext);
 
   // This is our current level. This determines how many sets of image & distraction Q the user gets to see.
-  const [level, setLevel] = useState(4);
+  const [level, setLevel] = useState(2);
 
   // This holds our challenge/distraction Q
   const [challenge, setChallenge] = useState(null);
 
   // This holds all of the images that were presented to the user, in the order which they were presented.
-  const [images, setImages] = useState([]);
+  const [providedOrder, setProvidedOrder] = useState([]);
+
+  // This keeps track on the order the user reorders the images
+  const [userOrder, setUserOrder] = useState([]);
 
   // We lay the image component on top of the equation component, and just present it for a short amount of time before having it disappear and presenting the user with the distraction Q. This state controlls whether the image component is currently visible or not.
   const [isImageVisible, setIsImageVisible] = useState(true);
+
+  // This state controlls whether the distraction question component is currently visible or not.
+  const [
+    isDistractionQuestionVisible,
+    setIsDistractionQuestionVisible,
+  ] = useState(false);
 
   // This state indicates whether we should be presenting the user with the reordering ccomponent
   const [isReorderingVisible, setIsReorderingVisible] = useState(false);
@@ -36,207 +51,199 @@ export default () => {
   // This keeps track on whether the user's round was succesful or not, s we know what indicator to show them. 0 = first round, show nothing, 1 = succefful round, 2 = failed round
   const [isRoundSuccessful, setIsRoundSuccessful] = useState(0);
 
-  // This keeps travk on the order the user reorders the images
-  const [userOrder, setUserOrder] = useState([]);
-
   // We use this to determine whether the user played or not. This helps us in our use effect to prevent from rendering the reorder component on level 1 befre the user has even played
-  const [userPlayed, setUserPlayed] = useState(false);
+  const [userAnswers, setUserAnswers] = useState([]);
 
   useEffect(() => {
     newLevel();
   }, []);
 
-  // If the amount of images is equal to our level, and our equation is null (which we do only after the user has answered the last distraction question) then it's time to allow them to order the images by sequence
+  // If the amount of providedOrder is equal to our level, and our equation is null (which we do only after the user has answered the last distraction question) then it's time to allow them to order the images by sequence
   useEffect(() => {
     // Time to test the user on memorizing the images sequence.
-    const userSawAllImagesForLevel = images.length === level;
-    const userIsNotFacingAChallengeRightNow = !challenge;
+    const userSawAllImagesForLevel = providedOrder.length === level;
+    const userAnsweredAllQuestions = userAnswers.length === level;
 
     switch (true) {
       // If the user failed twice or more (more is jusr being safe, shouldn't eve be more than 2), they lose a life
       case fails >= 2:
-        setIsRoundSuccessful(2);
+        console.log("changes case - fails >= 2");
         loselife();
-        setChallenge(null);
+        resetSession();
+        newLevel();
         break;
 
       // If the user saw all the images and there isn't a challenge set
-      case userSawAllImagesForLevel &&
-        userIsNotFacingAChallengeRightNow &&
-        userPlayed:
-        console.log("RENDER CASE  - userSawAllImagesForLevel");
-
-        enterReorderMode();
+      case userSawAllImagesForLevel && userAnsweredAllQuestions:
+        console.log(
+          "changes case - userSawAllImagesForLevel && userAnswers",
+          fails
+        );
+        makeReorderVisible();
+        // resetSession();
         break;
 
       default:
-        console.log("useeffectseults", userSawAllImagesForLevel);
-        console.log("useeffectseults", userIsNotFacingAChallengeRightNow);
-        console.log("useeffectseults", userPlayed);
+        console.log("changes case - default");
         break;
     }
-  }, [images, challenge, level, fails, userPlayed]);
+  }, [providedOrder, challenge, level, fails, userAnswers]);
 
-  // This functions lumches a sequence of actions to start a new level
-  const newLevel = () => {
-    // Show the component that tells the user what level they're on now
+  // This fills the conditions required so the level indicator component is visible
+  const makeLevelIndicatorVisible = () => {
+    // We set the level indicator component visibility to visible
     setIsLevelIndicatorVisible(true);
+
+    // We make the other components visibility to false
     setIsReorderingVisible(false);
     setIsImageVisible(false);
-
-    setTimeout(() => {
-      setChallenge(null);
-      setImages([]);
-      setFails(0);
-
-      setIsLevelIndicatorVisible(false);
-      setIsImageVisible(true);
-      nextSet();
-    }, [4000]);
+    setIsDistractionQuestionVisible(false);
+    console.log("indicator call - level indicator");
   };
 
-  const addImageToSequence = () => {
-    // To prevent repeating the same image twice, we need to see which images have already been presented to the user. This variable holds he index of all the indexes of images that havent been presented to the user yet.
-    // We create a map of all asset indexes, and then filter by checking for every index if it exists in the images array or not.
-    const remainingIconsIndexes = iconAssets
-      .map((ic) => ic.index)
-      .filter((ic) => !images.map((i) => i.index).includes(ic));
+  // This fills the conditions required so reorder component is visible
+  const makeReorderVisible = () => {
+    // We set the reorder component visibility to visible
+    setIsReorderingVisible(true);
 
-    // Then, using our list of remaining indexes, we extract a random item/index from that list
-    const newIconIndex =
-      remainingIconsIndexes[
-        Math.floor(Math.random() * remainingIconsIndexes.length)
-      ];
+    // We make the other components visibility to false
+    setIsLevelIndicatorVisible(false);
+    setIsImageVisible(false);
+    setIsDistractionQuestionVisible(false);
 
-    // Then, we add another icon to our sequence by filtering ou icon assets array to match the new randm index we've just created
-    setImages((ics) => [
-      ...ics,
-      iconAssets.filter((ic) => ic.index === newIconIndex)[0],
-    ]);
+    console.log("indicator call - reorder");
   };
 
-  // The test is comprised of sets of a visual asset (images), and a distraction question. This function initializes new values for both
-  const nextSet = () => {
+  // This fills the conditions required so the image component is visible
+  const makeImageVisible = () => {
+    // We set the icon's visibility to visible
+    setIsImageVisible(true);
+
     // Wee add one image to our image sequence array
-    addImageToSequence();
+    addImageToSequence(iconAssets, providedOrder, setProvidedOrder);
+
+    // We make the other components visibility to false
+    setIsDistractionQuestionVisible(false);
+    setIsReorderingVisible(false);
+    setIsLevelIndicatorVisible(false);
+
+    console.log("indicator call - image");
+  };
+
+  const makeDistractionQuestionVisible = () => {
+    // We set the distraction question's component visibility to visible
+    setIsDistractionQuestionVisible(true);
 
     // We set a new distraction question
     setChallenge(equations[Math.floor(Math.random() * equations.length)]);
 
-    // We set the icon's visibility to visible
-    setIsImageVisible(true);
+    setIsImageVisible(false);
+    setIsReorderingVisible(false);
+    setIsLevelIndicatorVisible(false);
+
+    console.log("indicator call - question");
+  };
+
+  // This functions lunches a sequence of actions to start a new level
+  const newLevel = () => {
+    makeLevelIndicatorVisible();
+
+    setTimeout(() => {
+      nextSet();
+    }, [3000]);
+  };
+
+  // The test is comprised of sets of a visual asset (images), and a distraction question. This function initializes new values for both
+  const nextSet = () => {
+    console.log("indicator call - next set");
+
+    makeImageVisible();
 
     // We set a timer to hide the icon after 1.5 seconds
     setTimeout(() => {
-      setIsImageVisible(false);
+      makeDistractionQuestionVisible();
     }, [1500]);
   };
 
   const loselife = () => {
-    // In case we got our second fail at the last question, we want to make sure reordering isn't kicking in
-    setUserPlayed(false);
-    setIsReorderingVisible(false);
-    setLivesLeft((lvs) => lvs - 1);
+    resetSession();
+    setIsRoundSuccessful(2);
     setLevel((level) => (level === 1 ? 1 : level - 1));
-    setFails(0);
-    setIsImageVisible(false);
-    setChallenge(null);
-    newLevel();
-    setIsLevelIndicatorVisible(true);
+    setLivesLeft((lvs) => lvs - 1);
   };
 
-  const enterReorderMode = () => {
-    setIsReorderingVisible(true);
-    setFails(0);
-    setChallenge(null);
-    setIsImageVisible(false);
-    setIsLevelIndicatorVisible(false);
-    setUserPlayed(false);
+  const jumpLevel = () => {
+    resetSession();
+    setIsRoundSuccessful(1);
+    setLevel((lvl) => lvl + 1);
+    if (level > score) setScore(level);
   };
 
-  // This is where we compare the two orders - the one we have generated for the user to repeat, and the one that they have submitted
-  const compareOrders = (userOrder) => {
-    const reorderingIsSuccessful =
-      userOrder.join("-") === images.map((img) => img.index).join("-");
+  const resetSession = () => {
+    setFails(0);
+    setUserAnswers([]);
+    setChallenge(null);
+  };
 
-    setIsRoundSuccessful(reorderingIsSuccessful ? 1 : 2);
+  // This is where we handle whether the user succeeded in ordering the assets or no
+  const handleSubmit = (isEqual) => {
+    isEqual ? jumpLevel() : loselife();
 
-    if (reorderingIsSuccessful) {
-      // If this is a new record, aise the users score.
-      if (level > score) setScore(level);
-
-      // Then we set the level one higher and initiate the new level sequence
-      setLevel((lvl) => lvl + 1);
-      newLevel();
-      setUserPlayed(false);
-    } else {
-      // If it wasn't a good reordering then we set the fails to 2. This will set on the failing sequence
-      loselife();
-    }
+    setProvidedOrder([]);
+    resetSession();
+    if (livesLeft) newLevel();
   };
 
   // This is where we respond to the answer for the distraction questions.
-  const handleAnswer = (isWin) => {
-    setUserPlayed(true);
+  const handleAnswer = (isCorrect) => {
+    setUserAnswers((answers) => [...answers, isCorrect]);
 
     // If the user didn't answer correctly they get a fail
-    if (!isWin) setFails(fails + 1);
+    if (!isCorrect) setFails(fails + 1);
 
-    // If the length of the images array isn't the same as the level, then we still have more sets to go through before repeating the order of the images. We also need to make sure that the user didn't fail twice, because if they did the whole game is about to reset. We do it by checking that either they have no fails so far, or if they do have fails (max 1, as by 2 everything resets) that this last answer was true. If the user has fails and they got this answer wrong then the game will shortly reset.
-
-    const thisWasLastChallenge = images.length === level;
-    const levelOne = level === 1;
-
-    if (thisWasLastChallenge || levelOne) {
-      setChallenge(null);
-    } else {
+    // If the user was correct, or if they at least have no fails yet then we call the next set. If they are not correct and they have fails alreay, then that mean that the fails count would hit 2 in a moment and the game will reset on a new level
+    if ((isCorrect || fails === 0) && providedOrder.length !== level) {
       nextSet();
-    }
-  };
-
-  // This funcion is called when we take too long to answer a question
-  const handleOvertime = () => {
-    setUserPlayed(true);
-
-    setFails(fails + 1);
-
-    const thisWasLastChallenge = images.length === level;
-    const levelOne = level === 1;
-
-    if (thisWasLastChallenge || levelOne) {
-      setChallenge(null);
     } else {
-      nextSet();
+      console.log("Not giving another set because", providedOrder.length !== level)
+      console.log("Not giving another set because", (isCorrect || fails === 0))
+
     }
   };
 
   const renderContent = (
     isReorderingVisible,
-    level,
     isImageVisible,
+    isDistractionQuestionVisible,
     isLevelIndicatorVisible,
-    images,
+    level,
+    providedOrder,
     challenge
   ) => {
+    console.log("About to rerender");
+
     switch (true) {
       case isLevelIndicatorVisible &&
         !isImageVisible &&
-        !isReorderingVisible &&
-        !challenge:
-        console.log("RENDER CASE  -  NEW LEVEL INDICATOR should showww");
+        !isDistractionQuestionVisible &&
+        !isReorderingVisible:
+        // console.log("RENDER CASE  -  NEW LEVEL INDICATOR should showww");
         return (
           <NewLevelIndicator level={level} isSuccessful={isRoundSuccessful} />
         );
 
       case isImageVisible &&
-        images.length &&
+        providedOrder.length &&
+        !isDistractionQuestionVisible &&
         !isLevelIndicatorVisible &&
         !isReorderingVisible:
-        console.log("RENDER CASE  -  IMAGE");
-        console.log("RENDER CASE  -  IMAGE", images);
-        return <ImageSlide img={images[images.length - 1].icon} />;
+        // console.log("RENDER CASE  -  IMAGE");
+        return (
+          <ImageSlide img={providedOrder[providedOrder.length - 1].icon} />
+        );
 
-      case challenge &&
+      case isDistractionQuestionVisible &&
+        challenge &&
         !isImageVisible &&
         !isLevelIndicatorVisible &&
         !isReorderingVisible:
@@ -245,52 +252,48 @@ export default () => {
           <DistractionChallenge
             challenge={challenge}
             handleAnswer={handleAnswer}
-            handleOvertime={handleOvertime}
           />
         );
 
       case isReorderingVisible &&
         !isImageVisible &&
-        !isLevelIndicatorVisible &&
-        !challenge:
+        !isDistractionQuestionVisible &&
+        !isLevelIndicatorVisible:
         console.log("RENDER CASE  -  REORDER");
         return (
           <Reorder
-            images={iconAssets}
+            assets={iconAssets}
             level={level}
-            compareOrders={(userOrder) => compareOrders(userOrder)}
+            handleSubmit={(isEqual) => handleSubmit(isEqual)}
+            providedOrder={providedOrder}
             userOrder={userOrder}
             setUserOrder={setUserOrder}
           />
         );
 
       default:
-        // // Check why image isn't visible
-        // console.log("RENDER CASE image -  NOTHING");
-        // console.log("RENDER CASE image -  NOTHING", isImageVisible);
-        // console.log("RENDER CASE image -  NOTHING", !!images.length);
-        // console.log("RENDER CASE image -  NOTHING", !isLevelIndicatorVisible);
-        // console.log("RENDER CASE image -  NOTHING", !isReorderingVisible);
+        // console.log("RENDER CASE  -  IMAGE - isImageVisible", isImageVisible);
+        // console.log(
+        //   "RENDER CASE  -  IMAGE - providedOrder.length",
+        //   !!providedOrder.length
+        // );
+        // console.log(
+        //   "RENDER CASE  -  IMAGE - isDistractionQuestionVisible",
+        //   !isDistractionQuestionVisible
+        // );
+        // console.log(
+        //   "RENDER CASE  -  IMAGE - isLevelIndicatorVisible",
+        //   !isLevelIndicatorVisible
+        // );
+        // console.log(
+        //   "RENDER CASE  -  IMAGE - isReorderingVisible",
+        //   !isReorderingVisible
+        // );
+        // console.log(
+        //   "RENDER CASE  -  IMAGE - RENDER CASE  -  IMAGE - RENDER CASE  -  IMAGE - ",
+        //   !isReorderingVisible
+        // );
 
-        // Check why image isn't visible
-        // console.log("RENDER CASE REORDER -  NOTHING");
-        // console.log("RENDER CASE REORDER -  NOTHING", isReorderingVisible);
-        // console.log("RENDER CASE REORDER -  NOTHING", !isImageVisible);
-        // console.log("RENDER CASE REORDER -  NOTHING", !isLevelIndicatorVisible);
-        // console.log("RENDER CASE REORDER -  NOTHING", !challenge);
-
-        // Check why level indicator isn't visible
-        console.log("RENDER CASE level indicator -  NOTHING");
-        console.log(
-          "RENDER CASE level indicator -  NOTHING",
-          isLevelIndicatorVisible
-        );
-        console.log("RENDER CASE level indicator -  NOTHING", !isImageVisible);
-        console.log(
-          "RENDER CASE level indicator -  NOTHING",
-          !isReorderingVisible
-        );
-        console.log("RENDER CASE level indicator -  NOTHING", !challenge);
         return null;
     }
   };
@@ -299,10 +302,11 @@ export default () => {
     <div className="operation-span">
       {renderContent(
         isReorderingVisible,
-        level,
         isImageVisible,
+        isDistractionQuestionVisible,
         isLevelIndicatorVisible,
-        images,
+        level,
+        providedOrder,
         challenge
       )}
     </div>

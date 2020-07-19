@@ -61,7 +61,7 @@ const NewLevelIndicator = ({ isSuccessful, level }) => {
       : `${level} ${strings.image}`;
   };
 
-  return <div>jjjjjjjjjjjjjjjjjjjjjjjjjj</div>
+  // return <div>jjjjjjjjjjjjjjjjjjjjjjjjjj</div>
 
   return (
     <div className="new-level">

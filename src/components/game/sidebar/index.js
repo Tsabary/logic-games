@@ -45,7 +45,7 @@ const Sidebar = () => {
           <div className="sidebar sidebar--f-3">
             {renderSections([
               <Lives />,
-              <ActionTimer timePerAction={5} />,
+              <ActionTimer/>,
               <Score />,
               <Sound />,
             ])}

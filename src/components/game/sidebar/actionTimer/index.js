@@ -4,15 +4,21 @@ import React, { useEffect, useRef, useContext } from "react";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 
-const ActionTimer = ({ timePerAction }) => {
+const ActionTimer = () => {
   const {
     isPlaying,
+    isDone,
+    timePerAction,
     actionTimeLeft,
     setActionTimeLeft,
     actionStartTime,
-    // setActionStartTime,
     isActionTimerRunning,
+    setIsActionTimerRunning,
   } = useContext(GameInfoContext);
+
+  useEffect(() => {
+    if (isDone) setIsActionTimerRunning(false);
+  }, [isDone]);
 
   useEffect(() => {
     // When we just load this component, we set the time to how much time we want it to have. This is a dynamic value because we might want different values for different games
@@ -22,8 +28,12 @@ const ActionTimer = ({ timePerAction }) => {
   let interval = useRef(null);
 
   useEffect(() => {
+    console.log("Should start counting from timer");
+    console.log("Should start counting from timer", !isActionTimerRunning);
+
     // We only set the interval when the game has initiated
     if (!isPlaying || !isActionTimerRunning) return;
+    console.log("Should start counting from timer 222");
 
     // We change how much time is left every 100 milliseconds so the progress bar would resize smoothly
     // We use timesamps to set the time rather than just relying on the interval doing its job, to prevent the timer from stopping when the tab is out of focus
@@ -48,13 +58,14 @@ const ActionTimer = ({ timePerAction }) => {
         className="sidebar__label"
         style={{
           marginTop: "-.5rem",
-          visibility: isActionTimerRunning ? "visible" : "hidden",
-          color: actionTimeLeft < 2 ? "red" : "white",
+          color: actionTimeLeft < 2 && isActionTimerRunning ? "red" : "white",
         }}
       >
-        {/* { Math.ceil(actionTimeLeft)} */}
-
-        {actionTimeLeft > -1 ? Math.ceil(actionTimeLeft) : 0}
+        {!isActionTimerRunning
+          ? "-"
+          : actionTimeLeft > -1
+          ? Math.ceil(actionTimeLeft)
+          : 0}
       </div>
     </div>
   );

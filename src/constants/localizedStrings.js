@@ -54,7 +54,7 @@ let strings = new LocalizedStrings({
     osInstructionsLineOne:
       "Each round you will be presented with a number of math equations, to decide if they are true or false.",
     osInstructionsLineTwo:
-      "Before each math equation, you will be shown an image, which you have o remember.",
+      "Before each math equation, you will be shown an image, which you have to remember.",
     osInstructionsLineThree:
       "At the end of each round, you have to select the images you saw, in the order they were presented to you.",
 

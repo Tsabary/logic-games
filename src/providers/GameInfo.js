@@ -11,7 +11,7 @@ export const GameInfoProvider = ({ children }) => {
   const [challenge, setChallenge] = useState(3);
 
   // Controls the sound
-  const [isSoundOn, setIsSoundOn] = useState(true);
+  const [isSoundOn, setIsSoundOn] = useState(false);
 
   // Controls the visibility of the instructions screen
   const [isInstructionsVisible, setIsInstructionsVisible] = useState(true);
@@ -30,6 +30,7 @@ export const GameInfoProvider = ({ children }) => {
   const [timeLeft, setTimeLeft] = useState(gameLength);
 
   const [isActionTimerRunning, setIsActionTimerRunning] = useState(false);
+  const [timePerAction, setTimePerAction] = useState(0);
   const [actionStartTime, setActionStartTime] = useState(0);
   const [actionTimeLeft, setActionTimeLeft] = useState(0);
 
@@ -62,6 +63,8 @@ export const GameInfoProvider = ({ children }) => {
         setTimeLeft,
         isActionTimerRunning,
         setIsActionTimerRunning,
+        timePerAction,
+        setTimePerAction,
         actionStartTime,
         setActionStartTime,
         actionTimeLeft,
@@ -69,8 +72,6 @@ export const GameInfoProvider = ({ children }) => {
         livesLeft,
         setLivesLeft,
         gameLength,
-        // isIndicatorShowing,
-        // setIsIndicatorShowing,
         fouls,
         setFouls,
         fails,
