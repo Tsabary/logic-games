@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/logic-games/static/css/main.422a8fc6.chunk.css",
-    "main.js": "/logic-games/static/js/main.1c0767d9.chunk.js",
-    "main.js.map": "/logic-games/static/js/main.1c0767d9.chunk.js.map",
+    "main.js": "/logic-games/static/js/main.7536ab4d.chunk.js",
+    "main.js.map": "/logic-games/static/js/main.7536ab4d.chunk.js.map",
     "runtime-main.js": "/logic-games/static/js/runtime-main.a98f3e0b.js",
     "runtime-main.js.map": "/logic-games/static/js/runtime-main.a98f3e0b.js.map",
-    "static/js/2.c20b1afe.chunk.js": "/logic-games/static/js/2.c20b1afe.chunk.js",
-    "static/js/2.c20b1afe.chunk.js.map": "/logic-games/static/js/2.c20b1afe.chunk.js.map",
+    "static/js/2.48b787fb.chunk.js": "/logic-games/static/js/2.48b787fb.chunk.js",
+    "static/js/2.48b787fb.chunk.js.map": "/logic-games/static/js/2.48b787fb.chunk.js.map",
     "index.html": "/logic-games/index.html",
-    "precache-manifest.63f1a03ed4ce023dcc83397d4e0491ae.js": "/logic-games/precache-manifest.63f1a03ed4ce023dcc83397d4e0491ae.js",
+    "precache-manifest.0b83ecb0635eaa210a7fabc8e5cf3564.js": "/logic-games/precache-manifest.0b83ecb0635eaa210a7fabc8e5cf3564.js",
     "service-worker.js": "/logic-games/service-worker.js",
     "static/css/main.422a8fc6.chunk.css.map": "/logic-games/static/css/main.422a8fc6.chunk.css.map",
-    "static/js/2.c20b1afe.chunk.js.LICENSE.txt": "/logic-games/static/js/2.c20b1afe.chunk.js.LICENSE.txt",
+    "static/js/2.48b787fb.chunk.js.LICENSE.txt": "/logic-games/static/js/2.48b787fb.chunk.js.LICENSE.txt",
     "static/media/agree.mp3": "/logic-games/static/media/agree.b006268b.mp3",
     "static/media/castle.5ca76dd7.svg": "/logic-games/static/media/castle.5ca76dd7.svg",
     "static/media/check.c0e4ffa8.svg": "/logic-games/static/media/check.c0e4ffa8.svg",
@@ -41,13 +41,16 @@
     "static/media/hier8.076dc4e4.svg": "/logic-games/static/media/hier8.076dc4e4.svg",
     "static/media/hier9.b45de614.svg": "/logic-games/static/media/hier9.b45de614.svg",
     "static/media/horse.5abcc96e.svg": "/logic-games/static/media/horse.5abcc96e.svg",
+    "static/media/play.4dadcc53.svg": "/logic-games/static/media/play.4dadcc53.svg",
+    "static/media/speaker_active.27a8fde1.svg": "/logic-games/static/media/speaker_active.27a8fde1.svg",
+    "static/media/speaker_unactive.80dd0913.svg": "/logic-games/static/media/speaker_unactive.80dd0913.svg",
     "static/media/wrong.wav": "/logic-games/static/media/wrong.990a625c.wav",
     "static/media/x.62eefd11.svg": "/logic-games/static/media/x.62eefd11.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.a98f3e0b.js",
-    "static/js/2.c20b1afe.chunk.js",
+    "static/js/2.48b787fb.chunk.js",
     "static/css/main.422a8fc6.chunk.css",
-    "static/js/main.1c0767d9.chunk.js"
+    "static/js/main.7536ab4d.chunk.js"
   ]
 }
