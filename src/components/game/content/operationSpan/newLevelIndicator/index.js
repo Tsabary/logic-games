@@ -1,7 +1,7 @@
 import "./styles.scss";
 import React, { useEffect, useState, useContext } from "react";
-import { ReactComponent as X } from "../../../../assets/x.svg";
-import { ReactComponent as Check } from "../../../../assets/check.svg";
+import { ReactComponent as X } from "../../../../assets/general/x.svg";
+import { ReactComponent as Check } from "../../../../assets/general/check.svg";
 import strings from "../../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../../providers/GameInfo";
 

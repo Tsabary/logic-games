@@ -1,8 +1,14 @@
 import "./styles.scss";
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
+
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 import strings from "../../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../../providers/GameInfo";
 import { playWrong } from "../../../../../sounds/playFunctions";
+
+import Image from "./image";
+import InnerList from "./innerList";
 
 const Reorder = ({
   assets,
@@ -20,6 +26,21 @@ const Reorder = ({
     actionTimeLeft,
     setActionTimeLeft,
   } = useContext(GameInfoContext);
+
+  const [allImages, setAllImages] = useState([...assets]);
+
+  const [firstRow, setFirstRow] = useState([]);
+  const [secondRow, setSecondRow] = useState([]);
+
+  useEffect(() => {
+    setFirstRow([...userOrder.slice(0, 7)]);
+
+    if (userOrder.length > 7) {
+      setSecondRow([...userOrder.slice(7, 14)]);
+    } else {
+      setSecondRow([]);
+    }
+  }, [userOrder]);
 
   useEffect(() => {
     setTimePerAction(15);
@@ -46,8 +67,6 @@ const Reorder = ({
 
   // When we want to start counting we set these values. These all affect what happens in the action timer in the sidebar
   const startCounting = () => {
-    console.log("Should start counting from reorder");
-
     // We set a new start time to check how long it takes the user to answer
     setActionStartTime(Date.now());
 
@@ -67,68 +86,184 @@ const Reorder = ({
     setIsActionTimerRunning(false);
   };
 
-  const handleClick = (i) => {
-    // If he user has ordered as many items as the level thy've just completed then they shouldn't be allowd to add any more choices
-    if (userOrder.length === level && !userOrder.includes(i)) return;
-
-    if (userOrder.includes(i)) {
-      // If the user has already marked this image, we need to remove it from the order
-      setUserOrder((uo) => uo.filter((index) => index !== i));
-    } else {
-      // Add this image to the order
-      setUserOrder((uo) => [...uo, i]);
-    }
-  };
-
   const compareOrders = () => {
     const reorderingIsSuccessful =
-      userOrder.join("-") === providedOrder.map((img) => img.index).join("-");
+      userOrder.map((img) => img.id).join("-") ===
+      providedOrder.map((img) => img.id).join("-");
 
     handleSubmit(reorderingIsSuccessful);
     setUserOrder([]);
   };
 
-  const renderImages = (imgs, userOrder) => {
-    return imgs.map((img) => {
+  const renderImages = (allImages) => {
+    return allImages.map((img) => {
       return (
-        <div
-          className="reorder__image"
-          key={img.index}
-          onClick={() => {
-            handleClick(img.index);
-          }}
-        >
-          {userOrder.includes(img.index) ? (
-            <div className="reorder__image-position">
-              {userOrder.indexOf(img.index) + 1}
-            </div>
-          ) : null}
-          {img.icon}
-        </div>
+        <Image
+          image={img}
+          handleClick={() => handleImageClick(img)}
+          isFull={userOrder.length === level}
+          key={img.id}
+        />
       );
     });
   };
 
+  const handleImageClick = (img) => {
+    setAllImages((all) => all.filter((i) => i.id !== img.id));
+    setUserOrder((uo) => [...uo, img]);
+  };
+
+  const renderOrderedImages = (imageArray) => {
+    return (
+      <InnerList images={imageArray} handleClick={handleOrderedImageClick} />
+    );
+  };
+
+  const handleOrderedImageClick = (img) => {
+    setUserOrder((all) => all.filter((i) => i.id !== img.id));
+    setAllImages((uo) => [...uo, img]);
+  };
+
+  // This method handles what happens when a dragging of an product is over.
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+
+    // If there was no final desination nothing happened - return
+    if (!destination) {
+      return;
+    }
+
+    // if the product started and finished in the same column and same index nothing happened - return
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    let newFirstRow = [...firstRow];
+    let newSecondRow = [...secondRow];
+
+    // If we moved items from within the same row, then this is where we handle them
+    if (source.droppableId === destination.droppableId) {
+      if (source.droppableId === "ordered-assets-1") {
+        newFirstRow.splice(source.index, 1);
+
+        newFirstRow.splice(
+          destination.index,
+          0,
+          assets.filter((img) => img.id === draggableId)[0]
+        );
+        setUserOrder([...newFirstRow, ...newSecondRow]);
+      } else {
+        newSecondRow.splice(source.index, 1);
+
+        newSecondRow.splice(
+          destination.index,
+          0,
+          assets.filter((img) => img.id === draggableId)[0]
+        );
+        setUserOrder([...newFirstRow, ...newSecondRow]);
+      }
+    }
+
+    // Otherwise, if the items moved between different rows, we handle them here
+    else {
+      // If we moved an item from row 1 to row 2
+      if (source.droppableId === "ordered-assets-1") {
+        newFirstRow.splice(source.index, 1);
+        newFirstRow.push(newSecondRow[0]);
+
+        newSecondRow.splice(
+          destination.index,
+          0,
+          assets.filter((img) => img.id === draggableId)[0]
+        );
+
+        newSecondRow.splice(0, 1);
+
+        setUserOrder([...newFirstRow, ...newSecondRow]);
+      }
+      // Otherwise if we moved an item from row 2 to row 1
+      else {
+        newSecondRow.splice(source.index, 1);
+        newSecondRow = [newFirstRow[newFirstRow.length - 1], ...newSecondRow];
+
+        newFirstRow.splice(
+          destination.index,
+          0,
+          assets.filter((img) => img.id === draggableId)[0]
+        );
+        newFirstRow.pop();
+
+        setUserOrder([...newFirstRow, ...newSecondRow]);
+      }
+    }
+  };
+
   return (
     <div className="reorder">
-      <div className="reorder__title">
-        {level > 1
-          ? `${strings.selectThe} ${level} ${strings.images}`
-          : `${strings.selectThe} ${level} ${strings.image}`}
-      </div>
-      <div className="reorder__images">{renderImages(assets, userOrder)}</div>
-      <div
-        className="button button--purple"
-        style={{
-          visibility: userOrder.length === level ? "visible" : "hidden",
-        }}
-        onClick={() => {
-          userOrder.length === level
-            ? compareOrders()
-            : console.log("Premature click");
-        }}
-      >
-        {strings.submit}
+      <div className="reorder__container">
+        <div className="reorder__title">
+          {level > 1
+            ? `${strings.selectThe} ${level} ${strings.images}`
+            : `${strings.selectThe} ${level} ${strings.image}`}
+        </div>
+        <div className="reorder__images reorder__images--all">
+          {renderImages(allImages)}
+        </div>
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId="ordered-assets-1"
+            type="ordered-assets"
+            direction="horizontal"
+          >
+            {(provided) => (
+              <div
+                className="reorder__images reorder__images--ordered"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {renderOrderedImages(firstRow)}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          {secondRow.length ? (
+            <Droppable
+              droppableId="ordered-assets-2"
+              type="ordered-assets"
+              direction="horizontal"
+            >
+              {(provided) => (
+                <div
+                  className="reorder__images reorder__images--ordered"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {renderOrderedImages(secondRow)}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          ) : null}
+        </DragDropContext>
+
+        <div
+          className="button button--purple"
+          style={{
+            opacity: userOrder.length === level ? "1" : "0",
+            transition: "all .2s",
+          }}
+          onClick={() => {
+            userOrder.length === level
+              ? compareOrders()
+              : console.log("Premature click");
+          }}
+        >
+          {strings.submit}
+        </div>
       </div>
     </div>
   );

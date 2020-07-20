@@ -2,11 +2,13 @@ import "./styles.scss";
 import React, { useContext, useEffect, useState } from "react";
 import { GameInfoContext } from "../../../../../providers/GameInfo";
 import strings from "../../../../../constants/localizedStrings";
-import { ReactComponent as X } from "../../../../assets/x.svg";
-import { ReactComponent as Check } from "../../../../assets/check.svg";
+import { ReactComponent as X } from "../../../../assets/general/x.svg";
+import { ReactComponent as Check } from "../../../../assets/general/check.svg";
 import { playCorrect, playWrong } from "../../../../../sounds/playFunctions";
 
-const DistractionChallenge = ({ challenge, handleAnswer }) => {
+import equations from "../utils/equations";
+
+const DistractionChallenge = ({ handleAnswer }) => {
   const {
     setIsActionTimerRunning,
     timePerAction,
@@ -19,6 +21,14 @@ const DistractionChallenge = ({ challenge, handleAnswer }) => {
 
   const [answer, setAnswer] = useState(0);
   const [isIndicatorShowing, setIsIndicatorShowing] = useState(false);
+
+  useEffect(() => {
+    // We set a new distraction question
+    setChallenge(equations[Math.floor(Math.random() * equations.length)]);
+  }, []);
+
+  // This holds our challenge/distraction Q
+  const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
     setTimePerAction(5);
@@ -101,7 +111,7 @@ const DistractionChallenge = ({ challenge, handleAnswer }) => {
     );
   };
 
-  return (
+  return challenge ? (
     <div className="distraction">
       <div className="distraction__challenge">{challenge.problem}</div>
 
@@ -133,7 +143,7 @@ const DistractionChallenge = ({ challenge, handleAnswer }) => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default DistractionChallenge;
