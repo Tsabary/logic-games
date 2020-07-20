@@ -25,6 +25,7 @@ const Reorder = ({
     setActionStartTime,
     actionTimeLeft,
     setActionTimeLeft,
+    isSoundOn,
   } = useContext(GameInfoContext);
 
   const [allImages, setAllImages] = useState([...assets]);
@@ -59,9 +60,12 @@ const Reorder = ({
 
   useEffect(() => {
     if (actionTimeLeft < 0) {
-      handleSubmit(false);
-      setUserOrder([]);
-      playWrong.play();
+      if (userOrder.length === level) {
+        compareOrders();
+      } else {
+        handleSubmit(false);
+        if (isSoundOn) playWrong.play();
+      }
     }
   }, [actionTimeLeft]);
 
