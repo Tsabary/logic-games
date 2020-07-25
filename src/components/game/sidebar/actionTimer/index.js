@@ -28,12 +28,8 @@ const ActionTimer = () => {
   let interval = useRef(null);
 
   useEffect(() => {
-    console.log("Should start counting from timer");
-    console.log("Should start counting from timer", !isActionTimerRunning);
-
     // We only set the interval when the game has initiated
     if (!isPlaying || !isActionTimerRunning) return;
-    console.log("Should start counting from timer 222");
 
     // We change how much time is left every 100 milliseconds so the progress bar would resize smoothly
     // We use timesamps to set the time rather than just relying on the interval doing its job, to prevent the timer from stopping when the tab is out of focus

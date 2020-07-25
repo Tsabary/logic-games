@@ -5,6 +5,7 @@ import DoubleTroubleInstructions from "./doubleTrouble";
 import GrammaticalReasoningInstructions from "./grammaticalReasoning";
 import CorsiBlockInstructions from "./corsiBlock";
 import OperationSpanInstructions from "./operationSpan";
+import TokenSearchInstructions from "./tokenSearch";
 
 const Instructions = () => {
   const { isInstructionsVisible, challenge } = useContext(GameInfoContext);
@@ -23,6 +24,9 @@ const Instructions = () => {
       case 3:
         return <OperationSpanInstructions />;
 
+      case 4:
+        return <TokenSearchInstructions />;
+
       default:
         return null;
     }
@@ -36,6 +40,7 @@ const Instructions = () => {
         checked={isInstructionsVisible}
         readOnly
       />
+
       <div className="instructions__container">
         {renderChallengeInstructions(challenge)}
       </div>

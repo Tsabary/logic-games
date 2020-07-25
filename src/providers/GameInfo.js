@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 export const GameInfoContext = React.createContext();
 
@@ -8,7 +8,9 @@ export const GameInfoProvider = ({ children }) => {
   // 1 - Grammatical Reasoning
   // 2 - Corsi Block
   // 3 - Operation Span
-  const [challenge, setChallenge] = useState(3);
+  // 4 - Token Search
+
+  const [challenge, setChallenge] = useState(4);
 
   // Controls the sound
   const [isSoundOn, setIsSoundOn] = useState(false);

@@ -1,7 +1,7 @@
 import "./styles.scss";
 import React from "react";
-import { ReactSVG } from "react-svg";
 import strings from "../../../../../constants/localizedStrings";
+import { ReactComponent as Play } from "../../../../assets/general/play.svg";
 
 const PlayButton = ({ setLaunch }) => {
   return (
@@ -10,13 +10,7 @@ const PlayButton = ({ setLaunch }) => {
         className="play-button__button-container"
         onClick={() => setLaunch(true)}
       >
-        <ReactSVG
-          src={"../assets/play.svg"}
-          wrapper="div"
-          beforeInjection={(svg) => {
-            svg.classList.add("play-button__button-svg");
-          }}
-        />
+        <Play className="play-button__button-svg" />
       </div>
       <div className="play-button__text">{strings.StartGame}</div>
     </div>

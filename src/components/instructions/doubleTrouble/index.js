@@ -2,8 +2,9 @@ import "./styles.scss";
 import React, { useContext } from "react";
 
 import strings from "../../../constants/localizedStrings";
-import { ReactSVG } from "react-svg";
 import { GameInfoContext } from "../../../providers/GameInfo";
+import { ReactComponent as X } from "../../assets/general/x.svg";
+import { ReactComponent as Check } from "../../assets/general/check.svg";
 
 const DoubleTroubleInstructions = () => {
   const { setIsInstructionsVisible } = useContext(GameInfoContext);
@@ -35,13 +36,7 @@ const DoubleTroubleInstructions = () => {
 
             <div className="choice__hint-container choice__hint-container--left">
               <div className="choice__hint">
-                <ReactSVG
-                  src={"../assets/x.svg"}
-                  wrapper="div"
-                  beforeInjection={(svg) => {
-                    svg.classList.add("choice__hint-icon--wrong");
-                  }}
-                />
+                <X className="choice__hint-icon--wrong" />
               </div>
             </div>
           </div>
@@ -57,13 +52,7 @@ const DoubleTroubleInstructions = () => {
             </div>
             <div className="choice__hint-container choice__hint-container--right">
               <div className="choice__hint choice__hint--correct">
-                <ReactSVG
-                  src={"../assets/check.svg"}
-                  wrapper="div"
-                  beforeInjection={(svg) => {
-                    svg.classList.add("choice__hint-icon--correct");
-                  }}
-                />
+                <Check className="choice__hint-icon--correct" />
               </div>
             </div>
           </div>

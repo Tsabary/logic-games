@@ -5,7 +5,8 @@ import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
 import { returnZeroOrOne } from "../utils";
 import { playCorrect, playWrong } from "../../../../sounds/playFunctions";
-import { ReactSVG } from "react-svg";
+import { ReactComponent as Check } from "../../../assets/general/check.svg";
+import { ReactComponent as X } from "../../../assets/general/x.svg";
 
 // We use 0 and 1 accross the challnege to define red & blue, both as text and as color. When he user makes a choice, we compare the value of the text that they picked, with the color of the test we've presented them with
 
@@ -167,17 +168,11 @@ const GrammaticalReasoning = () => {
                       : "choice__hint choice__hint--wrong"
                   }
                 >
-                  <ReactSVG
-                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
-                    wrapper="div"
-                    beforeInjection={(svg) => {
-                      svg.classList.add(
-                        isCorrect
-                          ? "choice__hint-icon--correct"
-                          : "choice__hint-icon--wrong"
-                      );
-                    }}
-                  />
+                  {isCorrect ? (
+                    <Check className="choice__hint-icon--correct" />
+                  ) : (
+                    <X className="choice__hint-icon--wrong" />
+                  )}
                 </div>
               </div>
             ) : null}
@@ -196,17 +191,11 @@ const GrammaticalReasoning = () => {
                       : "choice__hint choice__hint--wrong"
                   }
                 >
-                  <ReactSVG
-                    src={isCorrect ? "../assets/check.svg" : "../assets/x.svg"}
-                    wrapper="div"
-                    beforeInjection={(svg) => {
-                      svg.classList.add(
-                        isCorrect
-                          ? "choice__hint-icon--correct"
-                          : "choice__hint-icon--wrong"
-                      );
-                    }}
-                  />
+                  {isCorrect ? (
+                    <Check className="choice__hint-icon--correct" />
+                  ) : (
+                    <X className="choice__hint-icon--wrong" />
+                  )}
                 </div>
               </div>
             ) : null}

@@ -23,7 +23,7 @@ const Sidebar = () => {
   };
 
   const renderSidebar = (chlng) => {
-    console.log("renderinf side bar")
+    console.log("renderinf side bar");
     switch (chlng) {
       case 0: // Double Trouble
       case 1: // Logical Reasoning
@@ -43,12 +43,14 @@ const Sidebar = () => {
       case 3: // Operation Span
         return (
           <div className="sidebar sidebar--f-3">
-            {renderSections([
-              <Lives />,
-              <ActionTimer/>,
-              <Score />,
-              <Sound />,
-            ])}
+            {renderSections([<Lives />, <ActionTimer />, <Score />, <Sound />])}
+          </div>
+        );
+
+      case 4: // Token Search
+        return (
+          <div className="sidebar sidebar--f-3">
+            {renderSections([<Lives />, <ActionTimer />, <Score />, <Sound />])}
           </div>
         );
 

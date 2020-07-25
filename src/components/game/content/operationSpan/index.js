@@ -128,7 +128,7 @@ export default () => {
 
     setTimeout(() => {
       nextSet();
-    }, [3000]); // should be 3000
+    }, [3000]);
   };
 
   // The test is comprised of sets of a visual asset (images), and a distraction question. This function initializes new values for both

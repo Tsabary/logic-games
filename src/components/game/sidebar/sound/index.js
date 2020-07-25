@@ -1,7 +1,9 @@
 import "./styles.scss";
 import React, { useContext } from "react";
-import { ReactSVG } from "react-svg";
 import { GameInfoContext } from "../../../../providers/GameInfo";
+
+import {ReactComponent as SoundOn} from '../../../assets/general/speaker_active.svg'
+import {ReactComponent as SoundOff} from '../../../assets/general/speaker_unactive.svg'
 
 const Sound = () => {
   const { isSoundOn, setIsSoundOn } = useContext(GameInfoContext);
@@ -14,23 +16,12 @@ const Sound = () => {
         checked={isSoundOn}
         readOnly
       />
-      <div className="sound__button-container sound__button-container--active" onClick={()=> setIsSoundOn(false)}>
-        <ReactSVG
-          src={"../assets/speaker_active.svg"}
-          wrapper="div"
-          beforeInjection={(svg) => {
-            svg.classList.add("sound__button--active");
-          }}
-        />
+      <div className="sound__button-container sound__button-container--active" onClick={() => setIsSoundOn(false)}>
+      <SoundOn className="sound__button--active"/>
       </div>
-      <div className="sound__button-container sound__button-container--unactive" onClick={()=> setIsSoundOn(true)}>
-        <ReactSVG
-          src={"../assets/speaker_unactive.svg"}
-          wrapper="div"
-          beforeInjection={(svg) => {
-            svg.classList.add("sound__button--unactive");
-          }}
-        />
+      <div className="sound__button-container sound__button-container--unactive" onClick={() => setIsSoundOn(true)}>
+      <SoundOff className="sound__button--unactive"/>
+
       </div>
     </div>
   );

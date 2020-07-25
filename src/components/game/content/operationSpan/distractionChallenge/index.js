@@ -7,6 +7,7 @@ import { ReactComponent as Check } from "../../../../assets/general/check.svg";
 import { playCorrect, playWrong } from "../../../../../sounds/playFunctions";
 
 import equations from "../utils/equations";
+import { startCounting, stopCounting } from "../../utils";
 
 const DistractionChallenge = ({ handleAnswer }) => {
   const {
@@ -31,18 +32,21 @@ const DistractionChallenge = ({ handleAnswer }) => {
   const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
-    setTimePerAction(5);
-    setActionTimeLeft(5);
+    setTimePerAction(10);
+    setActionTimeLeft(10);
   }, []);
 
   // This should only execute once on load and once on unload. When we
   useEffect(() => {
     if (!timePerAction) return;
 
-    startCounting();
+    startCounting(setActionStartTime, setIsActionTimerRunning);
     return () => {
-      // setAnswer(0);
-      stopCounting();
+      stopCounting(
+        setActionStartTime,
+        setTimePerAction,
+        setIsActionTimerRunning
+      );
     };
   }, [timePerAction]);
 
@@ -54,29 +58,6 @@ const DistractionChallenge = ({ handleAnswer }) => {
       if (isSoundOn) playWrong.play();
     }
   }, [actionTimeLeft]);
-
-  // When we want to start counting we set these values. These all affect what happens in the action timer in the sidebar
-  const startCounting = () => {
-    // console.log("Should start counting");
-
-    // We set a new start time to check how long it takes the user to answer
-    setActionStartTime(Date.now());
-
-    // We set actionTimerRunning to true so it'll run the count interval inside the time counter.
-    setIsActionTimerRunning(true);
-  };
-
-  // When we want to stop counting we set these values. These all affect what happens in the action timer in the sidebar
-  const stopCounting = () => {
-    // We reset the start time to default, as this will be reset to the current date when this component is rendered again (and we'll that info)
-    setActionStartTime(0);
-
-    // We reset the time per action to 0 so when we reload this component or other components that use the timer, they wont start counting until they set the time per action
-    setTimePerAction(0);
-
-    // We set actionTimerRunning to false so it won't run the count interval inside the time counter.
-    setIsActionTimerRunning(false);
-  };
 
   // This is where we check the answer for the distraction questions. True or false, we immediatly stop the count, and then we call the handleAnswer method we got from the parent component, so it'll handle this fail on it's side.
   const checkAnswer = (answer) => {

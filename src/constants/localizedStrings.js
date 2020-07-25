@@ -16,6 +16,9 @@ let strings = new LocalizedStrings({
     image: "image",
     images: "images",
 
+    box: "box",
+    boxes: "boxes",
+
     // INSTRUCTIONS //
     instructionsTitle: "Instructions",
     statement: "statement",
@@ -57,6 +60,36 @@ let strings = new LocalizedStrings({
       "Before each math equation, you will be shown an image, which you have to remember.",
     osInstructionsLineThree:
       "At the end of each round, you have to select the images you saw, in the order they were presented to you.",
+
+    // Token Search instructions
+    tsInstructionsLineOne:
+      "Find a token hidden inside the boxes, by clicking on them.",
+    tsInstructionsLineTwo:
+      "You are allowed to click on each box only once, before you find a token.",
+    tsInstructionsLineThree:
+      "Once you find a token, search for a new one inside other boxes.",
+    tsInstructionsLineFour:
+      "DON'T click on a box where you already found a token",
+    tsInstructionsLineFive:
+      "The round ends when you find tokens inside all of the boxes.",
+
+    // Token Search indicators explain
+
+    tsIndicatorExplainTitleOne: "box",
+    tsIndicatorExplainDetailsOne:
+      "(only click on it once, before finding a token)",
+    tsIndicatorExplainTitleTwo: "empty box",
+    tsIndicatorExplainDetailsTwo:
+      "(don't click on it again, before finding a token)",
+    tsIndicatorExplainTitleThree: "you've opened the same box",
+    tsIndicatorExplainDetailsThree:
+      "(dont click on the same box twice, before finding a token)",
+    tsIndicatorExplainTitleFour: "you found a token!",
+    tsIndicatorExplainDetailsFour:
+      "(now search for the token inside the other boxes. don't click on this box again.)",
+    tsIndicatorExplainTitleFive: "you re-opened a box with a token",
+    tsIndicatorExplainDetailsFive:
+      "(don't click on the box where you already found a token)",
 
     imageInfo: "An image will be shown before each math equation. Remember it.",
 

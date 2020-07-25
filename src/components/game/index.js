@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Sidebar from "./sidebar";
 import Content from "./content";
 import { GameInfoContext } from "../../providers/GameInfo";

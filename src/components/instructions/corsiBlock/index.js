@@ -17,17 +17,6 @@ const GrammaticalReasoningInstructions = () => {
       </h2>
 
       <div className="cb-inst__samples-container">
-        {/* <div className="cb-inst__samples-block cb-inst__samples-block--running" />
-        <div className="cb-inst__samples-text">
-          <div className="cb-inst__samples-title">{strings.cbStateOneTitle}</div>
-          <div className="cb-inst__samples-order">{strings.cbStateOneOrder}</div>
-        </div>
-
-        <div className="cb-inst__samples-block cb-inst__samples-block--highlighted" />
-        <div className="cb-inst__samples-text">
-          <div className="cb-inst__samples-title">{strings.cbStateTwoTitle}</div>
-          <div className="cb-inst__samples-order">{strings.cbStateTwoOrder}</div>
-        </div> */}
 
         <div className="cb-inst__samples-block cb-inst__samples-block--running" />
         <div className="cb-inst__samples-text">
@@ -38,6 +27,8 @@ const GrammaticalReasoningInstructions = () => {
             {strings.cbStateOneOrder}
           </div>
         </div>
+
+        
         <div className="cb-inst__samples-block cb-inst__samples-block--done" />
         <div className="cb-inst__samples-text">
           <div className="cb-inst__samples-title">

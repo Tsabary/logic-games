@@ -1,10 +1,9 @@
 import "./styles.scss";
 import React, { useEffect } from "react";
 
-import { ReactSVG } from "react-svg";
-
 import { playCorrect } from "../../../../../sounds/playFunctions";
 import strings from "../../../../../constants/localizedStrings";
+import { ReactComponent as Check } from "../../../../assets/general/check.svg";
 
 const CorrectIndicator = () => {
   useEffect(() => {
@@ -14,13 +13,7 @@ const CorrectIndicator = () => {
   return (
     <div className="correct-indicator">
       <div className="correct-indicator__check-container">
-        <ReactSVG
-          src="../assets/check.svg"
-          wrapper="div"
-          beforeInjection={(svg) => {
-            svg.classList.add("correct-indicator__check");
-          }}
-        />
+        <Check className="correct-indicator__check" />
       </div>
       <div className="correct-indicator__text">{strings.roundComplete}</div>
     </div>
