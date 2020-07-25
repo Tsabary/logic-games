@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/logic-games/static/css/main.422a8fc6.chunk.css",
-    "main.js": "/logic-games/static/js/main.ea025efb.chunk.js",
-    "main.js.map": "/logic-games/static/js/main.ea025efb.chunk.js.map",
+    "main.css": "/logic-games/static/css/main.da23435b.chunk.css",
+    "main.js": "/logic-games/static/js/main.8607f7e5.chunk.js",
+    "main.js.map": "/logic-games/static/js/main.8607f7e5.chunk.js.map",
     "runtime-main.js": "/logic-games/static/js/runtime-main.a98f3e0b.js",
     "runtime-main.js.map": "/logic-games/static/js/runtime-main.a98f3e0b.js.map",
-    "static/js/2.48b787fb.chunk.js": "/logic-games/static/js/2.48b787fb.chunk.js",
-    "static/js/2.48b787fb.chunk.js.map": "/logic-games/static/js/2.48b787fb.chunk.js.map",
+    "static/js/2.705c3078.chunk.js": "/logic-games/static/js/2.705c3078.chunk.js",
+    "static/js/2.705c3078.chunk.js.map": "/logic-games/static/js/2.705c3078.chunk.js.map",
     "index.html": "/logic-games/index.html",
-    "precache-manifest.a728a915ea563fbb48a1a33b3d5078d3.js": "/logic-games/precache-manifest.a728a915ea563fbb48a1a33b3d5078d3.js",
+    "precache-manifest.7c47efddbf73ca20aa14e52ef2040c3d.js": "/logic-games/precache-manifest.7c47efddbf73ca20aa14e52ef2040c3d.js",
     "service-worker.js": "/logic-games/service-worker.js",
-    "static/css/main.422a8fc6.chunk.css.map": "/logic-games/static/css/main.422a8fc6.chunk.css.map",
-    "static/js/2.48b787fb.chunk.js.LICENSE.txt": "/logic-games/static/js/2.48b787fb.chunk.js.LICENSE.txt",
+    "static/css/main.da23435b.chunk.css.map": "/logic-games/static/css/main.da23435b.chunk.css.map",
+    "static/js/2.705c3078.chunk.js.LICENSE.txt": "/logic-games/static/js/2.705c3078.chunk.js.LICENSE.txt",
     "static/media/agree.mp3": "/logic-games/static/media/agree.b006268b.mp3",
     "static/media/castle.5ca76dd7.svg": "/logic-games/static/media/castle.5ca76dd7.svg",
     "static/media/check.c0e4ffa8.svg": "/logic-games/static/media/check.c0e4ffa8.svg",
@@ -49,8 +49,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.a98f3e0b.js",
-    "static/js/2.48b787fb.chunk.js",
-    "static/css/main.422a8fc6.chunk.css",
-    "static/js/main.ea025efb.chunk.js"
+    "static/js/2.705c3078.chunk.js",
+    "static/css/main.da23435b.chunk.css",
+    "static/js/main.8607f7e5.chunk.js"
   ]
 }

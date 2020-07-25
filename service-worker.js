@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/logic-games/precache-manifest.a728a915ea563fbb48a1a33b3d5078d3.js"
+  "/logic-games/precache-manifest.7c47efddbf73ca20aa14e52ef2040c3d.js"
 );
 
 self.addEventListener('message', (event) => {

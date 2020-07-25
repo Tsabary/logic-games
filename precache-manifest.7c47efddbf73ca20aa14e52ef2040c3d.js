@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8e0ad1064a02521474502b8b400373c2",
+    "revision": "268c85a8bf9f34f3bd5f8f1dd664ee16",
     "url": "/logic-games/index.html"
   },
   {
-    "revision": "933313c7ae38828d2dc1",
-    "url": "/logic-games/static/css/main.422a8fc6.chunk.css"
+    "revision": "f919ddba35b56dcf8d4f",
+    "url": "/logic-games/static/css/main.da23435b.chunk.css"
   },
   {
-    "revision": "d6833a04f84ef96c0933",
-    "url": "/logic-games/static/js/2.48b787fb.chunk.js"
+    "revision": "5dad3c9b153d4f807e15",
+    "url": "/logic-games/static/js/2.705c3078.chunk.js"
   },
   {
     "revision": "eaa35b1ccc0320d7ec9314f2e19ded2a",
-    "url": "/logic-games/static/js/2.48b787fb.chunk.js.LICENSE.txt"
+    "url": "/logic-games/static/js/2.705c3078.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "933313c7ae38828d2dc1",
-    "url": "/logic-games/static/js/main.ea025efb.chunk.js"
+    "revision": "f919ddba35b56dcf8d4f",
+    "url": "/logic-games/static/js/main.8607f7e5.chunk.js"
   },
   {
     "revision": "74c8409556bf436a2add",
