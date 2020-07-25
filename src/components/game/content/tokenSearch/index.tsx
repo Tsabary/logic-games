@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
 import Box from "./box";
@@ -47,41 +47,23 @@ export default () => {
   // Should the game be visible now? THis helps us toggle the game and the level indicator
   const [isGameVisible, setIsGameVisible] = useState(false);
 
-  useEffect(() => {
-    resetLevel(initialLevel);
-  }, []);
-
-  useEffect(() => {
-    if (isGameVisible && !isLevelIndicatorVisible) setTPA();
-  }, [isGameVisible, isLevelIndicatorVisible]);
-
-  // This should only execute once on load and once on unload. When we
-  useEffect(() => {
-    if (!timePerAction) return;
-    startCounting();
-
-    return () => {
-      stopCounting();
-    };
-  }, [timePerAction]);
-
-  const setTPA = () => {
+  const setTPA = useCallback(() => {
     const tpa = 3;
     setTimePerAction(tpa);
     setActionTimeLeft(tpa);
-  };
+  }, [setTimePerAction, setActionTimeLeft]);
 
   // When we want to start counting we set these values. These all affect what happens in the action timer in the sidebar
-  const startCounting = () => {
+  const startCounting = useCallback(() => {
     // We set a new start time to check how long it takes the user to answer
     setActionStartTime(Date.now());
 
     // We set actionTimerRunning to true so it'll run the count interval inside the time counter.
     setIsActionTimerRunning(true);
-  };
+  }, [setActionStartTime, setIsActionTimerRunning]);
 
   // When we want to stop counting we set these values. These all affect what happens in the action timer in the sidebar
-  const stopCounting = () => {
+  const stopCounting = useCallback(() => {
     // We reset the start time to default, as this will be reset to the current date when this component is rendered again (and we'll that info)
     setActionStartTime(0);
 
@@ -90,24 +72,7 @@ export default () => {
 
     // We set actionTimerRunning to false so it won't run the count interval inside the time counter.
     setIsActionTimerRunning(false);
-  };
-
-  // If the user took longer than 5 seconds to answer the distraction question, then it qualifies as a fail (wrong answer). We then call the stop counting method and call the handleOvertimr method we got from the parent component, so it'll handle this fail on it's side.
-  useEffect(() => {
-    if (actionTimeLeft < 0) {
-      stopCounting();
-      // dropLevel();
-      // resetLevel(level - 1);
-      if (isSoundOn) playWrong.play();
-    }
-  }, [actionTimeLeft]);
-
-  useEffect(() => {
-    if (discoveredTokens.length === level) {
-      jumpLevel();
-      resetLevel(level + 1);
-    }
-  }, [discoveredTokens, level]);
+  }, [setActionStartTime, setTimePerAction, setIsActionTimerRunning]);
 
   const makeLevelIndicatorVisible = () => {
     setIsLevelIndicatorVisible(true);
@@ -119,7 +84,7 @@ export default () => {
     setIsGameVisible(true);
   };
 
-  const setNewPattern = (level: number) => {
+  const setNewPattern = useCallback((level: number) => {
     // Create an array of all numbers from 0 to 24
     const numbers = Array.from(Array(25).keys()).map((_, index) => index);
 
@@ -136,24 +101,27 @@ export default () => {
 
     // Reset/create a new round
     resetRound(newPattern, []);
-  };
+  }, []);
 
-  const resetLevel = (level: number) => {
-    // Reset the values left from our last level
-    setDiscoveredTokens([]);
-    setTokenPlacement(null);
+  const resetLevel = useCallback(
+    (level: number) => {
+      // Reset the values left from our last level
+      setDiscoveredTokens([]);
+      setTokenPlacement(null);
 
-    // Make the level indicator visible
-    makeLevelIndicatorVisible();
+      // Make the level indicator visible
+      makeLevelIndicatorVisible();
 
-    setTimeout(() => {
-      // Create a new pattern for the level
-      setNewPattern(level);
+      setTimeout(() => {
+        // Create a new pattern for the level
+        setNewPattern(level);
 
-      // Make the game visible
-      makeGameVisible();
-    }, 3000);
-  };
+        // Make the game visible
+        makeGameVisible();
+      }, 3000);
+    },
+    [setNewPattern]
+  );
 
   const resetRound = (pattern: number[], discoveredTokens: number[]) => {
     // Reset the values left from our last round
@@ -171,11 +139,46 @@ export default () => {
     setLivesLeft((lvs: number) => lvs - 1);
   };
 
-  const jumpLevel = () => {
+  const jumpLevel = useCallback(() => {
     setIsLevelSuccessful(1);
     setLevel((lvl) => lvl + 1);
     if (level > score) setScore(level);
-  };
+  }, [setLevel, setScore, level, score]);
+
+  useEffect(() => {
+    if (discoveredTokens.length === level) {
+      jumpLevel();
+      resetLevel(level + 1);
+    }
+  }, [discoveredTokens, level, jumpLevel, resetLevel]);
+
+  useEffect(() => {
+    resetLevel(initialLevel);
+  }, [resetLevel]);
+
+  useEffect(() => {
+    if (isGameVisible && !isLevelIndicatorVisible) setTPA();
+  }, [isGameVisible, isLevelIndicatorVisible, setTPA]);
+
+  // This should only execute once on load and once on unload. When we
+  useEffect(() => {
+    if (!timePerAction) return;
+    startCounting();
+
+    return () => {
+      stopCounting();
+    };
+  }, [timePerAction, startCounting, stopCounting]);
+
+  // If the user took longer than 5 seconds to answer the distraction question, then it qualifies as a fail (wrong answer). We then call the stop counting method and call the handleOvertimr method we got from the parent component, so it'll handle this fail on it's side.
+  useEffect(() => {
+    if (actionTimeLeft < 0) {
+      stopCounting();
+      // dropLevel();
+      // resetLevel(level - 1);
+      if (isSoundOn) playWrong.play();
+    }
+  }, [actionTimeLeft, isSoundOn, stopCounting]);
 
   const renderBoxes = (
     pattern: number[],
@@ -183,8 +186,10 @@ export default () => {
   ): JSX.Element[] | undefined => {
     // We only want to show the boxes if the pattern has been set and the token has been placed
     if (!pattern.length || tokenPlacement == null) {
-      if (!pattern.length) console.log("didnt render content because of pattern.length");
-      if (tokenPlacement == null) console.log("didnt render content because of tokenPlacement == null");
+      if (!pattern.length)
+        console.log("didnt render content because of pattern.length");
+      if (tokenPlacement == null)
+        console.log("didnt render content because of tokenPlacement == null");
       return;
     }
 

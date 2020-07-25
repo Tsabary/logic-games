@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 interface BoxProps {
   boxIndex: number;
@@ -19,39 +19,6 @@ export default (props: BoxProps) => {
   const [className, setClassName] = useState("box box--default");
   const [isClicked, setIsClicked] = useState(false);
   let to: NodeJS.Timeout | null = null;
-
-  useEffect(() => {
-    return () => {
-      clearTo(to);
-    };
-  }, [to]);
-
-  useEffect(() => {
-    if (isClicked) return;
-
-    const classTO = setTimeout(() => {
-      setClassName(
-        getClassName(
-          props.boxIndex,
-          props.roundGuesses,
-          props.discoveredTokens,
-          props.tokenPlacement,
-          props.pattern,
-          props.level
-        )
-      );
-
-      return () => clearTo(classTO);
-    }, 200);
-  }, [
-    isClicked,
-    props.boxIndex,
-    props.pattern,
-    props.roundGuesses,
-    props.tokenPlacement,
-    props.discoveredTokens,
-    props.level,
-  ]);
 
   const setTO = (fn: () => void) => {
     clearTo(to);
@@ -140,35 +107,73 @@ export default (props: BoxProps) => {
     }
   };
 
-  const getClassName = (
-    boxIndex: number,
-    roundGuesses: number[],
-    discoveredTokens: number[],
-    tokenPlacement: number,
-    pattern: number[],
-    level: number
-  ) => {
-    switch (
-      true //The order of cases is very important here
-    ) {
-      case roundGuesses.includes(boxIndex):
-        return "box--reopened";
+  const getClassName = useCallback(
+    (
+      boxIndex: number,
+      roundGuesses: number[],
+      discoveredTokens: number[],
+      tokenPlacement: number,
+      pattern: number[],
+      level: number
+    ) => {
+      switch (
+        true //The order of cases is very important here
+      ) {
+        case roundGuesses.includes(boxIndex):
+          return "box--reopened";
 
-      case discoveredTokens.includes(boxIndex):
-        return "box--reopened-token";
+        case discoveredTokens.includes(boxIndex):
+          return "box--reopened-token";
 
-      case boxIndex === tokenPlacement &&
-        props.discoveredTokens.length + 1 === props.level:
-        return "box--token";
+        case boxIndex === tokenPlacement &&
+          props.discoveredTokens.length + 1 === props.level:
+          return "box--token";
 
-      case boxIndex === tokenPlacement && discoveredTokens.length + 1 !== level:
-        return "box--token";
+        case boxIndex === tokenPlacement &&
+          discoveredTokens.length + 1 !== level:
+          return "box--token";
 
-      case pattern.includes(boxIndex):
-      default:
-        return "box--empty";
-    }
-  };
+        case pattern.includes(boxIndex):
+        default:
+          return "box--empty";
+      }
+    },
+    [props.discoveredTokens.length, props.level]
+  );
+
+  useEffect(() => {
+    return () => {
+      clearTo(to);
+    };
+  }, [to]);
+
+  useEffect(() => {
+    if (isClicked) return;
+
+    const classTO = setTimeout(() => {
+      setClassName(
+        getClassName(
+          props.boxIndex,
+          props.roundGuesses,
+          props.discoveredTokens,
+          props.tokenPlacement,
+          props.pattern,
+          props.level
+        )
+      );
+
+      return () => clearTo(classTO);
+    }, 200);
+  }, [
+    isClicked,
+    props.boxIndex,
+    props.pattern,
+    props.roundGuesses,
+    props.tokenPlacement,
+    props.discoveredTokens,
+    props.level,
+    getClassName,
+  ]);
 
   return (
     <div className="box__container">
