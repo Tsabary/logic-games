@@ -23,7 +23,7 @@ export default () => {
   } = useContext(GameInfoContext);
 
   // This is our current level. This determines how many sets of image & distraction Q the user gets to see.
-  const initialLevel = 4;
+  const initialLevel = 2;
   const [level, setLevel] = useState(initialLevel);
 
   // This keeps track on whether the user's round was succesful or not, s we know what indicator to show them. 0 = first round, show nothing, 1 = succefful round, 2 = failed round
@@ -182,7 +182,11 @@ export default () => {
     tokenPlacement: number | null
   ): JSX.Element[] | undefined => {
     // We only want to show the boxes if the pattern has been set and the token has been placed
-    if (!pattern.length || tokenPlacement == null) return;
+    if (!pattern.length || tokenPlacement == null) {
+      if (!pattern.length) console.log("didnt render content because of pattern.length");
+      if (tokenPlacement == null) console.log("didnt render content because of tokenPlacement == null");
+      return;
+    }
 
     // This is the array of JSX Elements we'll end up returning to render
     const boxes = [];

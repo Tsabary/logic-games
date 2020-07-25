@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface BoxProps {
   boxIndex: number;
@@ -18,11 +18,18 @@ interface BoxProps {
 export default (props: BoxProps) => {
   const [className, setClassName] = useState("box box--default");
   const [isClicked, setIsClicked] = useState(false);
+  let to: NodeJS.Timeout | null = null;
+
+  useEffect(() => {
+    return () => {
+      clearTo(to);
+    };
+  }, [to]);
 
   useEffect(() => {
     if (isClicked) return;
 
-    setTimeout(() => {
+    const classTO = setTimeout(() => {
       setClassName(
         getClassName(
           props.boxIndex,
@@ -33,14 +40,29 @@ export default (props: BoxProps) => {
           props.level
         )
       );
+
+      return () => clearTo(classTO);
     }, 200);
   }, [
     isClicked,
+    props.boxIndex,
     props.pattern,
     props.roundGuesses,
     props.tokenPlacement,
     props.discoveredTokens,
+    props.level,
   ]);
+
+  const setTO = (fn: () => void) => {
+    clearTo(to);
+    to = setTimeout(() => {
+      fn();
+    }, 500);
+  };
+
+  const clearTo = (to: NodeJS.Timeout | null) => {
+    if (to) clearTimeout(to);
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -67,53 +89,53 @@ export default (props: BoxProps) => {
       true //The order of cases is very important here
     ) {
       case props.roundGuesses.includes(props.boxIndex):
-        // setClassName("box box--reopened");
         setIsClicked(true);
-        setTimeout(() => {
+
+        setTO(() => {
           setIsClicked(false);
           props.newLevelDown();
-        }, 500);
+        });
         break;
 
       case props.discoveredTokens.includes(props.boxIndex):
         setIsClicked(true);
 
-        setTimeout(() => {
+        setTO(() => {
           setIsClicked(false);
           props.newLevelDown();
-        }, 500);
+        });
         break;
 
       case props.boxIndex === props.tokenPlacement &&
         props.discoveredTokens.length + 1 === props.level:
         setIsClicked(true);
 
-        setTimeout(() => {
+        setTO(() => {
           setIsClicked(false);
           props.newLevelUp();
-        }, 500);
+        });
         break;
 
       case props.boxIndex === props.tokenPlacement &&
         props.discoveredTokens.length + 1 !== props.level:
         setIsClicked(true);
         props.startCounting();
-
         props.resetRound(props.boxIndex);
-        setTimeout(() => {
+
+        setTO(() => {
           setIsClicked(false);
-        }, 500);
+        });
         break;
 
       case props.pattern.includes(props.boxIndex):
       default:
         setIsClicked(true);
         props.startCounting();
-
         props.addToGuesses(props.boxIndex);
-        setTimeout(() => {
+
+        setTO(() => {
           setIsClicked(false);
-        }, 500);
+        });
         break;
     }
   };
