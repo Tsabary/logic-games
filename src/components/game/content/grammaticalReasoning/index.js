@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { GameInfoContext } from "../../../../providers/GameInfo";
 import strings from "../../../../constants/localizedStrings";
-import { returnZeroOrOne } from "../utils";
+import { returnZeroOrOne } from "../utils/functions";
 import { playCorrect, playWrong } from "../../../../sounds/playFunctions";
 import { ReactComponent as Check } from "../../../assets/general/check.svg";
 import { ReactComponent as X } from "../../../assets/general/x.svg";

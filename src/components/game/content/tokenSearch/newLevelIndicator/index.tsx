@@ -11,12 +11,18 @@ interface LevelIndicatorProps {
 }
 
 const NewLevelIndicator = ({ isSuccessful, level }: LevelIndicatorProps) => {
-  const { livesLeft } = useContext(GameInfoContext);
+  const { fails, fouls } = useContext(GameInfoContext);
+  const [livesLeft, setLivesLeft] = useState(3);
 
   const [isLevelVisible, setIsLevelVisible] = useState(false);
   const [isSuccessIndicatorVisible, setIsSuccessIndicatorVisible] = useState(
     false
   );
+
+  useEffect(() => {
+    const totalBadPoints = fails * 2 + fouls;
+    setLivesLeft(Math.floor((6 - totalBadPoints) / 2));
+  }, [fails, fouls]);
 
   useEffect(() => {
     // isSuccessful has one of three states:

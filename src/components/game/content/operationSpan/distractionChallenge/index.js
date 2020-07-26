@@ -7,7 +7,7 @@ import { ReactComponent as Check } from "../../../../assets/general/check.svg";
 import { playCorrect, playWrong } from "../../../../../sounds/playFunctions";
 
 import equations from "../utils/equations";
-import { startCounting, stopCounting } from "../../utils";
+import { startCounting, stopCounting } from "../../utils/functions";
 
 const DistractionChallenge = ({ handleAnswer }) => {
   const {

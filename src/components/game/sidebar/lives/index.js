@@ -1,45 +1,41 @@
 import "./styles.scss";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import strings from "../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
-import Heart from "./heartActive";
+import HeartFull from "./heartActive";
 import HeartLost from "./heartLost";
 import HeartHalf from "./heartHalf";
 
 const Lives = () => {
-  const { livesLeft, setIsDone, fails } = useContext(GameInfoContext);
+  const { setIsDone, fails, fouls } = useContext(GameInfoContext);
 
-  useEffect(() => {
-    if (livesLeft === 0) setIsDone(true);
-  }, [livesLeft, setIsDone]);
-
-  const renderLives = (livesLeft, fails) => {
+  const renderLives = (fails, fouls) => {
     const lives = [];
+    const totalBadPoints = fails * 2 + fouls.length;
 
-    for (let i = 0; i < 3; i++) {
+    if (totalBadPoints === 6) {
+      setIsDone(true);
+      return;
+    }
+
+    for (let i = 1; i < 4; i++) {
+      /**
+       * For each of the three hearts, we dcided if it's a full heart, an empty heart or half a heart
+       */
       switch (true) {
-        // If we have no fouls, this is either a full heart or a lost heart. If the index of this heart is smaller than how many lives we have left, then it must be a full heart
-        case fails % 2 === 0 && i < livesLeft:
-          lives.push(<Heart key={i} />);
+        case (6 - totalBadPoints) / 2 >= i:
+          lives.push(<HeartFull key={i} />);
           break;
 
-        // If we have fouls, then this is could be either of the three hearts. If this index plus 1 is still smaller than how many lives we have left, then we know that this is for certain a full heart.
-        case fails % 2 === 1 && i + 1 < livesLeft:
-          lives.push(<Heart key={i} />);
-          break;
-
-        // If we have fouls, then this is could be either of the three hearts. if this index plus 1 is equal to how many lives we have left, then we know that this should be the half life.
-        case fails % 2 === 1 && i + 1 === livesLeft:
+        case (7 - totalBadPoints) / 2 === i:
           lives.push(<HeartHalf key={i} />);
           break;
 
-        // If the index of this heart is bigger or equal to how many livs we have left, then it must be a lost life. Also set it as default as there aer no other options
-        case i >= livesLeft:
+        case (6 - totalBadPoints) / 2 < i:
         default:
           lives.push(<HeartLost key={i} />);
-          break;
       }
     }
 
@@ -47,7 +43,7 @@ const Lives = () => {
   };
   return (
     <div className="lives">
-      <div className="lives__icons">{renderLives(livesLeft, fails)}</div>
+      <div className="lives__icons">{renderLives(fails, fouls)}</div>
       <div className="lives__title">{strings.livesRemaining}</div>
     </div>
   );

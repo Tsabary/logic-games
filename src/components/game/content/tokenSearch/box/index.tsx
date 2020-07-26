@@ -13,6 +13,7 @@ interface BoxProps {
   resetRound: (token: number) => void;
   addToGuesses: (token: number) => void;
   startCounting: () => void;
+  stopCounting: () => void;
 }
 
 export default (props: BoxProps) => {
@@ -57,7 +58,7 @@ export default (props: BoxProps) => {
     ) {
       case props.roundGuesses.includes(props.boxIndex):
         setIsClicked(true);
-
+        props.stopCounting()
         setTO(() => {
           setIsClicked(false);
           props.newLevelDown();
@@ -66,6 +67,7 @@ export default (props: BoxProps) => {
 
       case props.discoveredTokens.includes(props.boxIndex):
         setIsClicked(true);
+        props.stopCounting()
 
         setTO(() => {
           setIsClicked(false);
@@ -76,6 +78,7 @@ export default (props: BoxProps) => {
       case props.boxIndex === props.tokenPlacement &&
         props.discoveredTokens.length + 1 === props.level:
         setIsClicked(true);
+        props.stopCounting()
 
         setTO(() => {
           setIsClicked(false);

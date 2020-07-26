@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useContext } from "react";
+import React, { useContext, useCallback, useEffect } from "react";
 
 import { GameInfoContext } from "../../../providers/GameInfo";
 
@@ -11,8 +11,12 @@ import ActionTimer from "./actionTimer";
 
 const Sidebar = () => {
   const { challenge } = useContext(GameInfoContext);
+  
+  useEffect(() => {
+    console.log("Challenge has changed");
+  }, [challenge]);
 
-  const renderSections = (sections) => {
+  const renderSections = useCallback((sections) => {
     return sections.map((sec, i) => {
       return (
         <div className="sidebar__panel" key={i}>
@@ -20,9 +24,9 @@ const Sidebar = () => {
         </div>
       );
     });
-  };
+  }, []);
 
-  const renderSidebar = (chlng) => {
+  const renderSidebar = useCallback((chlng) => {
     console.log("renderinf side bar");
     switch (chlng) {
       case 0: // Double Trouble
@@ -57,7 +61,7 @@ const Sidebar = () => {
       default:
         return null;
     }
-  };
+  }, []);
 
   return renderSidebar(challenge);
 };

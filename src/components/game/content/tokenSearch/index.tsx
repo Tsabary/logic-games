@@ -1,29 +1,38 @@
 import "./styles.scss";
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GameInfoContext } from "../../../../providers/GameInfo";
 
 import Box from "./box";
 import FillerBox from "./fillerBox";
 import NewLevelIndicator from "./newLevelIndicator";
-// import { startCounting, stopCounting } from "../utils";
 import { playWrong } from "../../../../sounds/playFunctions";
+import {
+  jumpLevel,
+  resetLevel,
+  startCounting,
+  stopCounting,
+  dropLevel,
+  makeLevelIndicatorVisible,
+  makeGameVisible,
+  resetRound,
+} from "./functions";
 
 export default () => {
   const {
-    setLivesLeft,
+    fails,
+    setFails,
     score,
     setScore,
     setTimePerAction,
-    actionTimeLeft,
-    setActionTimeLeft,
     timePerAction,
     setActionStartTime,
     setIsActionTimerRunning,
     isSoundOn,
+    isDone,
   } = useContext(GameInfoContext);
 
   // This is our current level. This determines how many sets of image & distraction Q the user gets to see.
-  const initialLevel = 2;
+  const initialLevel = 4;
   const [level, setLevel] = useState(initialLevel);
 
   // This keeps track on whether the user's round was succesful or not, s we know what indicator to show them. 0 = first round, show nothing, 1 = succefful round, 2 = failed round
@@ -47,138 +56,90 @@ export default () => {
   // Should the game be visible now? THis helps us toggle the game and the level indicator
   const [isGameVisible, setIsGameVisible] = useState(false);
 
-  const setTPA = useCallback(() => {
-    const tpa = 3;
-    setTimePerAction(tpa);
-    setActionTimeLeft(tpa);
-  }, [setTimePerAction, setActionTimeLeft]);
-
-  // When we want to start counting we set these values. These all affect what happens in the action timer in the sidebar
-  const startCounting = useCallback(() => {
-    // We set a new start time to check how long it takes the user to answer
-    setActionStartTime(Date.now());
-
-    // We set actionTimerRunning to true so it'll run the count interval inside the time counter.
-    setIsActionTimerRunning(true);
-  }, [setActionStartTime, setIsActionTimerRunning]);
-
-  // When we want to stop counting we set these values. These all affect what happens in the action timer in the sidebar
-  const stopCounting = useCallback(() => {
-    // We reset the start time to default, as this will be reset to the current date when this component is rendered again (and we'll that info)
-    setActionStartTime(0);
-
-    // We reset the time per action to 0 so when we reload this component or other components that use the timer, they wont start counting until they set the time per action
-    setTimePerAction(0);
-
-    // We set actionTimerRunning to false so it won't run the count interval inside the time counter.
-    setIsActionTimerRunning(false);
-  }, [setActionStartTime, setTimePerAction, setIsActionTimerRunning]);
-
-  const makeLevelIndicatorVisible = () => {
-    setIsLevelIndicatorVisible(true);
-    setIsGameVisible(false);
-  };
-
-  const makeGameVisible = () => {
-    setIsLevelIndicatorVisible(false);
-    setIsGameVisible(true);
-  };
-
-  const setNewPattern = useCallback((level: number) => {
-    // Create an array of all numbers from 0 to 24
-    const numbers = Array.from(Array(25).keys()).map((_, index) => index);
-
-    // Randomaly re-arrange the numbers
-    numbers.sort(() => Math.random() - 0.5);
-
-    // Slice the array to have as many items as our level, which leads to us having a random set of box indexes. As many as our level
-    const newPattern = numbers.slice(0, level);
-
-    console.log("important info - new pattern is", newPattern);
-
-    // Set this new array as our pattern
-    setPattern(newPattern);
-
-    // Reset/create a new round
-    resetRound(newPattern, []);
-  }, []);
-
-  const resetLevel = useCallback(
-    (level: number) => {
-      // Reset the values left from our last level
-      setDiscoveredTokens([]);
-      setTokenPlacement(null);
-
-      // Make the level indicator visible
-      makeLevelIndicatorVisible();
-
-      setTimeout(() => {
-        // Create a new pattern for the level
-        setNewPattern(level);
-
-        // Make the game visible
-        makeGameVisible();
-      }, 3000);
-    },
-    [setNewPattern]
-  );
-
-  const resetRound = (pattern: number[], discoveredTokens: number[]) => {
-    // Reset the values left from our last round
-    setRoundGuesses([]);
-    setTokenPlacement(pattern[discoveredTokens.length]);
-    console.log(
-      "important info - the new token is",
-      pattern[discoveredTokens.length]
-    );
-  };
-
-  const dropLevel = () => {
-    setIsLevelSuccessful(2);
-    setLevel((level) => (level === 1 ? 1 : level - 1));
-    setLivesLeft((lvs: number) => lvs - 1);
-  };
-
-  const jumpLevel = useCallback(() => {
-    setIsLevelSuccessful(1);
-    setLevel((lvl) => lvl + 1);
-    if (level > score) setScore(level);
-  }, [setLevel, setScore, level, score]);
-
   useEffect(() => {
     if (discoveredTokens.length === level) {
-      jumpLevel();
-      resetLevel(level + 1);
+      jumpLevel(setIsLevelSuccessful, setLevel, setScore, level, score);
+      resetLevel(
+        level + 1,
+        setDiscoveredTokens,
+        setTokenPlacement,
+        () =>
+          makeLevelIndicatorVisible(
+            setIsLevelIndicatorVisible,
+            setIsGameVisible
+          ),
+        () => makeGameVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+        setPattern,
+        setRoundGuesses
+      );
     }
-  }, [discoveredTokens, level, jumpLevel, resetLevel]);
+  }, [discoveredTokens, level, score, setScore]);
 
   useEffect(() => {
-    resetLevel(initialLevel);
-  }, [resetLevel]);
+    resetLevel(
+      initialLevel,
+      setDiscoveredTokens,
+      setTokenPlacement,
+      () =>
+        makeLevelIndicatorVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+      () => makeGameVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+      setPattern,
+      setRoundGuesses
+    );
+  }, []);
 
   useEffect(() => {
-    if (isGameVisible && !isLevelIndicatorVisible) setTPA();
-  }, [isGameVisible, isLevelIndicatorVisible, setTPA]);
+    if (isGameVisible && !isLevelIndicatorVisible && !isDone) {
+      setTimePerAction(3);
+    } else {
+      setTimePerAction(null);
+    }
+  }, [isGameVisible, isLevelIndicatorVisible, isDone, setTimePerAction]);
 
   // This should only execute once on load and once on unload. When we
   useEffect(() => {
     if (!timePerAction) return;
-    startCounting();
+    startCounting(setActionStartTime, setIsActionTimerRunning);
 
     return () => {
-      stopCounting();
+      stopCounting(
+        setActionStartTime,
+        setTimePerAction,
+        setIsActionTimerRunning
+      );
     };
-  }, [timePerAction, startCounting, stopCounting]);
+  }, [
+    timePerAction,
+    setActionStartTime,
+    setTimePerAction,
+    setIsActionTimerRunning,
+  ]);
 
-  // If the user took longer than 5 seconds to answer the distraction question, then it qualifies as a fail (wrong answer). We then call the stop counting method and call the handleOvertimr method we got from the parent component, so it'll handle this fail on it's side.
+  // If there was a change in our fails, we might ne
   useEffect(() => {
-    if (actionTimeLeft < 0) {
-      stopCounting();
-      // dropLevel();
-      // resetLevel(level - 1);
-      if (isSoundOn) playWrong.play();
-    }
-  }, [actionTimeLeft, isSoundOn, stopCounting]);
+    if (!fails) return;
+
+    // If the fail changed, in this game it means that we have dropped a level, so stop the counter. It will resume when the game resumes
+    stopCounting(setActionStartTime, setTimePerAction, setIsActionTimerRunning);
+
+    // If the fail changed, in this game it means that we have dropped a level. Se the success indicator to fail and drop a level in the level state
+    dropLevel(setIsLevelSuccessful, setLevel);
+
+    // If the fail changed, in this game it means that we have dropped a level. Time for a reset
+    resetLevel(
+      level - 1,
+      setDiscoveredTokens,
+      setTokenPlacement,
+      () =>
+        makeLevelIndicatorVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+      () => makeGameVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+      setPattern,
+      setRoundGuesses
+    );
+
+    // If the sound is on buzz the user
+    if (isSoundOn) playWrong.play();
+  }, [fails]);
 
   const renderBoxes = (
     pattern: number[],
@@ -186,10 +147,6 @@ export default () => {
   ): JSX.Element[] | undefined => {
     // We only want to show the boxes if the pattern has been set and the token has been placed
     if (!pattern.length || tokenPlacement == null) {
-      if (!pattern.length)
-        console.log("didnt render content because of pattern.length");
-      if (tokenPlacement == null)
-        console.log("didnt render content because of tokenPlacement == null");
       return;
     }
 
@@ -209,22 +166,48 @@ export default () => {
             tokenPlacement={tokenPlacement}
             level={level}
             newLevelDown={() => {
-              dropLevel();
-              resetLevel(level - 1);
+              setFails((fails: number) => fails + 1);
             }}
             newLevelUp={() => {
-              jumpLevel();
-              resetLevel(level + 1);
+              jumpLevel(setIsLevelSuccessful, setLevel, setScore, level, score);
+              resetLevel(
+                level + 1,
+                setDiscoveredTokens,
+                setTokenPlacement,
+                () =>
+                  makeLevelIndicatorVisible(
+                    setIsLevelIndicatorVisible,
+                    setIsGameVisible
+                  ),
+                () =>
+                  makeGameVisible(setIsLevelIndicatorVisible, setIsGameVisible),
+                setPattern,
+                setRoundGuesses
+              );
             }}
             resetRound={(boxIndex) => {
               const newDiscoveredTokens = [...discoveredTokens, boxIndex];
               setDiscoveredTokens(newDiscoveredTokens);
-              resetRound(pattern, newDiscoveredTokens);
+              resetRound(
+                pattern,
+                newDiscoveredTokens,
+                setRoundGuesses,
+                setTokenPlacement
+              );
             }}
             addToGuesses={(boxIndex) => {
               setRoundGuesses((guesses) => [...guesses, boxIndex]);
             }}
-            startCounting={startCounting}
+            startCounting={() => {
+              startCounting(setActionStartTime, setIsActionTimerRunning);
+            }}
+            stopCounting={() =>
+              stopCounting(
+                setActionStartTime,
+                setTimePerAction,
+                setIsActionTimerRunning
+              )
+            }
           />
         );
       }
