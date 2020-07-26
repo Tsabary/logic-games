@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "268c85a8bf9f34f3bd5f8f1dd664ee16",
+    "revision": "ae03a27267758e851d6061cbacfb03a3",
     "url": "/logic-games/index.html"
   },
   {
-    "revision": "f919ddba35b56dcf8d4f",
+    "revision": "ee87b2a9552fe4647323",
     "url": "/logic-games/static/css/main.da23435b.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/logic-games/static/js/2.705c3078.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f919ddba35b56dcf8d4f",
-    "url": "/logic-games/static/js/main.8607f7e5.chunk.js"
+    "revision": "ee87b2a9552fe4647323",
+    "url": "/logic-games/static/js/main.fe29fca1.chunk.js"
   },
   {
     "revision": "74c8409556bf436a2add",

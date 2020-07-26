@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/logic-games/static/css/main.da23435b.chunk.css",
-    "main.js": "/logic-games/static/js/main.8607f7e5.chunk.js",
-    "main.js.map": "/logic-games/static/js/main.8607f7e5.chunk.js.map",
+    "main.js": "/logic-games/static/js/main.fe29fca1.chunk.js",
+    "main.js.map": "/logic-games/static/js/main.fe29fca1.chunk.js.map",
     "runtime-main.js": "/logic-games/static/js/runtime-main.a98f3e0b.js",
     "runtime-main.js.map": "/logic-games/static/js/runtime-main.a98f3e0b.js.map",
     "static/js/2.705c3078.chunk.js": "/logic-games/static/js/2.705c3078.chunk.js",
     "static/js/2.705c3078.chunk.js.map": "/logic-games/static/js/2.705c3078.chunk.js.map",
     "index.html": "/logic-games/index.html",
-    "precache-manifest.7c47efddbf73ca20aa14e52ef2040c3d.js": "/logic-games/precache-manifest.7c47efddbf73ca20aa14e52ef2040c3d.js",
+    "precache-manifest.7f6546984364c451bfe55cbcf43ae6fc.js": "/logic-games/precache-manifest.7f6546984364c451bfe55cbcf43ae6fc.js",
     "service-worker.js": "/logic-games/service-worker.js",
     "static/css/main.da23435b.chunk.css.map": "/logic-games/static/css/main.da23435b.chunk.css.map",
     "static/js/2.705c3078.chunk.js.LICENSE.txt": "/logic-games/static/js/2.705c3078.chunk.js.LICENSE.txt",
@@ -51,6 +51,6 @@
     "static/js/runtime-main.a98f3e0b.js",
     "static/js/2.705c3078.chunk.js",
     "static/css/main.da23435b.chunk.css",
-    "static/js/main.8607f7e5.chunk.js"
+    "static/js/main.fe29fca1.chunk.js"
   ]
 }
