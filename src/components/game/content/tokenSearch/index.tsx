@@ -90,7 +90,7 @@ export default () => {
 
   useEffect(() => {
     if (isGameVisible && !isLevelIndicatorVisible && !isDone) {
-      setTimePerAction(3);
+      setTimePerAction(5);
     } else {
       setTimePerAction(null);
     }
