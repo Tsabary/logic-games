@@ -10,7 +10,7 @@ export const GameInfoProvider = ({ children }) => {
   // 3 - Operation Span
   // 4 - Token Search
 
-  const [challenge, setChallenge] = useState(4);
+  const [challenge, setChallenge] = useState(3);
 
   // Controls the sound
   const [isSoundOn, setIsSoundOn] = useState(false);

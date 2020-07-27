@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import strings from "../../../../constants/localizedStrings";
 import { GameInfoContext } from "../../../../providers/GameInfo";
@@ -11,14 +11,18 @@ import HeartHalf from "./heartHalf";
 const Lives = () => {
   const { setIsDone, fails, fouls } = useContext(GameInfoContext);
 
-  const renderLives = (fails, fouls) => {
-    const lives = [];
+  useEffect(() => {
     const totalBadPoints = fails * 2 + fouls.length;
 
     if (totalBadPoints === 6) {
       setIsDone(true);
       return;
     }
+  }, [fails, fouls, setIsDone]);
+
+  const renderLives = (fails, fouls) => {
+    const lives = [];
+    const totalBadPoints = fails * 2 + fouls.length;
 
     for (let i = 1; i < 4; i++) {
       /**

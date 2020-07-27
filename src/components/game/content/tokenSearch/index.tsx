@@ -6,16 +6,22 @@ import Box from "./box";
 import FillerBox from "./fillerBox";
 import NewLevelIndicator from "./newLevelIndicator";
 import { playWrong } from "../../../../sounds/playFunctions";
+
+// These are functions that are unique to this game
 import {
-  jumpLevel,
   resetLevel,
-  startCounting,
-  stopCounting,
-  dropLevel,
   makeLevelIndicatorVisible,
   makeGameVisible,
   resetRound,
 } from "./functions";
+
+// These are functions that are shared between different games
+import {
+  startCounting,
+  stopCounting,
+  dropLevel,
+  jumpLevel,
+} from "../utils/functions";
 
 export default () => {
   const {
@@ -36,7 +42,7 @@ export default () => {
   const [level, setLevel] = useState(initialLevel);
 
   // This keeps track on whether the user's round was succesful or not, s we know what indicator to show them. 0 = first round, show nothing, 1 = succefful round, 2 = failed round
-  const [isLevelSuccessful, setIsLevelSuccessful] = useState(0);
+  const [isLevelSuccessful, setIsLevelSuccessful] = useState<number>(0);
 
   // This is the pattern of boxes that the user will have on screen to click for the level. It only changes when the level changes.
   const [pattern, setPattern] = useState<number[]>([]);
@@ -139,7 +145,13 @@ export default () => {
 
     // If the sound is on buzz the user
     if (isSoundOn) playWrong.play();
-  }, [fails]);
+  }, [
+    fails,
+    isSoundOn,
+    setActionStartTime,
+    setIsActionTimerRunning,
+    setTimePerAction,
+  ]);
 
   const renderBoxes = (
     pattern: number[],

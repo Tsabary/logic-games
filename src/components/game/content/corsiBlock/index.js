@@ -99,7 +99,7 @@ const CorsiBlock = () => {
         setIsCorrectIndicatorShowing(false);
       }, 1500);
     }
-  }, [replay, lvl, sequence, setLivesLeft]);
+  }, [replay, lvl, sequence, setLivesLeft, score, setScore]);
 
   // This resets our values to be ready for a new sequnce
   const reset = () => {

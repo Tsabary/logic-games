@@ -16,7 +16,6 @@ const DistractionChallenge = ({ handleAnswer }) => {
     setTimePerAction,
     setActionStartTime,
     actionTimeLeft,
-    setActionTimeLeft,
     isSoundOn,
   } = useContext(GameInfoContext);
 
@@ -33,8 +32,7 @@ const DistractionChallenge = ({ handleAnswer }) => {
 
   useEffect(() => {
     setTimePerAction(10);
-    setActionTimeLeft(10);
-  }, []);
+  }, [setTimePerAction]);
 
   // This should only execute once on load and once on unload. When we
   useEffect(() => {
@@ -48,7 +46,7 @@ const DistractionChallenge = ({ handleAnswer }) => {
         setIsActionTimerRunning
       );
     };
-  }, [timePerAction]);
+  }, [timePerAction, setActionStartTime, setIsActionTimerRunning, setTimePerAction]);
 
   // If the user took longer than 5 seconds to answer the distraction question, then it qualifies as a fail (wrong answer). We then call the stop counting method and call the handleOvertimr method we got from the parent component, so it'll handle this fail on it's side.
   useEffect(() => {
