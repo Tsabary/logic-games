@@ -7,6 +7,7 @@ import GrammaticalReasoning from "./grammaticalReasoning";
 import CorsiBlock from "./corsiBlock";
 import OperationSpan from "./operationSpan";
 import TokenSearch from "./tokenSearch";
+import { OperationSpanProvider } from "../../../../providers/OperationSpan";
 
 const Games = () => {
   const { isPlaying, challenge } = useContext(gameInfoContext);
@@ -32,7 +33,11 @@ const Games = () => {
         break;
 
       case 3:
-        setGameComponent(<OperationSpan />);
+        setGameComponent(
+          <OperationSpanProvider>
+            <OperationSpan />
+          </OperationSpanProvider>
+        );
         break;
 
       case 4:

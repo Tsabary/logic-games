@@ -44,7 +44,6 @@ interface BoardProps {
 export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
   const {
     setTimePerAction,
-    timePerAction,
     setActionStartTime,
     setIsActionTimerRunning,
     level,
@@ -82,8 +81,6 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
       );
     };
 
-    // const setTimePerActionFn = () => setTimePerAction(5);
-
     const stopCountingFn = () => {
       stopCounting(
         setActionStartTime,
@@ -97,7 +94,7 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     };
 
     const dropLevelFn = () => {
-      dropLevel(setIsLevelSuccessful, setLevel);
+      dropLevel(setIsLevelSuccessful, level, setLevel);
     };
 
     const nextRoundFn = () => {
@@ -177,7 +174,6 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     setFunctions({
       startCounting: startCountingFn,
       stopCounting: stopCountingFn,
-      // setTimePerAction: setTimePerActionFn,
       jumpLevel: jumpLevelFn,
       dropLevel: dropLevelFn,
       nextRound: nextRoundFn,
@@ -207,14 +203,6 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     makeSuccessIndicatorVisible,
   ]);
 
-  // // Load the first challenge on first render
-  // useEffect(() => {
-  //   if (!functions || !isFirstLoad) return;
-  //   setIsFirstLoad(false);
-  //   functions.nextRound();
-  //   functions.newPattern();
-  // }, [functions, isFirstLoad, setRound]);
-
   useEffect(() => {
     if (!functions || previousLevel.current === level) return;
     functions.setFirstRound();
@@ -228,7 +216,7 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     functions.setTokenPlacement();
   }, [pattern, functions]);
 
-  // // This should only execute once on load and once on unload.
+  // Whenever the token is placed we should start the countdown and then clear it when this updates
   useEffect(() => {
     if (tokenPlacement < 0 || !functions) return;
 
@@ -280,9 +268,6 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
 
     // Return the array of our JSX Elements
     setBoxes(boxes);
-    // setTimePerAction(5);
-    // console.log("STARTING TO COUNT AGAIN")
-    // functions.startCounting();
   }, [
     tokenPlacement,
     discoveredTokens,

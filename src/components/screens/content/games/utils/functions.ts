@@ -67,10 +67,20 @@ export const startCountdown = (
 
 export const dropLevel = (
   setIsLevelSuccessful: React.Dispatch<React.SetStateAction<boolean>>,
+  level: number,
   setLevel: React.Dispatch<React.SetStateAction<number>>
 ) => {
   setIsLevelSuccessful(false);
-  setLevel((level) => (level === 1 ? 1 : level - 1));
+
+  if (level === 1) {
+    setLevel(-1);
+    const setLevelTimeout = setTimeout(() => {
+      setLevel(1);
+      clearTimeout(setLevelTimeout);
+    }, 200);
+  } else {
+    setLevel(level - 1);
+  }
 };
 
 export const jumpLevel = (

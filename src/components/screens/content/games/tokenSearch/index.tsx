@@ -11,9 +11,10 @@ import {
 } from "./utils/functions";
 
 import NewLevelIndicator from "../../shared/indicators/levelIndicator";
-import LostLifeRoundCompleteIndicatorProps from "../../shared/indicators/lostLifeRoundCompleteIndicator";
+import LostLifeRoundCompleteIndicator from "../../shared/indicators/lostLifeRoundCompleteIndicator";
 import Board from "./board";
 import { stopCounting } from "../utils/functions";
+import strings from "../../../../../constants/localizedStrings";
 
 export default () => {
   const {
@@ -89,14 +90,7 @@ export default () => {
     } else {
       functions.makeSuccessIndicatorVisible();
     }
-  }, [
-    setActionStartTime,
-    setTimePerAction,
-    setIsActionTimerRunning,
-    level,
-    isLevelSuccessful,
-    functions,
-  ]);
+  }, [level, isLevelSuccessful, functions]);
 
   useEffect(() => {
     if (!functions) return;
@@ -104,7 +98,11 @@ export default () => {
     switch (true) {
       case isLevelIndicatorVisible:
         setVisibleComponent(
-          <NewLevelIndicator makeGameVisible={functions.makeGameVisible} />
+          <NewLevelIndicator
+            units={strings.blocks}
+            unit={strings.block}
+            makeGameVisible={functions.makeGameVisible}
+          />
         );
         break;
 
@@ -118,7 +116,7 @@ export default () => {
 
       case isSuccessIndicatorVisible:
         setVisibleComponent(
-          <LostLifeRoundCompleteIndicatorProps
+          <LostLifeRoundCompleteIndicator
             makeLevelIndicatorVisible={functions.makeLevelIndicatorVisible}
           />
         );

@@ -3,10 +3,12 @@ import strings from "../../../../../../constants/localizedStrings";
 import { gameInfoContext } from "../../../../../../providers/GameInfo";
 
 interface LevelIndicatorProps {
+  unit: string;
+  units: string;
   makeGameVisible: () => void;
 }
 
-export default ({ makeGameVisible }: LevelIndicatorProps) => {
+export default ({ unit, units, makeGameVisible }: LevelIndicatorProps) => {
   const { level } = useContext(gameInfoContext);
   let visibilityTimeout: NodeJS.Timeout;
 
@@ -22,7 +24,7 @@ export default ({ makeGameVisible }: LevelIndicatorProps) => {
 
   return (
     <div className="corsi-block__indicator">
-      {level} {strings.blocks}
+      {level === 1 ? `1 ${unit}` : `${level} ${units}`}
     </div>
   );
 };

@@ -85,7 +85,7 @@ export const handleChoice = (
   setTimeout(() => {
     resetTest();
     setIsIndicatorShowing(false);
-  }, 500);
+  }, 400);
 };
 
 // We return a shape's text based on code.

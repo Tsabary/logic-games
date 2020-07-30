@@ -1,0 +1,6 @@
+@import "../../../../../../styles/imports";
+
+.os-game {
+  position: relative;
+  @include centerContent;
+}

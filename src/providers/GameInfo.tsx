@@ -90,27 +90,42 @@ export const GameInfoProvider = ({ children }: Props) => {
 
     // If this current level is lower than the previos level, meaning we've lost the last round, we should add a fail
     if (previousLevel.current && level < previousLevel.current) {
+      console.log("DROPPING A LEVEL ");
       setFails((fails) => fails + 1);
     }
+
+    // Fouls dont persist between levels
+    setFouls(0);
 
     previousLevel.current = level;
   }, [level]);
 
-  // Whenever we completely lose a life (another fail), we reset our fouls. Fouls don't persist between lives
+  // If we have 3 fails the game is over
   useEffect(() => {
-    setFouls(0);
     if (fails === 3) {
       setIsDone(true);
       return;
     }
   }, [fails]);
 
-  // Whenever we reach two fouls we should drop a level
+  /**
+   * Whenever we reach two fouls we should:
+   * - Reset our fouls back to 0
+   * - If we're on level one, we manually add another fail
+   * - If we're not on leve 1 (higher always) we just drop the user a level, and this would take care of the fails automatically
+   */
   useEffect(() => {
     if (fouls === 2) {
-      setLevel((level) => (level === 1 ? 1 : level - 1));
+      setFouls(0);
+      setIsLevelSuccessful(false);
+      
+      if (level === 1) {
+        setFails((fails) => fails + 1);
+      } else {
+        setLevel((level) => (level === 1 ? 1 : level - 1));
+      }
     }
-  }, [fouls]);
+  }, [fouls, level]);
 
   return (
     <gameInfoContext.Provider

@@ -72,7 +72,7 @@ export const handleChoice = (
   setTimeout(() => {
     setIsIndicatorShowing(false);
     resetTest();
-  }, 250);
+  }, 400);
 };
 
 // Retrn the appropriate text according to the value. 0 return "Red", 1 return "Blue".

@@ -6,6 +6,7 @@ import LostLifeRoundCompleteIndicatorProps from "../../shared/indicators/lostLif
 import LevelIndicator from "../../shared/indicators/levelIndicator";
 import { gameInfoContext } from "../../../../../providers/GameInfo";
 import { Functions } from "../../utils/interfaces";
+import strings from "../../../../../constants/localizedStrings";
 
 const CorsiBlock = () => {
   const { setLevel } = useContext(gameInfoContext);
@@ -77,6 +78,8 @@ const CorsiBlock = () => {
         return (
           <LevelIndicator
             makeGameVisible={functions!.makeGameBoardVisible}
+            units={strings.blocks}
+            unit={strings.block}
           />
         );
 
@@ -85,7 +88,7 @@ const CorsiBlock = () => {
         !isLevelIndicatorShowing:
         return (
           <LostLifeRoundCompleteIndicatorProps
-          makeLevelIndicatorVisible={functions!.makeLevelIndicatorVisible}
+            makeLevelIndicatorVisible={functions!.makeLevelIndicatorVisible}
           />
         );
     }

@@ -9,6 +9,7 @@ import { Functions } from "../../utils/interfaces";
 
 const ActionTimer = () => {
   const {
+    level,
     isPlaying,
     isDone,
     timePerAction,
@@ -28,7 +29,7 @@ const ActionTimer = () => {
 
   useEffect(() => {
     const dropLevelFn = () => {
-      dropLevel(setIsLevelSuccessful, setLevel);
+      dropLevel(setIsLevelSuccessful, level, setLevel);
     };
 
     const resetActionTimerFn = () => {
@@ -45,6 +46,7 @@ const ActionTimer = () => {
     });
   }, [
     setIsLevelSuccessful,
+    level,
     setLevel,
     setIsActionTimerRunning,
     setTimePerAction,

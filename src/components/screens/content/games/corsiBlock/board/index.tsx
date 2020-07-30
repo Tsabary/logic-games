@@ -11,14 +11,10 @@ import { handleSubmit } from "./utils/functions";
 import { Functions } from "../../../utils/interfaces";
 
 interface BoardProps {
-  // setIsAnswerCorrect: React.Dispatch<React.SetStateAction<number>>;
   makeSuccessIndicatorVisible: () => void;
 }
 
-export default ({
-  // setIsAnswerCorrect,
-  makeSuccessIndicatorVisible,
-}: BoardProps) => {
+export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
   const {
     setActionStartTime,
     setIsActionTimerRunning,
@@ -56,7 +52,7 @@ export default ({
     const runSequenceFn = () =>
       runSequence(level, setIsRunning, startCountingFn, flashFn);
 
-    const dropLevelFn = () => dropLevel(setIsLevelSuccessful, setLevel);
+    const dropLevelFn = () => dropLevel(setIsLevelSuccessful,level, setLevel);
 
     const jumpLevelFn = () => jumpLevel(setIsLevelSuccessful, setLevel);
 

@@ -19,6 +19,13 @@ let strings = new LocalizedStrings({
     box: "box",
     boxes: "boxes",
 
+    blocks: "blocks",
+    block: "block",
+    
+    livesLeft: "lives left!",
+    lifeLeft: "life left!",
+    roundComplete: "Round complete!",
+
     // INSTRUCTIONS //
     instructionsTitle: "Instructions",
     statement: "statement",
@@ -121,11 +128,8 @@ let strings = new LocalizedStrings({
     youScored: "Your score is",
     playAgain: "Play again",
 
-    // CORSI BLOCKS //
-    blocks: "blocks",
-    livesLeft: "lives left!",
-    lifeLeft: "life left!",
-    roundComplete: "Round complete!",
+
+
   },
 });
 
