@@ -1,0 +1,41 @@
+@import "../../../../../../../styles/imports";
+
+.ordered-image {
+  border-radius: 1rem;
+  border: 1px solid $lightPurple;
+  max-width: 10rem;
+  max-height: 10rem;
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+  counter-increment: number;
+
+  cursor: pointer;
+
+  &__position {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $lightPurple;
+    height: 4rem;
+    width: 4rem;
+    z-index: $z30;
+    font-weight: 900;
+    color: $darkPurple;
+    transition: all 0.2s;
+    @include centerContent;
+
+    &::before {
+      content: counter(number);
+      display: inline-block;
+    }
+
+    &:hover {
+      background-color: $red;
+      &::before {
+        content: "X";
+        display: inline-block;
+      }
+    }
+  }
+}

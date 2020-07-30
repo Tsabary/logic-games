@@ -1,0 +1,19 @@
+@import "../../../../../styles/imports";
+
+.corsi-block {
+  position: relative;
+  height: 100%;
+
+  @include centerContent;
+
+  &__indicator {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: $darkPurple;
+    color: white;
+    font-weight: 500;
+    font-size: 4rem;
+    @include centerContent;
+  }
+}

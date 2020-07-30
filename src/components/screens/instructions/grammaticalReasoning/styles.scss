@@ -1,0 +1,104 @@
+@import "../../../../styles/imports";
+
+.gr-inst {
+  @include instructionsPage;
+
+  &__sample {
+    &-container {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr max-content 1fr;
+      align-items: center;
+    }
+    &-text {
+      text-align: start;
+      &:before {
+        width: 6rem;
+        text-align: center;
+        border-bottom: 1px solid $lightPurple;
+        margin-bottom: 0.5rem;
+        margin-right: 1.5rem;
+        content: "";
+        display: inline-block;
+      }
+    }
+  }
+
+  &__illustration-container {
+    margin: auto;
+    display: grid;
+    // gap: 2rem;
+    grid-template-columns: repeat(7, 8rem);
+    grid-template-rows: repeat(3, 8rem);
+
+    &--square {
+      background-color: #1170fe;
+      grid-column: 3/6;
+      grid-row: 1/4;
+    }
+
+    &--square-line {
+      height: 1px;
+      grid-column: 6/7;
+      grid-row: 1/2;
+      z-index: $z30;
+      text-align: center;
+      border-bottom: 1px solid #1170fe;
+      margin: 4rem 1.5rem 4rem 0;
+      content: "";
+      display: inline-block;
+    }
+    &--square-text {
+      margin: auto;
+      grid-column: 7/8;
+      grid-row: 1/2;
+      color: #1170fe;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    &--circle {
+      background-color: #ffc416;
+      grid-column: 4/5;
+      grid-row: 2/3;
+      border-radius: 100%;
+      z-index: $z20;
+    }
+
+    &--circle-line {
+      height: 1px;
+      grid-column: 2/4;
+      grid-row: 2/3;
+      z-index: $z30;
+      text-align: center;
+      border-bottom: 1px solid #ffc416;
+      margin: 4rem 1.5rem;
+      content: "";
+      display: inline-block;
+    }
+
+    &--circle-text {
+      margin: auto;
+      grid-column: 1/2;
+      grid-row: 2/3;
+      color: #ffc416;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+
+  &__options {
+    &-container {
+      width: max-content;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      gap: 4rem;
+      grid-template-columns: repeat(2, max-content);
+    }
+
+    &-option {
+      position: relative;
+    }
+  }
+}

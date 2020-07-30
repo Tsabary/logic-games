@@ -1,0 +1,34 @@
+@import "../../../styles/imports";
+
+.instructions {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: $z20;
+  @include scroll;
+
+  &__checkbox {
+    display: none;
+
+    &:checked ~ .instructions__container {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &:not(:checked) {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
+  &__container {
+    top: 0;
+    left: 0;
+    background-color: $darkPurple;
+    visibility: hidden;
+    opacity: 0;
+    margin: 7rem auto;
+    transition: all .2s;
+  }
+
+}

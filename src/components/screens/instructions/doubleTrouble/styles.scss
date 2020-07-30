@@ -1,0 +1,41 @@
+@import "../../../../styles/imports";
+
+.dt-inst {
+  @include instructionsPage;
+
+  &__sample {
+    &-container {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr max-content 1fr;
+      align-items: center;
+    }
+    &-text {
+      text-align: start;
+      &:before {
+        width: 6rem;
+        text-align: center;
+        border-bottom: 1px solid $lightPurple;
+        margin-bottom: 0.5rem;
+        margin-right: 1.5rem;
+        content: "";
+        display: inline-block;
+      }
+    }
+  }
+
+  &__options {
+    &-container {
+      width: max-content;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      gap: 4rem;
+      grid-template-columns: repeat(2, max-content);
+    }
+
+    &-option {
+      position: relative;
+    }
+  }
+}

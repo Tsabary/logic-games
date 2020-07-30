@@ -1,0 +1,12 @@
+@import "../../../../../../../styles/imports";
+
+.image {
+  border-radius: 1rem;
+  border: 1px solid $lightPurple;
+  max-width: 10rem;
+  max-height: 10rem;
+  position: relative;
+  background-color: white;
+  overflow: hidden;
+  cursor: pointer;
+}

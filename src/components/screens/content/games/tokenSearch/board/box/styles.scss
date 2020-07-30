@@ -1,0 +1,95 @@
+@import "../../../../../../../styles/imports";
+
+@mixin boxVariant {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 1rem;
+  z-index: $z10;
+  cursor: pointer;
+}
+
+.box {
+  &__checkbox {
+    display: none;
+
+    &:checked ~ .box--default {
+      opacity: 0;
+    }
+  }
+
+  &__container {
+    position: relative;
+    width: 9rem;
+    height: 9rem;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  &--default {
+    position: absolute;
+    width: 9rem;
+    height: 9rem;
+    top: 0;
+    left: 0;
+    background-color: $lightPurple;
+    z-index: $z20;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  &--empty {
+    // This box is an empty box. This is what we get if we click a box for the first time in the round and there's nothing behind it
+    border: 2px solid $lightPurple;
+    background-color: $darkPurple;
+
+    @include boxVariant();
+  }
+
+  &--reopened {
+    // This box is and empty box that we have re-opened. This is what we get if we click a box for the second time in the round and there's nothing behind it
+    border: 2px solid $red;
+    background-color: $darkPurple;
+
+    @include boxVariant();
+  }
+
+  &--token {
+    // This box is the winning box. This is what we get if we click a box for the first time for the round and discover a token behind it.
+    border: 2px solid $lightPurple;
+    background-color: $darkPurple;
+    @include boxVariant();
+
+    @include centerContent;
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 100%;
+      background-color: $green;
+    }
+  }
+
+  &--reopened-token {
+    // This box is a box holding a token tht we've re-opened. This is what we get if we click a box for the second time for the level after we have lready discovered the token behind it.
+    border: 2px solid $lightPurple;
+    background-color: $darkPurple;
+
+    @include boxVariant();
+
+    @include centerContent();
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 100%;
+      background-color: $red;
+    }
+  }
+
+  // @include tokenIndicators;
+}

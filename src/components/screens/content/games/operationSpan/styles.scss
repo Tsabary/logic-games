@@ -1,0 +1,6 @@
+@import "../../../../../styles/imports";
+
+.operation-span {
+  height: 100%;
+  @include centerContent;
+}
