@@ -1,0 +1,17 @@
+@import "../../../../../../../../styles/imports";
+.icon {
+  width:8rem;
+  height: 8rem;
+  margin: auto;
+  // min-width: 10rem;
+  // min-height: 10rem;
+  // max-width: 20rem;
+  // max-height: 20rem;
+
+  &__container {
+    width: 12rem;
+    height: 12rem;
+    background-color: $darkPurple;
+    padding: 1rem 4rem 1rem 1rem;
+  }
+}

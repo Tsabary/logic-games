@@ -1,0 +1,10 @@
+@import "../../../../../../styles/imports";
+
+.ts-board {
+  width: max-content;
+  display: grid;
+  grid-template-columns: repeat(5, 9rem);
+  grid-template-rows: repeat(5, 9rem);
+  gap: 1rem;
+  align-items: center;
+}
