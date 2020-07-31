@@ -8,18 +8,12 @@ import FillerBox from "./fillerBox";
 import {
   startCounting,
   stopCounting,
-  dropLevel,
-  jumpLevel,
-  nextRound,
   setFirstRound,
 } from "../../utils/functions";
 import { gameInfoContext } from "../../../../../../providers/GameInfo";
-import {
-  newPattern,
-  getBoxIndicatorClassName,
-  handleBoxClick,
-} from "./utils/functions";
+import { newPattern } from "./utils/functions";
 import { Functions } from "../../../utils/interfaces";
+import { tokenSearchContext } from "../../../../../../providers/TokenSearch";
 
 /**
  * LEVEL HAS:
@@ -53,21 +47,18 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     setRound,
   } = useContext(gameInfoContext);
 
+  const {
+    pattern,
+    setPattern,
+    setDiscoveredTokens,
+    tokenPlacement,
+    setTokenPlacement,
+    setRoundGuesses,
+  } = useContext(tokenSearchContext);
+
   const [functions, setFunctions] = useState<Functions>();
 
   const [boxes, setBoxes] = useState<JSX.Element[]>();
-
-  // This is the pattern of boxes that the user will have on screen to click for the level. It only changes when the level changes.
-  const [pattern, setPattern] = useState<number[]>([]);
-
-  // These are the indexes of all the boxes in which the user have found a token for this level. This resets when the level changes.
-  const [discoveredTokens, setDiscoveredTokens] = useState<number[]>([]);
-
-  // This is where the token is hidden. This changes every new round
-  const [tokenPlacement, setTokenPlacement] = useState<number>(-1);
-
-  // These are the indexes of all the boxes the user clicked in the round. This resets when the user finds the token and a new ound starts, or when the user clicks a box that they've previousy clicked and a new round starts
-  const [roundGuesses, setRoundGuesses] = useState<number[]>([]);
 
   const previousLevel = useRef();
 
@@ -91,101 +82,35 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
       );
     };
 
-    const jumpLevelFn = () => {
-      jumpLevel(setIsLevelSuccessful, setLevel);
-    };
-
-    const dropLevelFn = () => {
-      dropLevel(setIsLevelSuccessful, level, setLevel);
-    };
-
-    const nextRoundFn = () => {
-      nextRound(setRound);
-    };
-
     const setFirstRoundFn = () => {
       setFirstRound(setRound);
-    };
-
-    const addToGuessesFn = (guessedBoxIndex: number) => {
-      setRoundGuesses((guesses) => [...guesses, guessedBoxIndex]);
     };
 
     const newPatternFn = () => {
       newPattern(level, setPattern);
     };
 
-    const addDiscoveredTokenFn = (newDiscoveredToken: number) => {
-      setDiscoveredTokens((discoveredTokens) => [
-        ...discoveredTokens,
-        newDiscoveredToken,
-      ]);
-    };
-
     const resetRoundGuessesFn = () => {
       setRoundGuesses([]);
     };
 
+    const resetDiscoveredTokensFn = () => {
+      setDiscoveredTokens([]);
+    };
+
     // Place the token somewhere new. Because of they way we've generated the pattern which created a randomized list of all the boxes that ar part of the pattern, simply moving to the next element would give us a good unpredictable next place for our token
     const setTokenPlacementFn = () => {
-      console.log("TOKEN PLACEMENT = PATTERN", pattern);
-      console.log("TOKEN PLACEMENT = TOKEN", pattern[round - 1]);
       setTokenPlacement(pattern[round - 1]);
-    };
-
-    const getBoxIndicatorClassNameFn = (
-      boxIndex: number,
-      discoveredTokens: number[],
-      roundGuesses: number[],
-      tokenPlacement: number
-    ): string => {
-      return getBoxIndicatorClassName(
-        boxIndex,
-        discoveredTokens,
-        roundGuesses,
-        tokenPlacement
-      );
-    };
-
-    const handleBoxClickFn = (
-      boxIndex: number,
-      roundGuesses: number[],
-      discoveredTokens: number[],
-      tokenPlacement: number,
-      level: number,
-      setTO: () => void
-    ) => {
-      handleBoxClick(
-        boxIndex,
-        roundGuesses,
-        discoveredTokens,
-        tokenPlacement,
-        level,
-        setTO,
-        addToGuessesFn,
-        addDiscoveredTokenFn,
-        resetRoundGuessesFn,
-        setTokenPlacementFn,
-        nextRoundFn,
-        dropLevelFn,
-        jumpLevelFn
-      );
     };
 
     setFunctions({
       startCounting: startCountingFn,
       stopCounting: stopCountingFn,
-      jumpLevel: jumpLevelFn,
-      dropLevel: dropLevelFn,
-      nextRound: nextRoundFn,
       setFirstRound: setFirstRoundFn,
-      addToGuesses: addToGuessesFn,
       newPattern: newPatternFn,
-      addDiscoveredToken: addDiscoveredTokenFn,
       resetRoundGuesses: resetRoundGuessesFn,
+      resetDiscoveredTokens: resetDiscoveredTokensFn,
       setTokenPlacement: setTokenPlacementFn,
-      getBoxIndicatorClassName: getBoxIndicatorClassNameFn,
-      handleBoxClick: handleBoxClickFn,
     });
   }, [
     setActionStartTime,
@@ -197,16 +122,21 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     setPattern,
     setRoundGuesses,
     setTokenPlacement,
-    setDiscoveredTokens,
     level,
     pattern,
     round,
     makeSuccessIndicatorVisible,
+    setDiscoveredTokens,
   ]);
+
+  useEffect(() => {
+    return () => setPattern([]);
+  }, []);
 
   useEffect(() => {
     if (!functions || previousLevel.current === level) return;
     functions.setFirstRound();
+    functions.resetDiscoveredTokens();
     functions.newPattern();
     previousLevel.current = level;
   }, [functions, level]);
@@ -231,37 +161,13 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
   }, [tokenPlacement, functions]);
 
   useEffect(() => {
-    // We only want to show the boxes if the pattern has been set and the token has been placed (token is only set after pattern)
-    if (tokenPlacement < 0 || !functions) return;
-
     // This is the array of JSX Elements we'll end up returning to render
     const boxes = [];
 
     for (let i = 0; i < 25; i++) {
       // If the index is part of out pattern array, then we need to render a box in that cell
       if (pattern.includes(i)) {
-        boxes.push(
-          <Box
-            key={i}
-            boxIndex={i}
-            indicatorClassname={functions.getBoxIndicatorClassName(
-              i,
-              discoveredTokens,
-              roundGuesses,
-              tokenPlacement
-            )}
-            handleBoxClick={(setTO) =>
-              functions.handleBoxClick(
-                i,
-                roundGuesses,
-                discoveredTokens,
-                tokenPlacement,
-                level,
-                setTO
-              )
-            }
-          />
-        );
+        boxes.push(<Box boxIndex={i} key={i} />);
       }
       // Otherwise, we just fill it with a filler box
       else {
@@ -271,14 +177,7 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
 
     // Return the array of our JSX Elements
     setBoxes(boxes);
-  }, [
-    tokenPlacement,
-    discoveredTokens,
-    roundGuesses,
-    pattern,
-    level,
-    functions,
-  ]);
+  }, [pattern]);
 
   return functions ? <div className="ts-board">{boxes}</div> : null;
 };

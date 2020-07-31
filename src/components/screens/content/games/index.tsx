@@ -8,6 +8,7 @@ import CorsiBlock from "./corsiBlock";
 import OperationSpan from "./operationSpan";
 import TokenSearch from "./tokenSearch";
 import { OperationSpanProvider } from "../../../../providers/OperationSpan";
+import { TokenSearchProvider } from "../../../../providers/TokenSearch";
 
 const Games = () => {
   const { isPlaying, challenge } = useContext(gameInfoContext);
@@ -41,7 +42,11 @@ const Games = () => {
         break;
 
       case 4:
-        setGameComponent(<TokenSearch />);
+        setGameComponent(
+          <TokenSearchProvider>
+            <TokenSearch />
+          </TokenSearchProvider>
+        );
         break;
     }
   }, [isPlaying, challenge]);

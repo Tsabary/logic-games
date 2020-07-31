@@ -1,48 +1,135 @@
 import "./styles.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Functions } from "../../../../utils/interfaces";
+import { handleBoxClick, getBoxIndicatorClassName } from "./utils/functions";
+import { jumpLevel, dropLevel, nextRound } from "../../../utils/functions";
+import { gameInfoContext } from "../../../../../../../providers/GameInfo";
+import { tokenSearchContext } from "../../../../../../../providers/TokenSearch";
 
 interface BoxProps {
   boxIndex: number;
-  indicatorClassname: string;
-  /**
-   * The handleBoxClick is a function that returns nothing.
-   * All the paramaters it needs, are populated before it is passed to the box component. The only paramater it needs from us is to pass it another function, with no return value.
-   * The function we pass to it is our custom setTimout function. Our setTimeout function itself also expects a function with no return value.
-   * What our set function does is first clear any timeouts it was set to previously, and then set a new timeout of 500 milliseconds. When they pass, it will first uncheck the checkbox which controls our indicator's visibility, and then will execute whatever function was passed to it
-   */
-  // handleBoxClick: (fn: (fn2: () => any) => void) => void;
-  handleBoxClick: (fn: () => void) => void;
 }
 
-export default ({ boxIndex, indicatorClassname, handleBoxClick }: BoxProps) => {
+export default ({ boxIndex }: BoxProps) => {
+  const { setIsLevelSuccessful, level, setLevel, setRound } = useContext(
+    gameInfoContext
+  );
+  const {
+    roundGuesses,
+    setRoundGuesses,
+    discoveredTokens,
+    setDiscoveredTokens,
+    tokenPlacement,
+    setTokenPlacement,
+    pattern,
+    round,
+  } = useContext(tokenSearchContext);
+
+  const [functions, setFunctions] = useState<Functions>();
+
+  const [className, setClassName] = useState("");
+
   const [isClicked, setIsClicked] = useState(false);
 
-  let to: NodeJS.Timeout | null = null;
+  useEffect(() => {
+    const jumpLevelFn = () => {
+      jumpLevel(setIsLevelSuccessful, setLevel);
+    };
 
-  const setTO = () => {
-    clearTo(to);
-    to = setTimeout(() => {
-      setIsClicked(false);
-    }, 200);
-  };
+    const dropLevelFn = () => {
+      dropLevel(setIsLevelSuccessful, level, setLevel);
+    };
 
-  const clearTo = (to: NodeJS.Timeout | null) => {
-    if (to) clearTimeout(to);
-  };
+    const nextRoundFn = () => {
+      nextRound(setRound);
+    };
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsClicked(true);
-    handleBoxClick(setTO);
-  };
+    const addToGuessesFn = (guessedBoxIndex: number) => {
+      setRoundGuesses((guesses: number[]) => [...guesses, guessedBoxIndex]);
+    };
+
+    const addDiscoveredTokenFn = (newDiscoveredToken: number) => {
+      setDiscoveredTokens((discoveredTokens: number[]) => [
+        ...discoveredTokens,
+        newDiscoveredToken,
+      ]);
+    };
+
+    const resetRoundGuessesFn = () => {
+      setRoundGuesses([]);
+    };
+
+    const setTokenPlacementFn = () => {
+      setTokenPlacement(pattern[round - 1]);
+    };
+
+    const getBoxIndicatorClassNameFn = (): string => {
+      return getBoxIndicatorClassName(
+        boxIndex,
+        discoveredTokens,
+        roundGuesses,
+        tokenPlacement
+      );
+    };
+
+    const setClickedFn = () => setIsClicked(true);
+    const setNotClickedFn = () => setIsClicked(false);
+
+    const setToFn = (fn?: () => void) => {
+      const to = setTimeout(() => {
+        setNotClickedFn();
+        fn && fn();
+        clearTimeout(to);
+      }, 500);
+    };
+
+    const handleBoxClickFn = () => {
+      setIsClicked(true);
+      handleBoxClick(
+        boxIndex,
+        roundGuesses,
+        discoveredTokens,
+        tokenPlacement,
+        level,
+        setToFn,
+        addToGuessesFn,
+        addDiscoveredTokenFn,
+        resetRoundGuessesFn,
+        setTokenPlacementFn,
+        nextRoundFn,
+        dropLevelFn,
+        jumpLevelFn,
+        setClickedFn
+      );
+    };
+
+    setFunctions({
+      getBoxIndicatorClassName: getBoxIndicatorClassNameFn,
+      handleBoxClick: handleBoxClickFn,
+    });
+  }, [
+    boxIndex,
+    level,
+    setRoundGuesses,
+    setDiscoveredTokens,
+    setTokenPlacement,
+    setIsLevelSuccessful,
+    setLevel,
+    setRound,
+    discoveredTokens,
+    roundGuesses,
+    tokenPlacement,
+    pattern,
+    round,
+  ]);
 
   useEffect(() => {
-    return () => {
-      clearTo(to);
-    };
-  }, [to]);
+    if (!functions || isClicked) return;
 
-  return (
+    setClassName(functions.getBoxIndicatorClassName());
+  }, [discoveredTokens, roundGuesses, tokenPlacement, isClicked, functions]);
+
+  return functions ? (
     <div className="box__container">
       <input
         className="box__checkbox"
@@ -53,10 +140,10 @@ export default ({ boxIndex, indicatorClassname, handleBoxClick }: BoxProps) => {
       />
       <label
         className="box--default"
-        onClick={handleClick}
+        onClick={functions.handleBoxClick}
         htmlFor={`box__checkbox--${boxIndex}`}
       />
-      <div className={indicatorClassname} />
+      <div className={className} />
     </div>
-  );
+  ) : null;
 };

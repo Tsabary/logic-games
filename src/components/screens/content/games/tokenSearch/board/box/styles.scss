@@ -16,6 +16,8 @@
     display: none;
 
     &:checked ~ .box--default {
+      transition: all 0.2s;
+
       opacity: 0;
     }
   }
@@ -36,7 +38,7 @@
     left: 0;
     background-color: $lightPurple;
     z-index: $z20;
-    transition: all 0.2s;
+    transition: all 0s;
     cursor: pointer;
   }
 
