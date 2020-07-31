@@ -22,7 +22,7 @@ export const GameInfoProvider = ({ children }: Props) => {
   const [challenge, setChallenge] = useState<number>(4);
 
   // Controls the sound
-  const [isSoundOn, setIsSoundOn] = useState<boolean>(false);
+  const [isSoundOn, setIsSoundOn] = useState<boolean>(true);
 
   // Controls the visibility of the instructions screen
   const [isInstructionsVisible, setIsInstructionsVisible] = useState<boolean>(
