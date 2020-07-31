@@ -90,7 +90,6 @@ export const GameInfoProvider = ({ children }: Props) => {
 
     // If this current level is lower than the previos level, meaning we've lost the last round, we should add a fail
     if (previousLevel.current && level < previousLevel.current) {
-      console.log("DROPPING A LEVEL ");
       setFails((fails) => fails + 1);
     }
 
@@ -118,7 +117,7 @@ export const GameInfoProvider = ({ children }: Props) => {
     if (fouls === 2) {
       setFouls(0);
       setIsLevelSuccessful(false);
-      
+
       if (level === 1) {
         setFails((fails) => fails + 1);
       } else {

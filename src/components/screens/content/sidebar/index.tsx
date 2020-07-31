@@ -23,7 +23,6 @@ const Sidebar = () => {
   }, []);
 
   const renderSidebar = (challange: number) => {
-    console.log("rendering side bar");
 
     switch (challange) {
       case 0: // Double Trouble

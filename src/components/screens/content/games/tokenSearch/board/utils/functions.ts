@@ -50,17 +50,14 @@ export const handleBoxClick = (
   resetRoundGuesses: () => void,
   setTokenPlacement: () => void,
   nextRound: () => void,
-  stopCounting: () => void,
-  startCounting: () => void,
   dropLevel: () => void,
   jumpLevel: () => void,
-  makeSuccessIndicatorVisible: () => void
 ) => {
   let setBoxClickResponseTimeout = (fn: () => void) => {
     const boxClickTimeout = setTimeout(() => {
       fn();
       clearTimeout(boxClickTimeout);
-    }, 600);
+    }, 350);
   };
 
   switch (
@@ -72,11 +69,9 @@ export const handleBoxClick = (
      * - We need to show the error empty box indicator and then .5 second later reset a new level
      */
     case roundGuesses.includes(boxIndex):
-      stopCounting();
       setTO();
       setBoxClickResponseTimeout(() => {
         dropLevel();
-        // makeSuccessIndicatorVisible();
       });
       break;
 
@@ -86,11 +81,9 @@ export const handleBoxClick = (
      * - We need to show the error token box indicator and then .5 second later reset a new level
      */
     case discoveredTokens.includes(boxIndex):
-      stopCounting();
       setTO();
       setBoxClickResponseTimeout(() => {
         dropLevel();
-        // makeSuccessIndicatorVisible();
       });
       break;
 
@@ -100,11 +93,9 @@ export const handleBoxClick = (
      * - We need to show the success token box indicator and .5 second later reset a new level
      */
     case boxIndex === tokenPlacement && discoveredTokens.length + 1 === level:
-      stopCounting();
       setTO();
       setBoxClickResponseTimeout(() => {
         jumpLevel();
-        // makeSuccessIndicatorVisible();
       });
       break;
 
@@ -114,8 +105,8 @@ export const handleBoxClick = (
      * - We need to show the success token box indicator, IMMEDIATLY reset their box guesses, add to their discovered tokens and initiate a new round (with a new hidden token)
      */
     case boxIndex === tokenPlacement && discoveredTokens.length + 1 !== level:
-      startCounting();
-      setTO(() => {});
+      setTO(() => { });
+
       setBoxClickResponseTimeout(() => {
         addToDiscoveredTokens(boxIndex);
         resetRoundGuesses();
@@ -130,7 +121,7 @@ export const handleBoxClick = (
      * - We need to show the empty box indicator, IMMEDIATLY add that guess to their box guesses and .5 second later reset their box to the default
      */
     default:
-      startCounting();
+      // startCounting();
       setTO();
       setBoxClickResponseTimeout(() => {
         addToGuesses(boxIndex);
@@ -138,23 +129,3 @@ export const handleBoxClick = (
       break;
   }
 };
-
-// export const newRound = (
-//   pattern: number[],
-//   discoveredTokens: number[],
-//   setDiscoveredTokens: React.Dispatch<React.SetStateAction<number[]>>,
-//   setRoundGuesses: React.Dispatch<React.SetStateAction<number[]>>,
-//   setTokenPlacement: React.Dispatch<React.SetStateAction<number | null>>,
-//   discoveredBoxIndex: number
-// ) => {
-//   setDiscoveredTokens((discoveredTokens) => [
-//     ...discoveredTokens,
-//     discoveredBoxIndex,
-//   ]);
-
-//   // Reset the round gueses from our last round
-//   setRoundGuesses([]);
-
-//   // Place the token somewhere new. Because of they way we've generated the pattern which created a randomized list of all the boxes that ar part of the pattern, simply moving to the next element would give us a good unpredictable next place for our token
-//   setTokenPlacement(pattern[discoveredTokens.length]);
-// };

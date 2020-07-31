@@ -71,6 +71,8 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
 
   const previousLevel = useRef();
 
+  const previousPattern: { current: number[] | undefined } = useRef();
+
   useEffect(() => {
     const startCountingFn = () => {
       startCounting(
@@ -126,6 +128,8 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
 
     // Place the token somewhere new. Because of they way we've generated the pattern which created a randomized list of all the boxes that ar part of the pattern, simply moving to the next element would give us a good unpredictable next place for our token
     const setTokenPlacementFn = () => {
+      console.log("TOKEN PLACEMENT = PATTERN", pattern);
+      console.log("TOKEN PLACEMENT = TOKEN", pattern[round - 1]);
       setTokenPlacement(pattern[round - 1]);
     };
 
@@ -163,11 +167,8 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
         resetRoundGuessesFn,
         setTokenPlacementFn,
         nextRoundFn,
-        stopCountingFn,
-        startCountingFn,
         dropLevelFn,
-        jumpLevelFn,
-        makeSuccessIndicatorVisible
+        jumpLevelFn
       );
     };
 
@@ -212,8 +213,10 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
 
   useEffect(() => {
     if (!pattern.length || !functions) return;
+
     functions.resetRoundGuesses();
     functions.setTokenPlacement();
+    previousPattern.current = pattern;
   }, [pattern, functions]);
 
   // Whenever the token is placed we should start the countdown and then clear it when this updates
@@ -241,7 +244,7 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
           <Box
             key={i}
             boxIndex={i}
-            indicatorClassname={functions!.getBoxIndicatorClassName(
+            indicatorClassname={functions.getBoxIndicatorClassName(
               i,
               discoveredTokens,
               roundGuesses,
@@ -274,7 +277,6 @@ export default ({ makeSuccessIndicatorVisible }: BoardProps) => {
     roundGuesses,
     pattern,
     level,
-    setTimePerAction,
     functions,
   ]);
 

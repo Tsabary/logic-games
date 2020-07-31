@@ -25,10 +25,7 @@ const ImageAndChallengeSet = () => {
     setIsDistractionChallengeVisible,
   ] = useState<boolean>(false);
 
-
   useEffect(() => {
-    console.log("reloaded the image and challen")
-
     const makeImageVisibleFn = () => {
       makeImageVisible(setIsImageVisible, setIsDistractionChallengeVisible);
     };
@@ -72,10 +69,6 @@ const ImageAndChallengeSet = () => {
 
     if (userAnswers.length === providedOrder.length) {
       functions.makeImageVisible();
-    } else {
-      console.log("not showing them becasus userAnswers.length", userAnswers.length)
-      console.log("not showing them becasus providedOrder.length", providedOrder.length)
-
     }
   }, [functions, userAnswers, providedOrder]);
 

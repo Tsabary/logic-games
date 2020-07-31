@@ -12,8 +12,6 @@ export const compareOrders = (
     userOrder.map((img) => img.id).join("-") ===
     providedOrder.map((img) => img.id).join("-");
 
-  console.log(`COMPARING AND IT IS LEVEL ${isCorrect}`);
-
   isCorrect ? jumpLevel() : dropLevel();
 };
 

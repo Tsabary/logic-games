@@ -100,17 +100,12 @@ export default () => {
   }, [functions, isFirstLoad, setLevel]);
 
   useEffect(() => {
-    console.log(`THIS IS TRIGERED AND THE LEVEL IS`, level);
     if (!functions || level < 0) return;
 
     if (typeof isLevelSuccessful === "undefined") {
       functions.makeLevelIndicatorVisible();
-      console.log(`THIS IS TRIGERED because this is the first time`, level);
-
     } else {
       functions.makeSuccessIndicatorVisible();
-      console.log(`THIS IS TRIGERED because this is NOT the first time`, level);
-
     }
   }, [level, isLevelSuccessful, functions]);
 

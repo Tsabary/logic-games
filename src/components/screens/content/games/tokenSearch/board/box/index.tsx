@@ -23,7 +23,7 @@ export default ({ boxIndex, indicatorClassname, handleBoxClick }: BoxProps) => {
     clearTo(to);
     to = setTimeout(() => {
       setIsClicked(false);
-    }, 500);
+    }, 200);
   };
 
   const clearTo = (to: NodeJS.Timeout | null) => {
