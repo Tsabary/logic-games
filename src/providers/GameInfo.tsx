@@ -17,9 +17,10 @@ export const GameInfoProvider = ({ children }: Props) => {
    */
 
   //  GLOBAL //
-  const [isFirstRun, setIsFirstRun] = useState(true);
 
-  const [challenge, setChallenge] = useState<number>(4);
+  const [challenge, setChallenge] = useState<number>(3);
+
+  const [isFirstRun, setIsFirstRun] = useState(true);
 
   // Controls the sound
   const [isSoundOn, setIsSoundOn] = useState<boolean>(true);

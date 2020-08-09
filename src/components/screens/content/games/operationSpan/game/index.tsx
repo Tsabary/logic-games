@@ -15,9 +15,12 @@ import { operationSpanContext } from "../../../../../../providers/OperationSpan"
 
 const Game = () => {
   const { level } = useContext(gameInfoContext);
-  const { userAnswers, setUserAnswers, setProvidedOrder } = useContext(
-    operationSpanContext
-  );
+  const {
+    userAnswers,
+    setUserAnswers,
+    setProvidedOrder,
+    setUsedEquations,
+  } = useContext(operationSpanContext);
 
   const [functions, setFunctions] = useState<Functions>();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -38,8 +41,9 @@ const Game = () => {
     return () => {
       setUserAnswers([]);
       setProvidedOrder([]);
+      setUsedEquations([]);
     };
-  }, [setUserAnswers, setProvidedOrder]);
+  }, [setUserAnswers, setProvidedOrder, setUsedEquations]);
 
   useEffect(() => {
     const makeImageAndChallengeVisibleFn = () => {

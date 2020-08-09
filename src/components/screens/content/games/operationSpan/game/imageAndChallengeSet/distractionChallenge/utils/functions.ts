@@ -1,3 +1,5 @@
+import { Equation } from "../../../assets/equations";
+
 // This is where we respond to the answer for the distraction questions.
 export const submitAnswer = (
   setUserAnswers: (isCorrect: boolean) => void,
@@ -42,4 +44,23 @@ export const checkAnswer = (
     hideIndicator();
     submitAnswer();
   }, 1000);
+};
+
+export const getNewChallenge = (
+  equations: Equation[],
+  usedEquations: Equation[]
+): Equation => {
+  // To prevent repeating the same equation twice, we need to see which equations have already been presented to the user. This variable holds he index of all the indexes of equations that havent been presented to the user yet.
+  // We create a map of all equation indexes, and then filter by checking for every index if it exists in the usedEquations array or not.
+  const remainingEquationsIndexes = equations
+    .map((eq) => eq.id)
+    .filter((eq) => !usedEquations.map((i) => i.id).includes(eq));
+
+  // Then, using our list of remaining indexes, we extract a random item/index from that list
+  const newEquationIndex =
+    remainingEquationsIndexes[
+      Math.floor(Math.random() * remainingEquationsIndexes.length)
+    ];
+
+  return equations.filter((eq) => eq.id === newEquationIndex)[0];
 };

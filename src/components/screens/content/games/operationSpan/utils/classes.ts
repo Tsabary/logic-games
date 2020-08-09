@@ -1,9 +1,11 @@
 export class Equation {
   problem: string;
   answer: boolean;
-  constructor(problem: string, answer: boolean) {
+  id: number;
+  constructor(problem: string, answer: boolean, id: number) {
     this.problem = problem;
     this.answer = answer;
+    this.id = id;
   }
 }
 

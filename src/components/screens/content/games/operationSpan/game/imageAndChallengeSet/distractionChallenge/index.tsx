@@ -5,7 +5,8 @@ import strings from "../../../../../../../../constants/localizedStrings";
 import { ReactComponent as X } from "../../../../../../../assets/general/x.svg";
 import { ReactComponent as Check } from "../../../../../../../assets/general/check.svg";
 
-import equations from "../../../utils/equations";
+import equations from "../../assets/equations";
+
 import {
   startCounting,
   stopCounting,
@@ -13,7 +14,7 @@ import {
   dropLevel,
 } from "../../../../utils/functions";
 import { Equation } from "../../../utils/classes";
-import { checkAnswer, submitAnswer } from "./utils/functions";
+import { checkAnswer, submitAnswer, getNewChallenge } from "./utils/functions";
 import { Functions } from "../../../../../utils/interfaces";
 import { operationSpanContext } from "../../../../../../../../providers/OperationSpan";
 
@@ -30,7 +31,9 @@ const DistractionChallenge = () => {
     setLevel,
   } = useContext(gameInfoContext);
 
-  const { setUserAnswers } = useContext(operationSpanContext);
+  const { setUserAnswers, usedEquations, setUsedEquations } = useContext(
+    operationSpanContext
+  );
 
   const [functions, setFunctions] = useState<Functions>();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -87,7 +90,12 @@ const DistractionChallenge = () => {
     };
 
     const setNewChallengeFn = () => {
-      setChallenge(equations[Math.floor(Math.random() * equations.length)]);
+      const newEquation = getNewChallenge(equations, usedEquations);
+      setChallenge(newEquation);
+      setUsedEquations((usedEquations: Equation[]) => [
+        ...usedEquations,
+        newEquation,
+      ]);
     };
 
     setFunctions({
@@ -108,6 +116,8 @@ const DistractionChallenge = () => {
     fouls,
     setFouls,
     isSoundOn,
+    usedEquations,
+    setUsedEquations,
   ]);
 
   // When we first load we need to make the image visible
