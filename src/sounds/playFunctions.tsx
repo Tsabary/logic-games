@@ -4,8 +4,8 @@ const agree = require("./agree.mp3");
 const click = require("./click.mp3");
 const correct = require("./correct.wav");
 const countdownFinal = require("./countdownFinal.wav");
-const countdownGo = require("./countdownGo.wav");
-const countdownStart = require("./countdownStart.wav");
+const countdownGo = require("./countdownGo.aac");
+const countdownStart = require("./countdownStart.aac");
 const finished = require("./finished.wav");
 const wrong = require("./wrong.wav");
 
