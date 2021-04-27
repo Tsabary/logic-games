@@ -1,5 +1,5 @@
 import "./styles.scss";
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { gameInfoContext } from "../../../../../../providers/GameInfo";
 import { Functions } from "../../../utils/interfaces";

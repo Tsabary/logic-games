@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import strings from "../../../../../../constants/localizedStrings";
 import { gameInfoContext } from "../../../../../../providers/GameInfo";
 
 interface LevelIndicatorProps {
