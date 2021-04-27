@@ -18,7 +18,7 @@ export const GameInfoProvider = ({ children }: Props) => {
 
   //  GLOBAL //
 
-  const [challenge, setChallenge] = useState<number>(3);
+  const [challenge, setChallenge] = useState<number>(5);
 
   const [isFirstRun, setIsFirstRun] = useState(true);
 
@@ -35,6 +35,12 @@ export const GameInfoProvider = ({ children }: Props) => {
 
   // When true, we show the "Thank you" screen
   const [isDone, setIsDone] = useState<boolean>(false);
+
+  // The score's accuracy (currently only used for the typing test)
+  const [accuracy, setAccuracy] = useState<number>(0);
+
+  // GAME STOPWATCH - unlike the timer, the stopwatch counts up and has no limit
+  const [stopwatch, setStopwatch] = useState<number>(0);
 
   //  GAME TIMER //
   const [isGameTimerRunning, setIsGameTimerRunning] = useState<boolean>(false);
@@ -150,6 +156,10 @@ export const GameInfoProvider = ({ children }: Props) => {
         gameStartTime,
         setGameStartTime,
 
+        // STOPWATCH
+        stopwatch,
+        setStopwatch,
+
         //  ACTION TIMER //
         isActionTimerRunning,
         setIsActionTimerRunning,
@@ -173,6 +183,8 @@ export const GameInfoProvider = ({ children }: Props) => {
         setRound,
         isRoundSuccessful,
         setIsRoundSuccessful,
+        accuracy,
+        setAccuracy,
       }}
     >
       {children}
