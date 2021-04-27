@@ -23,7 +23,6 @@ const Sidebar = () => {
   }, []);
 
   const renderSidebar = (challange: number) => {
-
     switch (challange) {
       case 0: // Double Trouble
       case 1: // Logical Reasoning
@@ -53,6 +52,9 @@ const Sidebar = () => {
             {renderSections([<Lives />, <ActionTimer />, <Score />, <Sound />])}
           </div>
         );
+
+      case 5: // Words Per Minute
+        return null;
 
       default:
         return null;
