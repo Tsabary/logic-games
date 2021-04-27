@@ -21,7 +21,7 @@ let strings = new LocalizedStrings({
 
     blocks: "blocks",
     block: "block",
-    
+
     livesLeft: "lives left!",
     lifeLeft: "life left!",
     roundComplete: "Round complete!",
@@ -113,6 +113,17 @@ let strings = new LocalizedStrings({
       "If you do this incorrectly, you will lose a whole life",
     selectThe: "Select the",
 
+    // Typing speed instructions
+    wpm: "words per minute",
+    wpmInstructionsLineOne: "How many words per minute can you type?",
+    wpmInstructionsLineTwo:
+      "In the next screen, you will see a text box with text inside of it. Start typing it as it is written",
+    wpmInstructionsLineThree:
+      "As you type, text which you have typed correctly will be highlighted in green, where text with mistakes will be highlighted in red. Go back and fix you mistakes to finish the test properly.",
+    wpmInstructionsLineFour:
+      "Complete the entire paragraph to finish the test.",
+    accuracy: "accuracy",
+
     // START SCREEN //
     startGame: "Start the game",
 
@@ -127,9 +138,6 @@ let strings = new LocalizedStrings({
       "We will reach you as soon as we carfully review your interview.",
     youScored: "Your score is",
     playAgain: "Play again",
-
-
-
   },
 });
 
