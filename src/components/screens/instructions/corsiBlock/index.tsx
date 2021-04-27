@@ -4,11 +4,11 @@ import React, { useContext } from "react";
 import strings from "../../../../constants/localizedStrings";
 import { gameInfoContext } from "../../../../providers/GameInfo";
 
-const GrammaticalReasoningInstructions = () => {
+const CorsiBlockInstructions = () => {
   const { setIsInstructionsVisible } = useContext(gameInfoContext);
 
   return (
-    <div className="gr-inst">
+    <div className="cb-inst">
       <h1>{strings.instructionsTitle}</h1>
       <h2>
         {strings.cbInstructionsLineOne}
@@ -17,7 +17,6 @@ const GrammaticalReasoningInstructions = () => {
       </h2>
 
       <div className="cb-inst__samples-container">
-
         <div className="cb-inst__samples-block cb-inst__samples-block--running" />
         <div className="cb-inst__samples-text">
           <div className="cb-inst__samples-title">
@@ -28,7 +27,6 @@ const GrammaticalReasoningInstructions = () => {
           </div>
         </div>
 
-        
         <div className="cb-inst__samples-block cb-inst__samples-block--done" />
         <div className="cb-inst__samples-text">
           <div className="cb-inst__samples-title">
@@ -50,4 +48,4 @@ const GrammaticalReasoningInstructions = () => {
   );
 };
 
-export default GrammaticalReasoningInstructions;
+export default CorsiBlockInstructions;
