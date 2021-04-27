@@ -2,13 +2,15 @@ import "./styles.scss";
 import React, { useContext, useEffect, useState } from "react";
 import StartScreen from "../shared/startScreen";
 import { gameInfoContext } from "../../../../providers/GameInfo";
+import { OperationSpanProvider } from "../../../../providers/OperationSpan";
+import { TokenSearchProvider } from "../../../../providers/TokenSearch";
+
 import DoubleTrouble from "./doubleTrouble";
 import GrammaticalReasoning from "./grammaticalReasoning";
 import CorsiBlock from "./corsiBlock";
 import OperationSpan from "./operationSpan";
 import TokenSearch from "./tokenSearch";
-import { OperationSpanProvider } from "../../../../providers/OperationSpan";
-import { TokenSearchProvider } from "../../../../providers/TokenSearch";
+import Wpm from "./wordsPerMinute";
 
 const Games = () => {
   const { isPlaying, challenge } = useContext(gameInfoContext);
@@ -47,6 +49,10 @@ const Games = () => {
             <TokenSearch />
           </TokenSearchProvider>
         );
+        break;
+
+      case 5:
+        setGameComponent(<Wpm />);
         break;
     }
   }, [isPlaying, challenge]);
