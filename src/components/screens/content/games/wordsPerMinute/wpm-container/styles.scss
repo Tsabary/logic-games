@@ -1,0 +1,46 @@
+@import "../../../../../../styles/imports";
+
+.wpm-container {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 0.5rem;
+  &__test {
+    &-text {
+      color: "#231826";
+      display: inline-block;
+
+      &--correct {
+        background-color: #c5dca0;
+      }
+      &--false {
+        background-color: #ffa5a5;
+      }
+      &--first {
+        animation-name: textBg;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+      }
+    }
+
+    &-space {
+      height: 2rem;
+      width: 0.6rem;
+      margin-bottom: -0.6rem;
+    }
+  }
+}
+
+@keyframes textBg {
+  0% {
+    background-color: white;
+    color: "#231826";
+  }
+  50% {
+    background-color: black;
+    color: white;
+  }
+  100% {
+    background-color: white;
+    color: "#231826";
+  }
+}
